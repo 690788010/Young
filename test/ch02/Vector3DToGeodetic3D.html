@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script type="module">
+    import Trig from "../../src/Core/Trig.js";
+    import Geodetic3D from "../../src/Core/Geodetic3D.js";
+    import Geodetic2D from "../../src/Core/Geodetic2D.js";
+    import Ellipsoid from "../../src/Core/Geometry/Ellipsoid.js";
+    import Vector3D from "../../src/Core/Vectors/Vector3D.js";
+
+    const ellipsoid = new Ellipsoid(6378137, 6378137, 6356752.3142);
+    const geodetic3d = new Geodetic3D(45, 50, 100);
+    const vector3d = ellipsoid.toVector3D(geodetic3d);
+    const geodetic3d2 = ellipsoid.toGeodetic3D(vector3d);
+    console.log(geodetic3d2);
+  </script>
+</body>
+</html>
