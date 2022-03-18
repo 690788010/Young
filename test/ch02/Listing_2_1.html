@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script type="module">
+    import Trig from "../../src/Core/Trig.js";
+    import Geodetic3D from "../../src/Core/Geodetic3D.js";
+    import Geodetic2D from "../../src/Core/Geodetic2D.js";
+
+    const p = Trig.Geodetic3DToRadians(new Geodetic3D(180.0, 0.0, 5.0));
+    console.log(p.Longitude);
+    console.log(p.Latitude);
+    console.log(p.Height);
+
+    const g = Trig.Geodetic2DToRadians(new Geodetic2D(180, 0.0));
+    const p2 = Geodetic3D.FromGeodetic2D(g, 5.0);
+    console.log(p.equals(p2));
+  </script>
+</body>
+</html>
