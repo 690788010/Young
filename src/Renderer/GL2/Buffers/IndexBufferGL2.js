@@ -3,9 +3,9 @@
  * IndexBuffer类是表示索引缓冲区的抽象类
  */
 
-import IndexBuffer from "../../Buffers/IndexBuffer";
-import BufferTarget from "../../Buffers/BufferTarget";
-import BufferGL2 from "./BufferGL2";
+import IndexBuffer from "../../Buffers/IndexBuffer.js";
+import BufferTarget from "../../Buffers/BufferTarget.js";
+import BufferGL2 from "./BufferGL2.js";
 
 class IndexBufferGL2 extends IndexBuffer {
   /**
@@ -14,6 +14,8 @@ class IndexBufferGL2 extends IndexBuffer {
    * @param  {Number} sizeInBytes 缓冲区的大小（以字节为单位）
    */
   constructor(usageHint, sizeInBytes) {
+    super();
+    
     this._bufferObject = new BufferGL2(BufferTarget.ElementArrayBuffer, usageHint, sizeInBytes);
   }
 

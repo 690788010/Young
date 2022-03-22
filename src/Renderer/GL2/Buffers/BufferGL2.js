@@ -26,7 +26,7 @@ class BufferGL2 {
     this._usageHint = TypeConverterGL3x.BufferHintTo(usageHint);
 
     gl.bindVertexArray(null);
-    this.bind();      // 绑定缓冲区
+    this.bind(gl);      // 绑定缓冲区
     gl.bufferData(this._type, this._sizeInBytes, this._usageHint);
   }
 
@@ -35,7 +35,31 @@ class BufferGL2 {
    * @param  {WebGL2RenderingContext} gl WebGL2的环境对象
    */
   bind(gl) {
-    gl.bindBuffer(this.type, this._name.Value);
+    gl.bindBuffer(this._type, this._name.Value);
+  }
+
+  /**
+   * 获取BufferNameGl2对象
+   * @returns {BufferNameGl2}
+   */
+  get Handle() {
+    return this._name;
+  }
+
+  /**
+   * 获取缓冲区的大小（以字节为单位）
+   * @returns {Number}
+   */
+  get SizeInBytes() {
+    return this._sizeInBytes;
+  }
+
+  /**
+   * 缓冲区的usage参数，BufferHint的枚举项
+   * @returns {Number}
+   */
+  get UsageHint() {
+    return TypeConverterGL3x.BufferUsageHintTo(this._usageHint);
   }
 }
 

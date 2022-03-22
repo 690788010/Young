@@ -4,9 +4,9 @@
  */
 
 
-import BufferTarget from "../../Buffers/BufferTarget";
-import VertexBuffer from "../../Buffers/VertexBuffer";
-import BufferGL2 from "./BufferGL2";
+import BufferTarget from "../../Buffers/BufferTarget.js";
+import VertexBuffer from "../../Buffers/VertexBuffer.js";
+import BufferGL2 from "./BufferGL2.js";
 
 class VertexBufferGL2 extends VertexBuffer {
   /**

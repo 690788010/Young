@@ -26,6 +26,8 @@ class TypeConverterGL3x {
     switch (hint) {
       case gl.STREAM_DRAW:
         return BufferHint.StreamDraw;
+      case gl.STATIC_DRAW:
+        return BufferHint.StaticDraw;
     }
   }
 
@@ -39,6 +41,8 @@ class TypeConverterGL3x {
     switch (hint) {
       case "StreamDraw":
         return gl.STREAM_DRAW;
+      case "StaticDraw":
+        return gl.STATIC_DRAW;
     }
   }
 }

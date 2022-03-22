@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script type="module">
+    import Device from "../../src/Renderer/Device.js";
+    import BufferHint from "../../src/Renderer/Buffers/BufferHint.js";
+
+    const indices = new Uint16Array([0, 1, 2]);
+    const shaderProgram = Device.CreateIndexBuffer(
+      BufferHint.StaticDraw, indices.byteLength
+    );
+    console.log(shaderProgram);
+  </script>
+</body>
+</html>
