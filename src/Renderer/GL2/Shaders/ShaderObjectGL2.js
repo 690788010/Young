@@ -6,7 +6,7 @@ import Disposable from "../../../Core/Disposable.js";
 import ShaderType from "../../Shaders/ShaderType.js";
 
 class ShaderObjectGL2 extends Disposable {
-  constructor(shaderType, source) {
+  constructor(gl, shaderType, source) {
     super();
 
     // 内置常量
@@ -27,7 +27,6 @@ class ShaderObjectGL2 extends Disposable {
 
     const sources = builtinConstants + builtinFunctions + modifiedSource;
     
-    const gl = document.createElement("canvas").getContext("webgl2");
     /// 创建着色器对象
     this._shaderObject = gl.createShader(shaderType);
     // 向着色器对象中填充着色器程序的源代码
@@ -51,6 +50,14 @@ class ShaderObjectGL2 extends Disposable {
       window.alert(msg);
       throw new Error(msg);
     }
+  }
+
+  /**
+   * 获取内置的 WebGLShader 对象
+   * @returns {WebGLShader}
+   */
+  get Handle() {
+    return this._shaderObject;
   }
 }
 
