@@ -47,6 +47,19 @@ class Device {
   static CreateIndexBuffer(usageHint, sizeInBytes) {
     return new IndexBufferGL2(usageHint, sizeInBytes);
   }
+
+  static CreateTexture2D(description) {
+    return new Texture2DGL3x(description, TextureTarget.Texture2D);
+  }
+
+  /**
+   * 获取可以使用的纹理单元的数量
+   * @returns {Number}
+   */
+  static NumberOfTextureUnits() {
+    const gl = document.createElement("canvas").getContext("webgl2");
+    return gl.getParameter(gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+  }
 }
 
 export default Device;

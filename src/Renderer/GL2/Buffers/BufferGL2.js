@@ -3,7 +3,7 @@
  */
 
 import BufferNameGl2 from "../Names/BufferNameGL2.js";
-import TypeConverterGL3x from "../TypeConverterGL3x.js";
+import TypeConverterGL2 from "../TypeConverterGL2.js";
 
 class BufferGL2 {
   /**
@@ -23,7 +23,7 @@ class BufferGL2 {
     this._name = new BufferNameGl2(gl);
     this._sizeInBytes = sizeInBytes;
     this._type = type;
-    this._usageHint = TypeConverterGL3x.BufferHintTo(usageHint);
+    this._usageHint = TypeConverterGL2.BufferHintTo(usageHint);
 
     gl.bindVertexArray(null);
     this.bind(gl);      // 绑定缓冲区
@@ -59,7 +59,7 @@ class BufferGL2 {
    * @returns {Number}
    */
   get UsageHint() {
-    return TypeConverterGL3x.BufferUsageHintTo(this._usageHint);
+    return TypeConverterGL2.BufferUsageHintTo(this._usageHint);
   }
 }
 

@@ -7,7 +7,7 @@ import ShaderType from "../../Shaders/ShaderType.js";
 import ShaderVertexAttribute from "../../Shaders/ShaderVertexAttribute.js";
 import ShaderVertexAttributeCollection from "../../ShaderVertexAttributeCollection.js";
 import ShaderProgramNameGL2 from "../Names/ShaderProgramNameGL2.js";
-import TypeConverterGL3x from "../TypeConverterGL3x.js";
+import TypeConverterGL2 from "../TypeConverterGL2.js";
 import FragmentOutputsGL2 from "./FragmentOutputsGL2.js";
 import ShaderObjectGL2 from "./ShaderObjectGL2.js";
 
@@ -76,7 +76,7 @@ class ShaderProgramGL2 extends ShaderProgram {
       }
       const attributeLoc = gl.getAttribLocation(programHandle, attributeName);
       vertexAttributes.add(new ShaderVertexAttribute(
-        attributeName, attributeLoc, TypeConverterGL3x.AttributeTo(activeInfo.type), activeInfo.size));
+        attributeName, attributeLoc, TypeConverterGL2.AttributeTo(activeInfo.type), activeInfo.size));
     }
     return vertexAttributes;
   }
