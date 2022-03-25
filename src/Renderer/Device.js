@@ -8,14 +8,15 @@ import ShaderProgramGL2 from "./GL2/Shaders/ShaderProgramGL2.js";
 import VertexBufferGL2 from "./GL2/Buffers/VertexBufferGL2.js";
 import IndexBufferGL2 from "./GL2/Buffers/IndexBufferGL2.js";
 
-const WindowType = {
-  Default: 0,
-  FullScreen: 1
-};
-
 class Device {
-  static CreateWindow(containerId, title = "", windowType = WindowType.Default) {
-    return new GraphicsWindowGL2(containerId, title, windowType);
+  /**
+   * 创建一个GraphicsWindow对象
+   * @param {String} containerId 容器元素的ID
+   * @param {String} title 窗口的标题 
+   * @returns 
+   */
+  static CreateWindow(containerId, title = "") {
+    return new GraphicsWindowGL2(containerId, title);
   }
 
   /**

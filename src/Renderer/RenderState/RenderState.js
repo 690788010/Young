@@ -1,8 +1,14 @@
 /**
- * RenderState类
+ * RenderState类用于保存所有的渲染状态
  */
 
 class RenderState {
+  /**
+   * 构造函数
+   */
+  constructor() {
+
+  }
   // PrimitiveRestart = new PrimitiveRestart();
   // FacetCulling = new FacetCulling();
   // ProgramPointSize = ProgramPointSize.Disabled;
@@ -15,3 +21,5 @@ class RenderState {
   // ColorMask = new ColorMask(true, true, true, true);
   // DepthMask = true;
 }
+
+export default RenderState;
