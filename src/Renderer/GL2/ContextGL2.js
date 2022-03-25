@@ -4,6 +4,7 @@
 
 import Context from "../Context.js";
 import RenderState from "../RenderState/RenderState.js";
+import TextureUnits from "../Textures/TextureUnits.js";
 import ViewPort from "../ViewPort.js";
 import TextureUnitsGL2 from "./Textures/TextureUnitsGL2.js";
 
@@ -23,7 +24,7 @@ class ContextGL2 extends Context {
    * 更新视口。
    * @param {WebGL2RenderingContext} gl webgl2环境对象 
    */
-  updateViewPort(gl, width, height) {
+  updateViewPort(gl) {
     gl.viewport(this._viewPort.X, this._viewPort.Y,
       this._viewPort.Width, this._viewPort.Height);
   }
@@ -34,6 +35,14 @@ class ContextGL2 extends Context {
    */
   get ViewPort() {
     return this._viewPort;
+  }
+
+  /**
+   * 获取纹理单元信息
+   * @returns {Array<TextureUnits>}
+   */
+  get TextureUnits() {
+    return this._textureUnits;
   }
 }
 

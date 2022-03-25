@@ -13,11 +13,9 @@ import ShaderObjectGL2 from "./ShaderObjectGL2.js";
 
 
 class ShaderProgramGL2 extends ShaderProgram {
-  constructor(vertexShaderSource, fragmentShaderSource) {
+  constructor(gl, vertexShaderSource, fragmentShaderSource) {
     super();
 
-    // 获取WebGL2的环境对象
-    const gl = document.createElement("canvas").getContext("webgl2");
     // 创建ShaderObjectGL2对象，它们包含WebGLShader对象，并编译了着色器程序源代码
     this._vertexShader = new ShaderObjectGL2(gl, ShaderType.VertexShader, vertexShaderSource);
     this._fragmentShader = new ShaderObjectGL2(gl, ShaderType.FragmentShader, fragmentShaderSource);

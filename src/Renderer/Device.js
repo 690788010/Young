@@ -9,6 +9,7 @@ import VertexBufferGL2 from "./GL2/Buffers/VertexBufferGL2.js";
 import IndexBufferGL2 from "./GL2/Buffers/IndexBufferGL2.js";
 
 class Device {
+  static commonGL = document.createElement("canvas").getContext("webgl2");
   /**
    * 创建一个GraphicsWindow对象
    * @param {String} containerId 容器元素的ID
@@ -26,7 +27,7 @@ class Device {
    * @returns {ShaderProgram}
    */
   static CreateShaderProgram(vertexShaderSource, fragmentShaderSource) {
-    return new ShaderProgramGL2(vertexShaderSource, fragmentShaderSource);
+    return new ShaderProgramGL2(commonGL, vertexShaderSource, fragmentShaderSource);
   }
 
   /**
@@ -54,12 +55,19 @@ class Device {
   }
 
   /**
+   * 获取可以使用的顶点属性的最大数量
+   * @returns {Number}
+   */
+  static MaximumNumberOfVertexAttributes() {
+    return commonGL.getParameter(commonGL.MAX_VERTEX_ATTRIBS);
+  }
+
+  /**
    * 获取可以使用的纹理单元的数量
    * @returns {Number}
    */
   static NumberOfTextureUnits() {
-    const gl = document.createElement("canvas").getContext("webgl2");
-    return gl.getParameter(gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+    return commonGL.getParameter(commonGL.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
   }
 }
 

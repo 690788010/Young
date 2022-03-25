@@ -2,6 +2,8 @@
  * ShaderVertexAttributeCollection类
  */
 
+import ShaderVertexAttribute from "./Shaders/ShaderVertexAttribute";
+
 class ShaderVertexAttributeCollection {
   constructor() {
     this._values = [];
