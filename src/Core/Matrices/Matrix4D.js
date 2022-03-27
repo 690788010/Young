@@ -56,3 +56,5 @@ class Matrix4D {
       0.0, 0.0, 0.0, 1.0);
   }
 }
+
+export default Matrix4D;
