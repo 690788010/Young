@@ -8,7 +8,7 @@ import TextureUnits from "../Textures/TextureUnits.js";
 import VertexArray from "../VertexArray/VertexArray.js";
 import ViewPort from "../ViewPort.js";
 import TextureUnitsGL2 from "./Textures/TextureUnitsGL2.js";
-import VertexArrayGL2 from "./VertexArrayGL2/VertexArrayGL2.js";
+import VertexArrayGL2 from "./VertexArray/VertexArrayGL2.js";
 
 class ContextGL2 extends Context {
   constructor(gl, width, height) {
