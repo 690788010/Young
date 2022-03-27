@@ -10,6 +10,8 @@ import ShaderProgramNameGL2 from "../Names/ShaderProgramNameGL2.js";
 import TypeConverterGL2 from "../TypeConverterGL2.js";
 import FragmentOutputsGL2 from "./FragmentOutputsGL2.js";
 import ShaderObjectGL2 from "./ShaderObjectGL2.js";
+import UniformCollection from "../../Shaders/UniformCollection.js";
+import UniformGL2 from "./UniformGL2.js";
 
 
 class ShaderProgramGL2 extends ShaderProgram {
@@ -34,7 +36,10 @@ class ShaderProgramGL2 extends ShaderProgram {
     this._fragmentOutputs = new FragmentOutputsGL2(this._program);
     // 保存着色器中所有的attribute属性的元数据
     this._vertexAttributes = ShaderProgramGL2.FindVertexAttributes(this._program);
-    console.log(this._vertexAttributes);
+    this._uniforms = ShaderProgramGL2.FindUniforms(this._program);
+    // 任意一个Uniform被更新时，就会添加到_dirtyUniforms这个数组中
+    this._dirtyUniforms = [];
+    console.log(this._uniforms);
   }
 
   /**
@@ -56,8 +61,8 @@ class ShaderProgramGL2 extends ShaderProgram {
 
   /**
    * 查找着色器中所有的attribute属性
-   * @param  {WebGLProgram} program
-   * @param  {ShaderVertexAttributeCollection}
+   * @param  {ShaderProgramNameGL2} program
+   * @returns  {ShaderVertexAttributeCollection}
    */
   static FindVertexAttributes(program) {
     const programHandle = program.Value;
@@ -77,6 +82,44 @@ class ShaderProgramGL2 extends ShaderProgram {
         attributeName, attributeLoc, TypeConverterGL2.AttributeTo(activeInfo.type), activeInfo.size));
     }
     return vertexAttributes;
+  }
+
+  /**
+   * 查找着色器中所有的uniform变量
+   * @param  {ShaderProgramNameGL2} program
+   * @returns  {UniformCollection}
+   */
+  static FindUniforms(program) {
+    const programHandle = program.Value;
+    const gl = program.gl;
+
+    // 获取着色器中激活的uniform变量的数量
+    const numberOfUniforms = gl.getProgramParameter(programHandle, gl.ACTIVE_UNIFORMS);
+
+    const uniforms = new UniformCollection();
+    for (let i = 0; i < numberOfUniforms; i++) {
+      const activeInfo = gl.getActiveUniform(programHandle, i);
+      console.log(activeInfo);
+      // 验证uniform变量名
+      const uniformName = ShaderProgramGL2.CorrectUniformName(activeInfo.name);
+      // 跳过前缀为"gl"的uniform变量
+      if (uniformName.startsWith("gl_")) {
+        continue;
+      }
+      // const uniformSize = activeInfo.size;
+      // if (uniformSize != 1) {
+
+      // }
+      const uniformLoc = gl.getUniformLocation(programHandle, uniformName);
+      uniforms.add(new UniformGL2(uniformName, TypeConverterGL2.toUniformType(activeInfo.type),
+       uniformLoc));
+    }
+
+    return uniforms;
+  }
+
+  static CorrectUniformName(name) {
+    return name;
   }
 }
 

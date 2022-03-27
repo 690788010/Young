@@ -8,8 +8,10 @@ import ShaderProgramGL2 from "./GL2/Shaders/ShaderProgramGL2.js";
 import VertexBufferGL2 from "./GL2/Buffers/VertexBufferGL2.js";
 import IndexBufferGL2 from "./GL2/Buffers/IndexBufferGL2.js";
 
+const commonGL = document.createElement("canvas").getContext("webgl2");
+
 class Device {
-  static commonGL = document.createElement("canvas").getContext("webgl2");
+  
   /**
    * 创建一个GraphicsWindow对象
    * @param {String} containerId 容器元素的ID

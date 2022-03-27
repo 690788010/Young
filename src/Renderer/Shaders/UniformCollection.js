@@ -17,3 +17,5 @@ class UniformCollection {
     this._values.push(item);
   }
 }
+
+export default UniformCollection;

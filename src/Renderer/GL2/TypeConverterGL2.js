@@ -4,6 +4,7 @@
 
 import BufferHint from "../Buffers/BufferHint.js";
 import ShaderVertexAttributeType from "../Shaders/ShaderVertexAttributeType.js";
+import UniformType from "../Shaders/UniformType.js";
 import TextureFormat from "../Textures/TextureFormat.js";
 
 class TypeConverterGL2 {
@@ -86,6 +87,24 @@ class TypeConverterGL2 {
       case TextureFormat.RedGreenBlue8:
         return gl.UNSIGNED_BYTE;
     }
+  }
+
+  /**
+   * 将WebGL的Uniform变量的类型映射为UniformType对应的类型
+   * @param {Number} type Uniform变量的类型，例如gl.FLOAT
+   * @returns {UniformType}
+   */
+  static toUniformType(type) {
+    const gl = document.createElement("canvas").getContext("webgl2");
+    switch(type) {
+      case gl.INT:
+        return UniformType.Int;
+      case gl.FLOAT:
+        return UniformType.Float;
+      case gl.FLOAT_MAT4:
+        return UniformType.FloatMatrix44;
+    }
+    throw new Error("An implementation for uniform type " + type + " does not exist.");
   }
 }
 

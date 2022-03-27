@@ -2,7 +2,7 @@
  * ShaderVertexAttributeCollection类
  */
 
-import ShaderVertexAttribute from "./Shaders/ShaderVertexAttribute";
+import ShaderVertexAttribute from "./Shaders/ShaderVertexAttribute.js";
 
 class ShaderVertexAttributeCollection {
   constructor() {

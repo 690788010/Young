@@ -17,7 +17,7 @@ const UniformType = {
   // BoolVector4,
   // FloatMatrix22,
   // FloatMatrix33,
-  // FloatMatrix44,
+  FloatMatrix44: "FloatMatrix44",
   // Sampler1D,
   // Sampler2D,
   // Sampler2DRectangle,

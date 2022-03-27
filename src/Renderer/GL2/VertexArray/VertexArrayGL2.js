@@ -3,9 +3,9 @@
  * VertexArray类是一个抽象类，它用于表示顶点数组
  */
 
-import VertexArray from "../../VertexArray/VertexArray";
-import VertexArrayNameGL2 from "../Names/VertexArrayNameGL2";
-import VertexBufferAttributesGL2 from "./VertexBufferAttributesGL2";
+import VertexArray from "../../VertexArray/VertexArray.js";
+import VertexArrayNameGL2 from "../Names/VertexArrayNameGL2.js";
+import VertexBufferAttributesGL2 from "./VertexBufferAttributesGL2.js";
 import IndexBuffer from "../../Buffers/IndexBuffer.js"
 
 class VertexArrayGL2 extends VertexArray {

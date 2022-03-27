@@ -3,7 +3,7 @@
  * VertexBufferAttributes类是一个抽象类，它用于包含多个VertexBufferAttribute对象
 */
 
-import VertexBufferAttributes from "../../VertexArray/VertexBufferAttributes";
+import VertexBufferAttributes from "../../VertexArray/VertexBufferAttributes.js";
 
 class VertexBufferAttributesGL2 extends VertexBufferAttributes {
   constructor() {
