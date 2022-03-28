@@ -7,8 +7,12 @@ import ShaderProgram from "./Shaders/ShaderProgram.js";
 import ShaderProgramGL2 from "./GL2/Shaders/ShaderProgramGL2.js";
 import VertexBufferGL2 from "./GL2/Buffers/VertexBufferGL2.js";
 import IndexBufferGL2 from "./GL2/Buffers/IndexBufferGL2.js";
+import LinkAutomaticUniformCollection from "./Shaders/LinkAutomaticUniforms/LinkAutomaticUniformCollection.js"
 
 const commonGL = document.createElement("canvas").getContext("webgl2");
+
+const s_linkAutomaticUniforms = new LinkAutomaticUniformCollection();
+
 
 class Device {
   

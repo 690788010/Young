@@ -42,6 +42,10 @@ class VertexArrayGL2 extends VertexArray {
   set IndexBuffer(value) {
     this._indexBuffer = value;
   }
+
+  maximumArrayIndex() {
+    return this._attributes.MaximumArrayIndex();
+  }
 }
 
 export default VertexArrayGL2;

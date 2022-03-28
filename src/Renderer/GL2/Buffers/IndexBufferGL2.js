@@ -25,6 +25,14 @@ class IndexBufferGL2 extends IndexBuffer {
   bind() {
     this._bufferObject.bind();
   }
+
+  Count() {
+    return this._count;
+  } 
+
+  DataType() {
+    return this._dataType;
+  }
 }
 
 export default IndexBufferGL2;

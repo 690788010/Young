@@ -10,6 +10,11 @@ class VertexBufferAttributesGL2 extends VertexBufferAttributes {
     super();
 
     this._attributes = [];
+    this._maximumArrayIndex = 0;
+  }
+
+  get MaximumArrayIndex() {
+    return this._maximumArrayIndex;
   }
 }
 

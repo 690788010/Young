@@ -26,6 +26,14 @@ class DrawState {
     return this._renderState;
   }
 
+  get ShaderProgram() {
+    return this._shaderProgram;
+  }
+
+  get VertexArray() {
+    return this._vertexArray;
+  }
+
   /**
    * 设置RenderState对象
    * @param {RenderState}

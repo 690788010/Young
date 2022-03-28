@@ -2,10 +2,13 @@
  * TypeConverterGL2
  */
 
+import PrimitiveType from "../../Core/Geometry/PrimitiveType.js";
 import BufferHint from "../Buffers/BufferHint.js";
 import ShaderVertexAttributeType from "../Shaders/ShaderVertexAttributeType.js";
 import UniformType from "../Shaders/UniformType.js";
 import TextureFormat from "../Textures/TextureFormat.js";
+
+const gl = document.createElement("canvas").getContext("webgl2");
 
 class TypeConverterGL2 {
   /**
@@ -24,7 +27,6 @@ class TypeConverterGL2 {
    * @param  {Number} hint 缓冲区的usage参数，例如gl.STATIC_DRAW
    */
   static BufferUsageHintTo(hint) {
-    const gl = document.createElement("canvas").getContext("webgl2");
     switch (hint) {
       case gl.STREAM_DRAW:
         return BufferHint.StreamDraw;
@@ -39,7 +41,6 @@ class TypeConverterGL2 {
    * @returns {Number} 缓冲区的usage参数，例如gl.STREAM_DRAW
    */
   static BufferHintTo(hint) {
-    const gl = document.createElement("canvas").getContext("webgl2");
     switch (hint) {
       case "StreamDraw":
         return gl.STREAM_DRAW;
@@ -54,7 +55,6 @@ class TypeConverterGL2 {
    * @returns {PixelInternalFormat} WebGL2的纹理internalformat
    */
   static TextureFormatTo(format) {
-    const gl = document.createElement("canvas").getContext("webgl2");
     switch (format) {
       case TextureFormat.RedGreenBlue8:
         return gl.RGB8;
@@ -70,7 +70,6 @@ class TypeConverterGL2 {
     // if (!IsTextureFormatValid(textureFormat)){
     //     throw new ArgumentException("Invalid texture format.", "textureFormat");
     // }
-    const gl = document.createElement("canvas").getContext("webgl2");
     switch (textureFormat) {
       case TextureFormat.RedGreenBlue8:
       case TextureFormat.RedGreenBlue16:
@@ -82,7 +81,6 @@ class TypeConverterGL2 {
     // if (!IsTextureFormatValid(textureFormat)) {
     //     throw new ArgumentException("Invalid texture format.", "textureFormat");
     // }
-    const gl = document.createElement("canvas").getContext("webgl2");
     switch(textureFormat) {
       case TextureFormat.RedGreenBlue8:
         return gl.UNSIGNED_BYTE;
@@ -95,7 +93,6 @@ class TypeConverterGL2 {
    * @returns {UniformType}
    */
   static toUniformType(type) {
-    const gl = document.createElement("canvas").getContext("webgl2");
     switch(type) {
       case gl.INT:
         return UniformType.Int;
@@ -105,6 +102,27 @@ class TypeConverterGL2 {
         return UniformType.FloatMatrix44;
     }
     throw new Error("An implementation for uniform type " + type + " does not exist.");
+  }
+
+  /**
+   * 将PrimitiveType枚举类型映射为WebGL的图元类型
+   * @param {PrimitiveType} type
+   * @param {Number} 
+   */
+  static PrimitiveTypeTo(type) {
+    switch(type) {
+      case PrimitiveType.Points:
+        return gl.Points;
+      case PrimitiveType.Lines:
+        return gl.Lines;
+      case PrimitiveType.LineLoop:
+        return gl.LineLoop;
+      case PrimitiveType.LineStrip:
+        return gl.LineStrip;
+      case PrimitiveType.Triangles:
+        return gl.Triangles;
+    }
+    throw new Error("An implementation for primitive type " + type + " does not exist.");
   }
 }
 
