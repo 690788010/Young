@@ -8,6 +8,7 @@ import ShaderProgramGL2 from "./GL2/Shaders/ShaderProgramGL2.js";
 import VertexBufferGL2 from "./GL2/Buffers/VertexBufferGL2.js";
 import IndexBufferGL2 from "./GL2/Buffers/IndexBufferGL2.js";
 import LinkAutomaticUniformCollection from "./Shaders/LinkAutomaticUniforms/LinkAutomaticUniformCollection.js"
+import GraphicsWindow from "./GraphicsWindow.js";
 
 const commonGL = document.createElement("canvas").getContext("webgl2");
 
@@ -19,11 +20,10 @@ class Device {
   /**
    * 创建一个GraphicsWindow对象
    * @param {String} containerId 容器元素的ID
-   * @param {String} title 窗口的标题 
-   * @returns 
+   * @returns {GraphicsWindow} 
    */
-  static CreateWindow(containerId, title = "") {
-    return new GraphicsWindowGL2(containerId, title);
+  static CreateWindow(containerId) {
+    return new GraphicsWindowGL2(containerId);
   }
 
   /**

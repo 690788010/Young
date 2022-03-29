@@ -24,7 +24,8 @@ class ContextGL2 extends Context {
 
     // 设置视口大小
     this._viewPort = new ViewPort(0, 0, width, height);
-    this.updateViewPort(this._gl);
+    // 更新视口
+    this.updateViewPort();
   }
 
   /**

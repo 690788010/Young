@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #mapContainer {
+      width: 800px;
+      height: 600px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <div id="mapContainer"></div>
+
+  <script type="module">
+    import Device from "../../src/Renderer/Device.js";
+    import SceneState from "../../src/Renderer/Scene/SceneState.js";
+    import ClearState from "../../src/Renderer/ClearState.js";
+    
+    const graphicsWindow = Device.CreateWindow("mapContainer", "myEarth");
+    const sceneState = new SceneState();
+    const clearState = new ClearState();
+
+    const vs = `#version 300 es
+
+      layout(location = og_positionVertexLocation) in vec4 position;
+      uniform mat4 og_modelViewPerspectiveMatrix;
+
+      void main() {
+        gl_Position = og_modelViewPerspectiveMatrix * position; 
+      }`;
+    const fs = `#version 300 es
+               
+      out vec3 fragmentColor;
+      uniform vec3 u_color;
+
+      void main() {
+        fragmentColor = u_color;
+      }`;
+    const shaderProgram = Device.CreateShaderProgram(vs, fs);
+  </script>
+</body>
+</html>

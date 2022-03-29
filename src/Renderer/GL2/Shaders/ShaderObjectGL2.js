@@ -8,6 +8,7 @@ import ShaderType from "../../Shaders/ShaderType.js";
 class ShaderObjectGL2 extends Disposable {
   constructor(gl, shaderType, source) {
     super();
+    this._gl = gl;
 
     // 内置常量
     const builtinConstants = "#version 300 es \n";
@@ -28,24 +29,24 @@ class ShaderObjectGL2 extends Disposable {
     const sources = builtinConstants + builtinFunctions + modifiedSource;
     
     /// 创建着色器对象
-    this._shaderObject = gl.createShader(shaderType);
+    this._shaderObject = this._gl.createShader(shaderType);
     // 向着色器对象中填充着色器程序的源代码
-    gl.shaderSource(this._shaderObject, sources);
+    this._gl.shaderSource(this._shaderObject, sources);
     // 编译着色器
-    gl.compileShader(this._shaderObject);
+    this._gl.compileShader(this._shaderObject);
     // 检查是否编译成功
-    this._checkCompileErrors(gl, this._shaderObject, shaderType);
+    this._checkCompileErrors(this._shaderObject, shaderType);
   }
 
-  _checkCompileErrors(gl, shader, shaderType) {
+  _checkCompileErrors(shader, shaderType) {
     // 如果编译失败，则打印错误信息
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    if (!this._gl.getShaderParameter(shader, this._gl.COMPILE_STATUS)) {
       if (shaderType === ShaderType.VertexShader) {
         shaderType = "VERTEX";
       } else if (shaderType === ShaderType.FragmentShader) {
         shaderType = "FRAGMENT";
       }
-      const infoLog = gl.getShaderInfoLog(shader);
+      const infoLog = this._gl.getShaderInfoLog(shader);
       const msg = "ERROR::SHADER_COMPILATION_ERROR of type: " + shaderType + "\n" + infoLog + "\n -- --------------------------------------------------- -- ";
       window.alert(msg);
       throw new Error(msg);

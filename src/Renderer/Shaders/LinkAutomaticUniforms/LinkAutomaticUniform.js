@@ -1,7 +1,7 @@
 /**
  * LinkAutomaticUniform类是抽象类，表示Link Uniform
  */
-import Uniform from "../Uniform";
+import Uniform from "../Uniform.js";
 
 class LinkAutomaticUniform {
 

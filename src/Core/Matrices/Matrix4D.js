@@ -48,7 +48,7 @@ class Matrix4D {
    * 返回一个4x4单位矩阵
    * @returns {Matrix4D}
    */
-  get Identity() {
+  static get Identity() {
     return new Matrix4D(
       1.0, 0.0, 0.0, 0.0,
       0.0, 1.0, 0.0, 0.0,

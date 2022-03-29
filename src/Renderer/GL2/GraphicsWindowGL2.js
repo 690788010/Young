@@ -8,7 +8,11 @@ import ContextGL2 from "./ContextGL2.js";
 
 
 class GraphicsWindowGL2 extends GraphicsWindow {
-  constructor(containerId, title) {
+  /**
+   * 构造函数
+   * @param {String} containerId 容器元素的ID
+   */
+  constructor(containerId) {
     super();
 
     const containerDiv = document.getElementById(containerId);
@@ -16,7 +20,7 @@ class GraphicsWindowGL2 extends GraphicsWindow {
     if (containerDiv.nodeName !== "DIV") {
       throw new Error("Container element must be Div!");
     }
-    // 创建一个canvas元素放入容器元素中
+    // 创建一个canvas元素（与容器元素大小一样）放入容器元素中
     const canvas = document.createElement("canvas");
     const width = containerDiv.clientWidth;
     const height = containerDiv.clientHeight;
