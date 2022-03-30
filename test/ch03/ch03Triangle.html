@@ -21,8 +21,12 @@
     import SceneState from "../../src/Renderer/Scene/SceneState.js";
     import ClearState from "../../src/Renderer/ClearState.js";
     import Vector3D from "../../src/Core/Vectors/Vector3D.js";
+    import Mesh from "../../src/Core/Geometry/Mesh.js";
+    import VertexAttributeFloatVector3 from "../../src/Core/Geometry/VertexAttributes/VertexAttributeFloatVector3.js";
+    import IndicesUnsignedShort from "../../src/Core/Geometry/Indices/IndicesUnsignedShort.js";
+    import TriangleIndicesUnsignedShort from "../../src/Core/Geometry/Indices/TriangleIndicesUnsignedShort.js";
 
-    
+
     const graphicsWindow = Device.CreateWindow("mapContainer", "myEarth");
     const sceneState = new SceneState();
     const clearState = new ClearState();
@@ -49,6 +53,22 @@
     const sp = Device.CreateShaderProgram(vs, fs);
     sp.Uniforms.getByName("u_color").Value = new Vector3D(1, 0, 0);
     console.log(sp.Uniforms);
+    // ------------------------------------------------------------
+
+    const mesh = new Mesh();
+    
+    const positionsAttribute = new VertexAttributeFloatVector3("position", 3);
+    positionsAttribute.add(new Vector3D(0, 0, 0));
+    positionsAttribute.add(new Vector3D(1, 0, 0));
+    positionsAttribute.add(new Vector3D(0, 0, 1));
+    mesh.Attributes.add(positionsAttribute);
+
+    const indices = new IndicesUnsignedShort(3);
+    indices.addTriangle(new TriangleIndicesUnsignedShort(0, 1, 2));
+    mesh.Indices = indices;
+
+    
+    console.log(mesh);
   </script>
 </body>
 </html>
