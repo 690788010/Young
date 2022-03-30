@@ -40,8 +40,9 @@ class ShaderProgramGL2 extends ShaderProgram {
     this._uniforms = ShaderProgramGL2.FindUniforms(this._gl, this._program);
     // 任意一个Uniform被更新时，就会添加到_dirtyUniforms这个数组中
     this._dirtyUniforms = [];
+    // DrawAutomaticUniform的集合
+    this._drawAutomaticUniforms = [];
     // 初始化AutomaticUniform
-    console.log(this._uniforms);
     this._initializeAutomaticUniforms(this._uniforms);
   }
 
@@ -130,10 +131,14 @@ class ShaderProgramGL2 extends ShaderProgram {
     for (let i = 0, len = uniforms.size(); i < len; i++) {
       const uniform = uniforms.get(i);
       if (Device.LinkAutomaticUniforms.contains(uniform.Name)) {
+        // 初始化LinkAutomaticUniform
         Device.LinkAutomaticUniforms.getByName(uniform.Name).set(uniform);
-      } 
+      } else if (Device.DrawAutomaticUniformFactories.contains(uniform.Name)) {
+        // 初始化DrawAutomaticUniform
+        this._drawAutomaticUniforms.push(
+          Device.DrawAutomaticUniformFactories.getByName(uniform.Name).create(uniform));
+      }
     }
-    console.log(uniforms);
   }
 }
 

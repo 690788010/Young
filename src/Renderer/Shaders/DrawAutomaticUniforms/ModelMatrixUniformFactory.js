@@ -3,9 +3,9 @@
  * ModelMatrixUniformFactory类是用于生成ModelMatrixUniform对象的工厂类
  */
 
-import Uniform from "../Uniform";
-import DrawAutomaticUniformFactory from "./DrawAutomaticUniformFactory";
-import ModelMatrixUniform from "./ModelMatrixUniform";
+import Uniform from "../Uniform.js";
+import DrawAutomaticUniformFactory from "./DrawAutomaticUniformFactory.js";
+import ModelMatrixUniform from "./ModelMatrixUniform.js";
 
 class ModelMatrixUniformFactory extends DrawAutomaticUniformFactory {
   get Name() {

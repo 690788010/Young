@@ -20,6 +20,7 @@
     import Device from "../../src/Renderer/Device.js";
     import SceneState from "../../src/Renderer/Scene/SceneState.js";
     import ClearState from "../../src/Renderer/ClearState.js";
+    import Vector3D from "../../src/Core/Vectors/Vector3D.js";
 
     
     const graphicsWindow = Device.CreateWindow("mapContainer", "myEarth");
@@ -30,9 +31,10 @@
 
       layout(location = og_positionVertexLocation) in vec4 position;
       uniform mat4 og_modelViewPerspectiveMatrix;
+      uniform mat4 og_modelMatrix;
 
       void main() {
-        gl_Position = og_modelViewPerspectiveMatrix * position; 
+        gl_Position = og_modelViewPerspectiveMatrix * og_modelMatrix * position; 
       }`;
     const fs = `#version 300 es
       precision mediump float;
@@ -44,7 +46,9 @@
       void main() {
         fragmentColor = u_color * og_texture3;
       }`;
-    const shaderProgram = Device.CreateShaderProgram(vs, fs);
+    const sp = Device.CreateShaderProgram(vs, fs);
+    sp.Uniforms.getByName("u_color").Value = new Vector3D(1, 0, 0);
+    console.log(sp.Uniforms);
   </script>
 </body>
 </html>

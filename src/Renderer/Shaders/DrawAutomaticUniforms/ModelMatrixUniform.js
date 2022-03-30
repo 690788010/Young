@@ -11,6 +11,8 @@ class ModelMatrixUniform extends DrawAutomaticUniform {
    * @param {Uniform} uniform 
    */
   constructor(uniform) {
+    super();
+
     this._uniform = uniform;
   }
 

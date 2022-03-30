@@ -10,15 +10,17 @@ import IndexBufferGL2 from "./GL2/Buffers/IndexBufferGL2.js";
 import LinkAutomaticUniformCollection from "./Shaders/LinkAutomaticUniforms/LinkAutomaticUniformCollection.js"
 import GraphicsWindow from "./GraphicsWindow.js";
 import TextureUniform from "./Shaders/LinkAutomaticUniforms/TextureUniform.js";
+import DrawAutomaticUniformFactoryCollection from "./Shaders/DrawAutomaticUniforms/DrawAutomaticUniformFactoryCollection.js";
+import ModelMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/ModelMatrixUniformFactory.js";
+import DrawAutomaticUniformFactory from "./Shaders/DrawAutomaticUniforms/DrawAutomaticUniformFactory.js";
 
 const commonGL = document.createElement("canvas").getContext("webgl2");
 
+// LinkAutomaticUniform只在编译和链接时设置一次，后面不变
 const s_linkAutomaticUniforms = new LinkAutomaticUniformCollection();
-const numberOfTextureUnits = commonGL.getParameter(commonGL.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
-for (let i = 0; i < numberOfTextureUnits; i++) {
-  s_linkAutomaticUniforms.add(new TextureUniform(i));
-}
 
+const s_drawAutomaticUniformFactories = new DrawAutomaticUniformFactoryCollection();
+s_drawAutomaticUniformFactories.add(new ModelMatrixUniformFactory());
 
 
 class Device {
@@ -78,7 +80,7 @@ class Device {
    * 获取可以使用的纹理单元的数量
    * @returns {Number}
    */
-  static NumberOfTextureUnits() {
+  static get NumberOfTextureUnits() {
     return commonGL.getParameter(commonGL.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
   }
 
@@ -89,6 +91,20 @@ class Device {
   static get LinkAutomaticUniforms() {
     return s_linkAutomaticUniforms;
   }
+
+  /**
+   * 获取DrawAutomaticUniformFactory的集合
+   * @returns {DrawAutomaticUniformFactory}
+   */
+  static get DrawAutomaticUniformFactories() {
+    return s_drawAutomaticUniformFactories;
+  }
+}
+
+// 初始化LinkAutomaticUniformCollection
+const numberOfTextureUnits = Device.NumberOfTextureUnits;
+for (let i = 0; i < numberOfTextureUnits; i++) {
+  s_linkAutomaticUniforms.add(new TextureUniform(i));
 }
 
 export default Device;
