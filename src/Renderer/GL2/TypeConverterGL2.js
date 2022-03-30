@@ -98,6 +98,8 @@ class TypeConverterGL2 {
         return UniformType.Int;
       case gl.FLOAT:
         return UniformType.Float;
+      case gl.FLOAT_VEC3:
+        return UniformType.FloatVector3;
       case gl.FLOAT_MAT4:
         return UniformType.FloatMatrix44;
     }

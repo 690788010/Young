@@ -9,10 +9,16 @@ import VertexBufferGL2 from "./GL2/Buffers/VertexBufferGL2.js";
 import IndexBufferGL2 from "./GL2/Buffers/IndexBufferGL2.js";
 import LinkAutomaticUniformCollection from "./Shaders/LinkAutomaticUniforms/LinkAutomaticUniformCollection.js"
 import GraphicsWindow from "./GraphicsWindow.js";
+import TextureUniform from "./Shaders/LinkAutomaticUniforms/TextureUniform.js";
 
 const commonGL = document.createElement("canvas").getContext("webgl2");
 
 const s_linkAutomaticUniforms = new LinkAutomaticUniformCollection();
+const numberOfTextureUnits = commonGL.getParameter(commonGL.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+for (let i = 0; i < numberOfTextureUnits; i++) {
+  s_linkAutomaticUniforms.add(new TextureUniform(i));
+}
+
 
 
 class Device {
@@ -74,6 +80,14 @@ class Device {
    */
   static NumberOfTextureUnits() {
     return commonGL.getParameter(commonGL.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+  }
+
+  /**
+   * 获取LinkAutomaticUniform的集合
+   * @returns {LinkAutomaticUniformCollection}
+   */
+  static get LinkAutomaticUniforms() {
+    return s_linkAutomaticUniforms;
   }
 }
 

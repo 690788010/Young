@@ -12,6 +12,7 @@ import FragmentOutputsGL2 from "./FragmentOutputsGL2.js";
 import ShaderObjectGL2 from "./ShaderObjectGL2.js";
 import UniformCollection from "../../Shaders/UniformCollection.js";
 import UniformGL2 from "./UniformGL2.js";
+import Device from "../../Device.js";
 
 
 class ShaderProgramGL2 extends ShaderProgram {
@@ -35,13 +36,13 @@ class ShaderProgramGL2 extends ShaderProgram {
 
     this._fragmentOutputs = new FragmentOutputsGL2(this._program);
     // 保存着色器中所有的attribute属性的元数据
-    this._vertexAttributes = ShaderProgramGL2.FindVertexAttributes(this._program);
-    this._uniforms = ShaderProgramGL2.FindUniforms(this._program);
+    this._vertexAttributes = ShaderProgramGL2.FindVertexAttributes(this._gl, this._program);
+    this._uniforms = ShaderProgramGL2.FindUniforms(this._gl, this._program);
     // 任意一个Uniform被更新时，就会添加到_dirtyUniforms这个数组中
     this._dirtyUniforms = [];
     // 初始化AutomaticUniform
-    this._initializeAutomaticUniforms(uniforms);
     console.log(this._uniforms);
+    this._initializeAutomaticUniforms(this._uniforms);
   }
 
   /**
@@ -62,22 +63,23 @@ class ShaderProgramGL2 extends ShaderProgram {
 
   /**
    * 查找着色器中所有的attribute属性
+   * @param {WebGL2RenderingContext} gl
    * @param  {ShaderProgramNameGL2} program
    * @returns  {ShaderVertexAttributeCollection}
    */
-  static FindVertexAttributes(program) {
+  static FindVertexAttributes(gl, program) {
     const programHandle = program.Value;
     // 获取着色器中激活的attribute变量的数量
-    const numberOfAttributes = this._gl.getProgramParameter(programHandle, this._gl.ACTIVE_ATTRIBUTES);
+    const numberOfAttributes = gl.getProgramParameter(programHandle, gl.ACTIVE_ATTRIBUTES);
     const vertexAttributes = new ShaderVertexAttributeCollection();
     for (let i = 0; i < numberOfAttributes; i++) {
-      const activeInfo = this._gl.getActiveAttrib(programHandle, i);
+      const activeInfo = gl.getActiveAttrib(programHandle, i);
       const attributeName = activeInfo.name;
       // 跳过前缀为"gl"的attribute变量
       if (attributeName.startsWith("gl_")) {
         continue;
       }
-      const attributeLoc = this._gl.getAttribLocation(programHandle, attributeName);
+      const attributeLoc = gl.getAttribLocation(programHandle, attributeName);
       vertexAttributes.add(new ShaderVertexAttribute(
         attributeName, attributeLoc, TypeConverterGL2.AttributeTo(activeInfo.type), activeInfo.size));
     }
@@ -89,16 +91,15 @@ class ShaderProgramGL2 extends ShaderProgram {
    * @param  {ShaderProgramNameGL2} program
    * @returns  {UniformCollection}
    */
-  static FindUniforms(program) {
+  static FindUniforms(gl, program) {
     const programHandle = program.Value;
 
     // 获取着色器中激活的uniform变量的数量
-    const numberOfUniforms = this._gl.getProgramParameter(programHandle, this._gl.ACTIVE_UNIFORMS);
+    const numberOfUniforms = gl.getProgramParameter(programHandle, gl.ACTIVE_UNIFORMS);
 
     const uniforms = new UniformCollection();
     for (let i = 0; i < numberOfUniforms; i++) {
-      const activeInfo = this._gl.getActiveUniform(programHandle, i);
-      console.log(activeInfo);
+      const activeInfo = gl.getActiveUniform(programHandle, i);
       // 验证uniform变量名
       const uniformName = ShaderProgramGL2.CorrectUniformName(activeInfo.name);
       // 跳过前缀为"gl"的uniform变量
@@ -109,7 +110,7 @@ class ShaderProgramGL2 extends ShaderProgram {
       // if (uniformSize != 1) {
 
       // }
-      const uniformLoc = this._gl.getUniformLocation(programHandle, uniformName);
+      const uniformLoc = gl.getUniformLocation(programHandle, uniformName);
       uniforms.add(new UniformGL2(uniformName, TypeConverterGL2.toUniformType(activeInfo.type),
        uniformLoc));
     }
@@ -127,8 +128,12 @@ class ShaderProgramGL2 extends ShaderProgram {
    */
   _initializeAutomaticUniforms(uniforms) {
     for (let i = 0, len = uniforms.size(); i < len; i++) {
-
+      const uniform = uniforms.get(i);
+      if (Device.LinkAutomaticUniforms.contains(uniform.Name)) {
+        Device.LinkAutomaticUniforms.getByName(uniform.Name).set(uniform);
+      } 
     }
+    console.log(uniforms);
   }
 }
 

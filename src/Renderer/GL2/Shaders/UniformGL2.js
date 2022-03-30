@@ -15,6 +15,32 @@ class UniformGL2 extends Uniform {
     this._name = name;
     this._type = type;
     this._location = location;
+    this._dirty = true;
+  }
+
+  /**
+   * 返回Uniform变量的名字
+   * @returns {String}
+   */
+  get Name() {
+    return this._name;
+  }
+
+  /**
+   * 返回Unform变量的值
+   */
+  get Value() {
+    this._value;
+  }
+
+  /**
+   * 设置Uniform变量的值
+   */
+  set Value(value) {
+    if (!this._dirty && (this._value !== value)) {
+      this._dirty = true;
+    }
+    this._value = value;
   }
 }
 

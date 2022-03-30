@@ -11,6 +11,8 @@ class TextureUniform extends LinkAutomaticUniform {
    * @param {Number} textureUnit 纹理单元
    */
   constructor(textureUnit) {
+    super();
+
     this._textureUnit = textureUnit;
   }
 
@@ -18,6 +20,11 @@ class TextureUniform extends LinkAutomaticUniform {
     return "og_texture" + this._textureUnit;
   }
 
+  
+  /**
+   * 将传入的Uniform的值设置为这个LinkAutomaticUniform的值
+   * @param {Uniform} uniform 
+   */
   set(uniform) {
     uniform.Value = this._textureUnit;
   }

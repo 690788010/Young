@@ -1,19 +1,20 @@
 /**
- * LinkAutomaticUniformCollection类
+ * DrawAutomaticUniformFactoryCollection类是一个用于包含多个
+ * DrawAutomaticUniformFactory对象的集合类
  */
 
-import LinkAutomaticUniform from "./LinkAutomaticUniform.js";
+import DrawAutomaticUniformFactory from "./DrawAutomaticUniformFactory.js";
 
-class LinkAutomaticUniformCollection {
+class DrawAutomaticUniformFactoryCollection {
   constructor() {
     this._values = [];
   }
 
   /**
-   * 添加一个LinkAutomaticUniform对象
-   * @param {LinkAutomaticUniform} item 
+   * 向集合中添加一个DrawAutomaticUniformFactory对象
+   * @param {DrawAutomaticUniformFactory} item 
    */
-   add(item) {
+  add(item) {
     this._values.push(item);
   }
 
@@ -26,20 +27,20 @@ class LinkAutomaticUniformCollection {
   }
 
   /**
-   * 根据索引取得Uniform
+   * 根据索引取得DrawAutomaticUniformFactory
    * @param {Number} index 索引
-   * @returns {LinkAutomaticUniform}
+   * @returns {DrawAutomaticUniformFactory}
    */
-  get(index) {
+   get(index) {
     return this._values[index];
   }
 
   /**
-   * 根据Uniform变量名判断集合中是否包含该Uniform
-   * @param {String} name Uniform变量的名字
+   * 根据DrawAutomaticUniformFactory的名字信息判断集合中是否包含该DrawAutomaticUniformFactory
+   * @param {String} name DrawAutomaticUniformFactory的名字信息
    * @returns {Boolean}
    */
-  contains(name) {
+   contains(name) {
     for (let i = 0, len = this._values.length; i < len; i++) {
       if (this._values[i].Name === name) {
         return true;
@@ -53,7 +54,7 @@ class LinkAutomaticUniformCollection {
    * @param {String} name Uniform变量的名字
    * @returns {LinkAutomaticUniform}
    */
-  getByName(name) {
+   getByName(name) {
     for (let i = 0, len = this._values.length; i < len; i++) {
       if (this._values[i].Name === name) {
         return this._values[i];
@@ -62,4 +63,4 @@ class LinkAutomaticUniformCollection {
   }
 }
 
-export default LinkAutomaticUniformCollection;
+export default DrawAutomaticUniformFactoryCollection;

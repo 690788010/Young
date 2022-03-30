@@ -22,7 +22,7 @@ class UniformCollection {
    * @returns {Number}
    */
   size() {
-    this._values.length;
+    return this._values.length;
   }
 
   /**

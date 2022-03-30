@@ -14,7 +14,7 @@ class LinkAutomaticUniform {
    * @param {Uniform} uniform 
    */
   set(uniform) {
-
+    
   }
 }
 

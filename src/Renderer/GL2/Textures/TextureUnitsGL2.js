@@ -23,6 +23,14 @@ class TextureUnitsGL2 extends TextureUnits {
     this._dirtyTextureUnits = [];
     this._lastTextureUnit = this._textureUnits[numberOfTextureUnits - 1];
   }
+
+  /**
+   * 返回纹理单元的个数
+   * @returns {Number}
+   */
+  get Count() {
+    return this._textureUnits.length;
+  }
 }
 
 export default TextureUnitsGL2;

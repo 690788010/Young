@@ -4,6 +4,7 @@
 
 import Disposable from "../../../Core/Disposable.js";
 import ShaderType from "../../Shaders/ShaderType.js";
+import VertexLocations from "../../VertexArray/VertexLocations.js";
 
 class ShaderObjectGL2 extends Disposable {
   constructor(gl, shaderType, source) {
@@ -11,8 +12,14 @@ class ShaderObjectGL2 extends Disposable {
     this._gl = gl;
 
     // 内置常量
-    const builtinConstants = "#version 300 es \n";
-    // 内置函数
+    let builtinConstants = "#version 300 es \n";
+    
+    // 向顶点着色器添加内置常量
+    if (shaderType === ShaderType.VertexShader) {
+      builtinConstants += "#define og_positionVertexLocation " + VertexLocations.Position + "\n";
+    }
+    
+      // 内置函数
     const builtinFunctions = "";
 
     let modifiedSource = "";

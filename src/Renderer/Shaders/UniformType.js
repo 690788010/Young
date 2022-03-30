@@ -6,7 +6,7 @@ const UniformType = {
   Int: "Int",
   Float: "Float",
   // FloatVector2,
-  // FloatVector3,
+  FloatVector3: "FloatVector3",
   // FloatVector4,
   // IntVector2,
   // IntVector3,
