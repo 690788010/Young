@@ -17,11 +17,34 @@ class IndicesUnsignedShort extends IndicesBase {
   }
 
   /**
+   * 返回数据个数
+   * @returns {Number}
+   */
+  size() {
+    return this._values.length;
+  }
+
+  /**
    * 添加一个索引数据
+   * @param {Number} item
+   */
+  add(item) {
+    this._values.push(item);
+  }
+
+  /**
+   * 根据索引取值
    * @param {Number} index 
    */
-  add(index) {
-    this._values.push(index);
+  get(index) {
+    return this._values[index];
+  }
+
+  /**
+   * @returns {Array<Number>}
+   */
+  get Values() {
+    return this._values;
   }
 
   /**

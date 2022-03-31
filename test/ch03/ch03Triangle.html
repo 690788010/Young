@@ -25,9 +25,10 @@
     import VertexAttributeFloatVector3 from "../../src/Core/Geometry/VertexAttributes/VertexAttributeFloatVector3.js";
     import IndicesUnsignedShort from "../../src/Core/Geometry/Indices/IndicesUnsignedShort.js";
     import TriangleIndicesUnsignedShort from "../../src/Core/Geometry/Indices/TriangleIndicesUnsignedShort.js";
+    import BufferHint from "../../src/Renderer/Buffers/BufferHint.js";
 
 
-    const graphicsWindow = Device.CreateWindow("mapContainer", "myEarth");
+    const window = Device.CreateWindow("mapContainer", "myEarth");
     const sceneState = new SceneState();
     const clearState = new ClearState();
 
@@ -52,7 +53,6 @@
       }`;
     const sp = Device.CreateShaderProgram(vs, fs);
     sp.Uniforms.getByName("u_color").Value = new Vector3D(1, 0, 0);
-    console.log(sp.Uniforms);
     // ------------------------------------------------------------
 
     const mesh = new Mesh();
@@ -67,8 +67,9 @@
     indices.addTriangle(new TriangleIndicesUnsignedShort(0, 1, 2));
     mesh.Indices = indices;
 
+    const va = window.Context.createVertexArrayByMesh(mesh, sp.VertexAttributes, BufferHint.StaticDraw);
     
-    console.log(mesh);
+    
   </script>
 </body>
 </html>

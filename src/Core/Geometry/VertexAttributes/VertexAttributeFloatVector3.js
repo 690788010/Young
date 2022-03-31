@@ -7,7 +7,7 @@ import VertexAttribute from "./VertexAttribute.js";
 import VertexAttributeType from "./VertexAttributeType.js";
 import Vector3 from "../../Vectors/Vector3D.js";
 
-class VertexAttributeFloatVector3 extends VertexAttribute{
+class VertexAttributeFloatVector3 extends VertexAttribute {
   constructor(name, capacity) {
     super();
     this._dataType = VertexAttributeType.FloatVector3;

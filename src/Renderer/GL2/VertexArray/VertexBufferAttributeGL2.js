@@ -4,7 +4,7 @@
  * 配置信息以及对应的顶点缓冲区（VertexBuffer）
  */
 
-import VertexBufferAttribute from "../../VertexArray/VertexBufferAttribute";
+import VertexBufferAttribute from "../../VertexArray/VertexBufferAttribute.js";
 import VertexBuffer from "../../Buffers/VertexBuffer.js"
 import ComponentDatatype from "../../VertexArray/ComponentDatatype.js"
 

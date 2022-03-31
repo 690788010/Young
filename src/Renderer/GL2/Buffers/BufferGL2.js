@@ -8,34 +8,60 @@ import TypeConverterGL2 from "../TypeConverterGL2.js";
 class BufferGL2 {
   /**
    * 构造函数
+   * @param {WebGL2RenderingContext} gl
    * @param  {Number} type 缓冲区的绑定目标，BufferTarget枚举的某一项
    * @param  {String} usageHint 缓冲区的usage参数，BufferHint的枚举项
    * @param  {Number} sizeInBytes 缓冲区的大小（以字节为单位）
    * @returns {VertexBufferGL2}
    */
-  constructor(type, usageHint, sizeInBytes) {
+  constructor(gl, type, usageHint, sizeInBytes) {
     if (sizeInBytes <= 0) {
       throw new Error("sizeInBytes must be greater than zero.");
     }
-
-    const gl = document.createElement("canvas").getContext("webgl2");
+    this._gl = gl;
     
-    this._name = new BufferNameGl2(gl);
+    this._name = new BufferNameGl2(this._gl);
     this._sizeInBytes = sizeInBytes;
     this._type = type;
     this._usageHint = TypeConverterGL2.BufferHintTo(usageHint);
 
-    gl.bindVertexArray(null);
-    this.bind(gl);      // 绑定缓冲区
-    gl.bufferData(this._type, this._sizeInBytes, this._usageHint);
+    this._gl.bindVertexArray(null);
+    this.bind();      // 绑定缓冲区
+    this._gl.bufferData(this._type, this._sizeInBytes, this._usageHint);
+  }
+
+  /**
+   * 从系统内存拷贝数据到显卡缓冲区
+   * @param {Typed Array} bufferInSystemMemory 类型化数组
+   * @param {Number} destinationOffsetInBytes 目的缓冲区中数据起始偏移量，单位字节
+   * @param {Number} lengthInBytes 从源数据要复制多少字节数据到显卡缓冲区
+   */
+  copyFromSystemMemory(bufferInSystemMemory, destinationOffsetInBytes, lengthInBytes) {
+    if (destinationOffsetInBytes < 0) {
+      throw new Error("destinationOffsetInBytes must be greater than or equal to zero.");
+    }
+    // 不能超过已分配的显卡缓冲区大小
+    if (destinationOffsetInBytes + lengthInBytes > this._sizeInBytes) {
+      throw new Error("destinationOffsetInBytes + lengthInBytes must be less than or equal to SizeInBytes.");
+    }
+    if (lengthInBytes < 0) {
+      throw new Error("lengthInBytes must be greater than or equal to zero.");
+    }
+    if (lengthInBytes > bufferInSystemMemory.byteLength) {
+      throw new Error("lengthInBytes must be less than or equal to the size of bufferInSystemMemory in bytes.");
+    }
+
+    this._gl.bindVertexArray(null);
+    this.bind();
+    this._gl.bufferSubData(this._type, destinationOffsetInBytes, bufferInSystemMemory, 0, (lengthInBytes / bufferInSystemMemory.BYTES_PER_ELEMENT));
   }
 
   /**
    * 绑定缓冲区
    * @param  {WebGL2RenderingContext} gl WebGL2的环境对象
    */
-  bind(gl) {
-    gl.bindBuffer(this._type, this._name.Value);
+  bind() {
+    this._gl.bindBuffer(this._type, this._name.Value);
   }
 
   /**

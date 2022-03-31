@@ -140,6 +140,14 @@ class ShaderProgramGL2 extends ShaderProgram {
       }
     }
   }
+
+  /**
+   * 返回着色器中所有的attribute属性的元数据
+   * @returns {ShaderVertexAttributeCollection}
+   */
+  get VertexAttributes() {
+    return this._vertexAttributes;
+  }
 }
 
 export default ShaderProgramGL2;

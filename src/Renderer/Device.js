@@ -13,6 +13,15 @@ import TextureUniform from "./Shaders/LinkAutomaticUniforms/TextureUniform.js";
 import DrawAutomaticUniformFactoryCollection from "./Shaders/DrawAutomaticUniforms/DrawAutomaticUniformFactoryCollection.js";
 import ModelMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/ModelMatrixUniformFactory.js";
 import DrawAutomaticUniformFactory from "./Shaders/DrawAutomaticUniforms/DrawAutomaticUniformFactory.js";
+import Mesh from "../Core/Geometry/Mesh.js";
+import ShaderVertexAttributeCollection from "./ShaderVertexAttributeCollection.js";
+import BufferHint from "./Buffers/BufferHint.js";
+import MeshBuffers from "./Mesh/MeshBuffers.js";
+import IndicesType from "../Core/Geometry/Indices/IndicesType.js";
+import VertexAttributeType from "../Core/Geometry/VertexAttributes/VertexAttributeType.js";
+import VertexBufferAttributeGL2 from "./GL2/VertexArray/VertexBufferAttributeGL2.js";
+import ComponentDatatype from "./VertexArray/ComponentDatatype.js";
+
 
 const commonGL = document.createElement("canvas").getContext("webgl2");
 
@@ -51,7 +60,7 @@ class Device {
    * @returns {VertexBufferGL2}
    */
   static CreateVertexBuffer(usageHint, sizeInBytes) {
-    return new VertexBufferGL2(usageHint, sizeInBytes);
+    return new VertexBufferGL2(commonGL, usageHint, sizeInBytes);
   }
 
   /**
@@ -61,7 +70,71 @@ class Device {
    * @returns {IndexBufferGL2}
    */
   static CreateIndexBuffer(usageHint, sizeInBytes) {
-    return new IndexBufferGL2(usageHint, sizeInBytes);
+    return new IndexBufferGL2(commonGL, usageHint, sizeInBytes);
+  }
+
+  /**
+   * 创建MeshBuffer
+   * @param {Mesh} mesh 
+   * @param {ShaderVertexAttributeCollection} shaderAttributes 
+   * @param {BufferHint} usageHint 
+   */
+  static CreateMeshBuffers(mesh, shaderAttributes, usageHint) {
+    if (mesh === null) {
+      throw new Error("mesh is null.");
+    }
+
+    if (shaderAttributes === null) {
+      throw new Error("shaderAttributes is null.");
+    }
+
+    const meshBuffers = new MeshBuffers();
+
+    // 为mesh的索引数据分配显卡缓冲区并将索引数据复制到显卡缓冲区
+    if (mesh.Indices !== null) {
+      if (mesh.Indices.DataType === IndicesType.UnsignedShort) {
+        const indices = new Uint16Array(mesh.Indices.Values);
+        const indexBuffer = Device.CreateIndexBuffer(usageHint, indices.byteLength);
+        indexBuffer.copyFromSystemMemory(indices);
+        meshBuffers.IndexBuffer = indexBuffer;
+      } else if (mesh.Indices.DataType === IndicesType.UnsignedInt) {
+
+      } else {
+        throw new Error("mesh.Indices.Datatype " +
+          mesh.Indices.DataType + " is not supported.");
+      }
+    }
+
+    for (let i = 0, len = shaderAttributes.size(); i < len; i++) {
+      const shaderAttribute = shaderAttributes.get(i);
+      if (!mesh.Attributes.contains(shaderAttribute.Name)) {
+        throw new Error("Shader requires vertex attribute \"" + shaderAttribute.Name + "\", which is not present in mesh.");
+      }
+
+      const attribute = mesh.Attributes.getByName(shaderAttribute.Name);
+      console.log(attribute)
+      if (attribute.DataType === VertexAttributeType.FloatVector3) {
+        const vertexBuffer = this._CreateVertexBuffer(attribute.Values, usageHint);
+        meshBuffers.Attributes.set(shaderAttribute.Location, 
+          new VertexBufferAttributeGL2(vertexBuffer, ComponentDatatype.Float, 3));
+      } else {
+        throw new Error("attribute.Datatype");
+      }
+    }
+    console.log(meshBuffers);
+    return meshBuffers;
+  }
+
+  /**
+   * 根据包含顶点数据的数组创建对应的顶点缓冲区
+   * @param {Array} values 
+   * @param {BufferHint} usageHint
+   */
+  static _CreateVertexBuffer(values, usageHint) {
+    const valuesArray = new Float32Array(values);
+    const vertexBuffer = this.CreateVertexBuffer(usageHint, valuesArray.byteLength);
+    vertexBuffer.copyFromSystemMemory(valuesArray);
+    return vertexBuffer;
   }
 
   static CreateTexture2D(description) {

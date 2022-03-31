@@ -6,17 +6,36 @@
 import IndexBuffer from "../../Buffers/IndexBuffer.js";
 import BufferTarget from "../../Buffers/BufferTarget.js";
 import BufferGL2 from "./BufferGL2.js";
+import IndexBufferDataType from "../../Buffers/IndexBufferDataType.js";
 
 class IndexBufferGL2 extends IndexBuffer {
   /**
    * 构造函数
+   * @param {WebGL2RenderingContext} gl
    * @param  {String} usageHint 缓冲区的usage参数，BufferHint的枚举项
    * @param  {Number} sizeInBytes 缓冲区的大小（以字节为单位）
    */
-  constructor(usageHint, sizeInBytes) {
+  constructor(gl, usageHint, sizeInBytes) {
     super();
     
-    this._bufferObject = new BufferGL2(BufferTarget.ElementArrayBuffer, usageHint, sizeInBytes);
+    this._bufferObject = new BufferGL2(gl, BufferTarget.ElementArrayBuffer, usageHint, sizeInBytes);
+  }
+
+  /**
+   * 从系统内存拷贝数据到显卡缓冲区
+   * @param {Typed Array} bufferInSystemMemory 类型化数组
+   * @param {Number} destinationOffsetInBytes 目的缓冲区中数据起始偏移量，单位字节
+   * @param {Number} lengthInBytes 从源数据要复制多少字节数据到显卡缓冲区
+   */
+  _copyFromSystemMemory(bufferInSystemMemory, destinationOffsetInBytes, lengthInBytes) {
+    if (bufferInSystemMemory instanceof Uint16Array) {
+      this._dataType = IndexBufferDataType.UnsignedShort;
+    } else if (bufferInSystemMemory instanceof Uint32Array) {
+      this._dataType = IndexBufferDataType.UnsignedInt;
+    } else {
+      throw new Error("bufferInSystemMemory must be an array of Uint16Array or UnsignedInt.");
+    }
+    this._bufferObject.copyFromSystemMemory(bufferInSystemMemory, destinationOffsetInBytes, lengthInBytes);
   }
 
   /**
