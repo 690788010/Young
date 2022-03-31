@@ -13,7 +13,7 @@ class Context {
 
 
   /**
-   * 
+   * 为Mesh创建对应的VertexArray
    * @param {Mesh} mesh 
    * @param {ShaderVertexAttributeCollection} shaderAttributes 
    * @param {BufferHint} usageHint 
@@ -28,8 +28,19 @@ class Context {
    * @param {MeshBuffers} meshBuffers 
    */
   _createVertexArrayByMeshBuffers(meshBuffers) {
-
+    const va = this.createVertexArray();
+    va.DisposeBuffers = true;
+    va.IndexBuffer = meshBuffers.IndexBuffer;
+    for (let i = 0, len = meshBuffers.Attributes.maximumCount(); i < len; i++) {
+      va.Attributes.set(i, meshBuffers.Attributes.get(i));
+    }
+    return va;
   }
+
+  /**
+   * 抽象方法，创建VertexArray
+   */
+  createVertexArray() {}
 }
 
 export default Context;

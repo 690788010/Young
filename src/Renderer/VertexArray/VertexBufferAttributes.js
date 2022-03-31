@@ -4,6 +4,12 @@
 
 class VertexBufferAttributes {
   
+  /**
+   * 抽象方法
+   * @returns {Number}
+   */
+  maximumCount() {}
+
 }
 
 export default VertexBufferAttributes;

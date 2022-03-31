@@ -105,14 +105,13 @@ class Device {
       }
     }
 
+    // 为mesh的顶点属性数据分配显卡缓冲区并将索引数据复制到显卡缓冲区
     for (let i = 0, len = shaderAttributes.size(); i < len; i++) {
       const shaderAttribute = shaderAttributes.get(i);
       if (!mesh.Attributes.contains(shaderAttribute.Name)) {
         throw new Error("Shader requires vertex attribute \"" + shaderAttribute.Name + "\", which is not present in mesh.");
       }
-
       const attribute = mesh.Attributes.getByName(shaderAttribute.Name);
-      console.log(attribute)
       if (attribute.DataType === VertexAttributeType.FloatVector3) {
         const vertexBuffer = this._CreateVertexBuffer(attribute.Values, usageHint);
         meshBuffers.Attributes.set(shaderAttribute.Location, 
@@ -121,7 +120,7 @@ class Device {
         throw new Error("attribute.Datatype");
       }
     }
-    console.log(meshBuffers);
+
     return meshBuffers;
   }
 
@@ -142,10 +141,10 @@ class Device {
   }
 
   /**
-   * 获取可以使用的顶点属性的最大数量
+   * 获取着色器程序中已声明的顶点属性的数量
    * @returns {Number}
    */
-  static MaximumNumberOfVertexAttributes() {
+  static get MaximumNumberOfVertexAttributes() {
     return commonGL.getParameter(commonGL.MAX_VERTEX_ATTRIBS);
   }
 

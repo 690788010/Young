@@ -14,6 +14,8 @@ class VertexArrayGL2 extends VertexArray {
    * @param {WebGL2RenderingContext} gl WebGL2的环境对象
    */
   constructor(gl) {
+    super();
+
     this._gl = gl;
     this._name = new VertexArrayNameGL2(this._gl);
     this._attributes = new VertexBufferAttributesGL2();

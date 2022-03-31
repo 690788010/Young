@@ -14,6 +14,14 @@ class MeshVertexBufferAttributes extends VertexBufferAttributes {
   }
 
   /**
+   * 抽象方法
+   * @returns {Number}
+   */
+  maximumCount() {
+    return this._attributes.length;
+  }
+
+  /**
    * 根据索引获取元素
    * @param {Number} index
    * @returns {VertexBufferAttribute} 
