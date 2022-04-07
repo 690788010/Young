@@ -11,6 +11,11 @@ class MeshVertexBufferAttributes extends VertexBufferAttributes {
     super();
 
     this._attributes = new Array(Device.MaximumNumberOfVertexAttributes);
+    this._count = 0;
+  }
+
+  count() {
+    return this._count;
   }
 
   /**
@@ -36,6 +41,7 @@ class MeshVertexBufferAttributes extends VertexBufferAttributes {
    * @param {VertexBufferAttribute} value 
    */
   set(index, value) {
+    this._count++;
     this._attributes[index] = value;
   }
 }

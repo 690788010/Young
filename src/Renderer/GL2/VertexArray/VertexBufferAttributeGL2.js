@@ -38,6 +38,8 @@ class VertexBufferAttributeGL2 extends VertexBufferAttribute {
     this._normalize = normalize;
     this._offsetInBytes = offsetInBytes;
     this._strideInBytes = strideInBytes;
+
+    this._dirty = true;
   }
 
   get VertexBuffer() {
@@ -62,6 +64,14 @@ class VertexBufferAttributeGL2 extends VertexBufferAttribute {
 
   get StrideInBytes() {
     return this._strideInBytes;
+  }
+
+  get Dirty() {
+    return this._dirty;
+  }
+
+  set Dirty(value) {
+    this._dirty = value;
   }
 }
 

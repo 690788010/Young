@@ -47,6 +47,17 @@ class ShaderProgramGL2 extends ShaderProgram {
   }
 
   /**
+   * 将定义好的WebGLProgram对象添加到当前的渲染状态中
+   */
+  use() {
+    this._gl.useProgram(this._program.Value);
+  }
+
+  get Program() {
+    return this._program;
+  }
+
+  /**
    * 检查链接错误
    * @param  {WebGLProgram} program
    * @param  {Number} shaderType

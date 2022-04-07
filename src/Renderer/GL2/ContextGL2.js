@@ -72,20 +72,22 @@ class ContextGL2 extends Context {
     this._applyBeforeDraw(drawState, sceneState);
     const vertexArray = drawState.VertexArray;
     const indexBuffer = vertexArray.IndexBuffer;
-    if (indexBuffer != null) {
-      this._gl.drawElements(
-        TypeConverterGL2.PrimitiveTypeTo(primitiveType),
-        indexBuffer.Count,
-        indexBuffer.DataType,
-        0
-      );
-    } else {
-      gl.drawArrays(
+    // if (indexBuffer != null) {
+      this._gl.clearColor(1.0, 1.0, 1.0, 1);
+      this._gl.clear(this._gl.DEPTH_BUFFER_BIT | this._gl.COLOR_BUFFER_BIT)
+      // this._gl.drawElements(
+      //   TypeConverterGL2.PrimitiveTypeTo(primitiveType),
+      //   indexBuffer.Count,
+      //   indexBuffer.DataType,
+      //   0
+      // );
+    // } else {
+      this._gl.drawArrays(
         TypeConverterGL2.PrimitiveTypeTo(primitiveType),
         0,
-        vertexArray
+        3
       );
-    }
+    // }
   }
 
   /**
@@ -117,7 +119,45 @@ class ContextGL2 extends Context {
    * @param {SceneState} sceneState 
    */
   _applyBeforeDraw(drawState, sceneState) {
+    this._applyRenderState(drawState.RenderState);
+    this._applyVertexArray(drawState.VertexArray);
+    this._applyShaderProgram(drawState, sceneState);
+  }
 
+  /**
+   * 设置渲染状态
+   * @param {RenderState} renderState 
+   */
+  _applyRenderState(renderState) {
+    console.log("_applyRenderState");
+  }
+
+  /**
+   * 使用VertexArray
+   * @param {VertexArray} vertexArray 
+   */
+  _applyVertexArray(vertexArray) {
+    console.log("_applyVertexArray")
+    // 绑定VertexArray
+    vertexArray.bind();
+    vertexArray.clean();
+  }
+
+  _applyShaderProgram(drawState, sceneState) {
+    console.log("_applyShaderProgram")
+    const shaderProgramGL2 = drawState.ShaderProgram;
+    if (this._boundShaderProgram !== shaderProgramGL2) {
+      shaderProgramGL2.use();
+      this._boundShaderProgram = shaderProgramGL2;
+    }
+    // _boundShaderProgram.Clean(this, drawState, sceneState);
+
+    // 验证 WebGLProgram。 它在检查 WebGLProgram 程序是否链接成功的同时还会
+    // 检查其是否能在当前的 WebGL 中使用
+    this._gl.validateProgram(this._boundShaderProgram.Program.Value);
+    if(!this._gl.getProgramParameter(this._boundShaderProgram.Program.Value, this._gl.VALIDATE_STATUS)) {
+      throw new Error("Shader program validation failed");
+    }
   }
 }
 

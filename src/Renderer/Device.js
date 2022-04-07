@@ -43,15 +43,15 @@ class Device {
     return new GraphicsWindowGL2(containerId);
   }
 
-  /**
-   * 创建一个ShaderProgram对象
-   * @param  {String} vertexShaderSource
-   * @param  {String} fragmentShaderSource
-   * @returns {ShaderProgram}
-   */
-  static CreateShaderProgram(vertexShaderSource, fragmentShaderSource) {
-    return new ShaderProgramGL2(commonGL, vertexShaderSource, fragmentShaderSource);
-  }
+  // /**
+  //  * 创建一个ShaderProgram对象
+  //  * @param  {String} vertexShaderSource
+  //  * @param  {String} fragmentShaderSource
+  //  * @returns {ShaderProgram}
+  //  */
+  // static CreateShaderProgram(vertexShaderSource, fragmentShaderSource) {
+  //   return new ShaderProgramGL2(commonGL, vertexShaderSource, fragmentShaderSource);
+  // }
 
   /**
    * 创建一个VertexBufferGL2对象

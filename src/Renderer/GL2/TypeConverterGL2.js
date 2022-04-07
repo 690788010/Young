@@ -7,6 +7,7 @@ import BufferHint from "../Buffers/BufferHint.js";
 import ShaderVertexAttributeType from "../Shaders/ShaderVertexAttributeType.js";
 import UniformType from "../Shaders/UniformType.js";
 import TextureFormat from "../Textures/TextureFormat.js";
+import ComponentDatatype from "../VertexArray/ComponentDatatype.js";
 
 const gl = document.createElement("canvas").getContext("webgl2");
 
@@ -125,6 +126,18 @@ class TypeConverterGL2 {
         return gl.Triangles;
     }
     throw new Error("An implementation for primitive type " + type + " does not exist.");
+  }
+
+  /**
+   * 
+   * @param {ComponentDatatype} type 
+   */
+  static ComponentDataTypeTo(type) {
+    switch(type) {
+      case ComponentDatatype.Float:
+        return gl.FLOAT
+    }
+    throw new Error("type");
   }
 }
 

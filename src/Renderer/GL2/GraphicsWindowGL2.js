@@ -5,6 +5,7 @@
 
 import GraphicsWindow from "../GraphicsWindow.js";
 import ContextGL2 from "./ContextGL2.js";
+import ShaderProgramGL2 from "./Shaders/ShaderProgramGL2.js";
 
 
 class GraphicsWindowGL2 extends GraphicsWindow {
@@ -28,10 +29,20 @@ class GraphicsWindowGL2 extends GraphicsWindow {
     canvas.style.height = height + "px";
     containerDiv.appendChild(canvas);
     // 获取WebGL2的环境对象（WebGL2RenderingContext）
-    const gl = canvas.getContext("webgl2");
+    this._gl = canvas.getContext("webgl2");
     
     // 初始化内置的ContextGL2对象
-    this._context = new ContextGL2(gl, width, height);
+    this._context = new ContextGL2(this._gl, width, height);
+  }
+
+  /**
+   * 创建一个ShaderProgram对象
+   * @param  {String} vertexShaderSource
+   * @param  {String} fragmentShaderSource
+   * @returns {ShaderProgram}
+   */
+  createShaderProgram(vertexShaderSource, fragmentShaderSource) {
+    return new ShaderProgramGL2(this._gl, vertexShaderSource, fragmentShaderSource);
   }
 
   /**

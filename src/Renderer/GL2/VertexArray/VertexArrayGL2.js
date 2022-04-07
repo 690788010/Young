@@ -18,7 +18,7 @@ class VertexArrayGL2 extends VertexArray {
 
     this._gl = gl;
     this._name = new VertexArrayNameGL2(this._gl);
-    this._attributes = new VertexBufferAttributesGL2();
+    this._attributes = new VertexBufferAttributesGL2(this._gl);
     this._indexBuffer = null;
   }
 
@@ -27,6 +27,10 @@ class VertexArrayGL2 extends VertexArray {
    */
   bind() {
     this._gl.bindVertexArray(this._name.Value);
+  }
+
+  clean() {
+    this._attributes.clean();
   }
 
   get Attributes() {
