@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-04-07T09:29:59.502Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" etag="uKvHBRGbMPncwrfRiKwB" version="17.4.0" type="github">
+<mxfile host="app.diagrams.net" modified="2022-04-07T09:47:22.676Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" etag="BXVIaP4ZfxpqI3nKmNlT" version="17.4.0" type="github">
   <diagram name="Page-1" id="c4acf3e9-155e-7222-9cf6-157b1a14988f">
     <mxGraphModel dx="3122" dy="1862" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
       <root>
@@ -971,7 +971,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="7pGCkTH8RskbaP_chc6i-2" value="DepthTest" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
-          <mxGeometry x="-1310" y="376" width="200" height="150" as="geometry" />
+          <mxGeometry x="-1330" y="66" width="200" height="150" as="geometry" />
         </mxCell>
         <mxCell id="7pGCkTH8RskbaP_chc6i-3" value="_enabled: Boolean&#xa;_function: DepthTestFunction" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="7pGCkTH8RskbaP_chc6i-2">
           <mxGeometry y="26" width="200" height="44" as="geometry" />
@@ -983,6 +983,24 @@
           <mxGeometry y="78" width="200" height="72" as="geometry" />
         </mxCell>
         <mxCell id="7pGCkTH8RskbaP_chc6i-6" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;rounded=0;" edge="1" parent="1" source="7pGCkTH8RskbaP_chc6i-2" target="3BeOqxg2h7bQfwQp6ark-1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="-1170" y="410" as="sourcePoint" />
+            <mxPoint x="-1010" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7pGCkTH8RskbaP_chc6i-7" value="FaceCulling" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+          <mxGeometry x="-1320" y="260" width="180" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="7pGCkTH8RskbaP_chc6i-8" value="_enabled: Boolean&#xa;_cullFace: CullFace&#xa;_frontFace: WindingOrder" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="7pGCkTH8RskbaP_chc6i-7">
+          <mxGeometry y="26" width="180" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="7pGCkTH8RskbaP_chc6i-9" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="7pGCkTH8RskbaP_chc6i-7">
+          <mxGeometry y="80" width="180" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="7pGCkTH8RskbaP_chc6i-10" value="get Enabled(): Boolean&#xa;set Enabled(Boolean)&#xa;get CullFace(): CullFace&#xa;set CullFace(CullFace)&#xa;get FrontFace(): WindingOrder&#xa;set FrontFace(WindingOrder)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="7pGCkTH8RskbaP_chc6i-7">
+          <mxGeometry y="88" width="180" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="7pGCkTH8RskbaP_chc6i-11" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;rounded=0;" edge="1" parent="1" source="7pGCkTH8RskbaP_chc6i-7" target="3BeOqxg2h7bQfwQp6ark-1">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="-1170" y="410" as="sourcePoint" />
             <mxPoint x="-1010" y="410" as="targetPoint" />
