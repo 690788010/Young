@@ -3,14 +3,14 @@
  */
 
 const DepthTestFunction = {
-  Never: "Never",
-  Less: "Less",
-  Equal: "Equal",
-  Lequal: "Lequal",
-  Greater: "Greater",
-  NotEqual: "NotEqual",
-  Gequal: "Gequal",
-  Always: "Always"
+  NEVER: "NEVER",
+  LESS: "LESS",
+  EQUAL: "EQUAL",
+  LEQUAL: "LEQUAL",
+  GREATER: "GREATER",
+  NOTEQUAL: "NOTEQUAL",
+  GEQUAL: "GEQUAL",
+  ALWAYS: "ALWAYS"
 };
 
 export default DepthTestFunction;

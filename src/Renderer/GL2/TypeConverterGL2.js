@@ -8,6 +8,9 @@ import ShaderVertexAttributeType from "../Shaders/ShaderVertexAttributeType.js";
 import UniformType from "../Shaders/UniformType.js";
 import TextureFormat from "../Textures/TextureFormat.js";
 import ComponentDatatype from "../VertexArray/ComponentDatatype.js";
+import DepthTestFunction from "../RenderState/DepthTestFunction.js";
+import CullFace from "../RenderState/CullFace.js";
+import WindingOrder from "../../Core/Geometry/WindingOrder.js";
 
 const gl = document.createElement("canvas").getContext("webgl2");
 
@@ -138,6 +141,50 @@ class TypeConverterGL2 {
         return gl.FLOAT
     }
     throw new Error("type");
+  }
+
+  static DepthTestFunctionToGL(depthTestFunction) {
+    switch(depthTestFunction) {
+      case DepthTestFunction.NEVER:
+        return gl.NEVER;
+      case DepthTestFunction.LESS:
+        return gl.LESS;
+      case DepthTestFunction.EQUAL:
+        return gl.EQUAL;
+      case DepthTestFunction.LEQUAL:
+        return gl.LEQUAL;
+      case DepthTestFunction.GREATER:
+        return gl.GREATER;
+      case DepthTestFunction.NOTEQUAL:
+        return gl.NOTEQUAL;
+      case DepthTestFunction.GEQUAL:
+        return gl.GEQUAL;
+      case DepthTestFunction.ALWAYS:
+        return gl.ALWAYS;
+    }
+    throw new Error("function");
+  }
+
+  static CullFaceModeToGL(cullFace) {
+    switch(cullFace) {
+      case CullFace.FRONT:
+        return gl.FRONT;
+      case CullFace.BACK:
+        return gl.BACK;
+      case CullFace.FRONT_AND_BACK:
+        return gl.FRONT_AND_BACK;
+    }
+    throw new Error("cull face");
+  }
+
+  static FrontFaceDirectionToGL(windingOrder) {
+    switch(windingOrder) {
+      case WindingOrder.CW:
+        return gl.CW;
+      case WindingOrder.CCW:
+        return gl.CCW;
+    }
+    throw new Error("windingOrder");
   }
 }
 

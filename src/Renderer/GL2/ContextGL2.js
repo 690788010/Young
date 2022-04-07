@@ -13,19 +13,51 @@ import PrimitiveType from "../../Core/Geometry/PrimitiveType.js";
 import DrawState from "../DrawState.js";
 import SceneState from "../Scene/SceneState.js";
 import TypeConverterGL2 from "./TypeConverterGL2.js";
+import DepthTest from "../RenderState/DepthTest.js";
+import FaceCulling from "../RenderState/FaceCulling.js";
 
 class ContextGL2 extends Context {
   constructor(gl, width, height) {
     super();
     this._gl = gl;
 
-    this._renderState = new RenderState(this._gl);    // 初始化渲染状态
+    // 保存这个RenderState实例用于和传入Draw调用的RenderState
+    // 比较，相当于GL状态的副本。如果双方有状态是不同的，才通过GL调用去修改
+    this._renderState = new RenderState(this._gl);
     this._textureUnits = new TextureUnitsGL2(this._gl);   // 初始化纹理单元
+
+    // 同步GL状态和默认RenderState状态一致
+    this._forceApplyRenderState(this._renderState);
 
     // 设置视口大小
     this._viewPort = new ViewPort(0, 0, width, height);
     // 更新视口
     this.updateViewPort();
+  }
+
+  /**
+   * 同步GL状态和默认RenderState状态一致
+   * @param {RenderState} renderState 
+   */
+  _forceApplyRenderState(renderState) {
+
+    // 同步面剔除相关状态信息
+    this._enable(this._gl.CULL_FACE, renderState.FaceCulling.Enabled);
+    this._gl.cullFace(TypeConverterGL2.CullFaceModeToGL(renderState.FaceCulling.CullFace));
+    this._gl.frontFace(TypeConverterGL2.FrontFaceDirectionToGL(renderState.FaceCulling.FrontFace));
+
+    // 同步深度测试相关状态信息
+    this._enable(this._gl.DEPTH_TEST, renderState.DepthTest.Enabled);
+    this._gl.depthFunc(TypeConverterGL2.DepthTestFunctionToGL(renderState.DepthTest.Function));
+
+  }
+
+  _enable(enableCap, enable) {
+    if (enable) {
+      this._gl.enable(enableCapm);
+    } else {
+      this._gl.disable(enableCap);
+    }
   }
 
   /**
@@ -129,7 +161,57 @@ class ContextGL2 extends Context {
    * @param {RenderState} renderState 
    */
   _applyRenderState(renderState) {
-    console.log("_applyRenderState");
+    // ApplyPrimitiveRestart(renderState.PrimitiveRestart);
+    this._applyFaceCulling(renderState.FaceCulling);
+    // ApplyProgramPointSize(renderState.ProgramPointSize);
+    // ApplyRasterizationMode(renderState.RasterizationMode);
+    // ApplyScissorTest(renderState.ScissorTest);
+    // ApplyStencilTest(renderState.StencilTest);
+    this._applyDepthTest(renderState.DepthTest);
+    // ApplyDepthRange(renderState.DepthRange);
+    // ApplyBlending(renderState.Blending);
+    // ApplyColorMask(renderState.ColorMask);
+    // ApplyDepthMask(renderState.DepthMask);
+  }
+
+  /**
+   * 同步深度测试相关的状态信息
+   * @param {DepthTest} depthTest 
+   */
+  _applyDepthTest(depthTest) {
+    if (this._renderState.DepthTest.Enabled !== depthTest.Enabled) {
+      this._enable(this._gl.DEPTH_TEST, depthTest.Enabled);
+      this._renderState.DepthTest.Enabled = depthTest.Enabled;
+    }
+
+    if (depthTest.Enabled) {
+      if (this._renderState.DepthTest.Function !== depthTest.Function) {
+        this._gl.depthFunc(TypeConverterGL2.DepthTestFunctionToGL(depthTest.Function));
+        this._renderState.DepthTest.Function = depthTest.Function;
+      }
+    }
+  }
+
+  /**
+   * 同步面剔除相关的状态信息
+   * @param {FaceCulling} faceCulling 
+   */
+  _applyFaceCulling(faceCulling) {
+    if (this._renderState.FaceCulling.Enabled !== faceCulling.Enabled) {
+      this._enable(this._gl.CULL_FACE, faceCulling.Enabled);
+      this._renderState.FaceCulling.Enabled = faceCulling.Enabled;
+    }
+
+    if (faceCulling.Enabled) {
+      if (this._renderState.FaceCulling.CullFace !== faceCulling.CullFace) {
+        this._gl.cullFace(TypeConverterGL2.CullFaceModeToGL(faceCulling.CullFace));
+        this._renderState.FaceCulling.CullFace = faceCulling.CullFace;
+      }
+      if (this._renderState.FrontFace !== faceCulling.FrontFace) {
+        this._gl.frontFace(TypeConverterGL2.FrontFaceDirectionToGL(faceCulling.FrontFace));
+        this._renderState.FaceCulling.FrontFace = faceCulling.FrontFace;
+      }
+    }
   }
 
   /**

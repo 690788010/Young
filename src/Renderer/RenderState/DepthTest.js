@@ -7,7 +7,7 @@ import DepthTestFunction from "./DepthTestFunction.js";
 class DepthTest {
   constructor() {
     this._enabled = true;   // 是否开启深度测试
-    this._function = DepthTestFunction.Less;    // 深度测试函数
+    this._function = DepthTestFunction.LESS;    // 深度测试函数
   }
 
   
