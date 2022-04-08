@@ -1,5 +1,5 @@
 /**
- * ShaderObjectGL2类
+ * ShaderObjectGL2类涵盖编译着色器代码的功能，能适用于顶点着色器、片元着色器等，所以能被复用
  */
 
 import Disposable from "../../../Core/Disposable.js";
@@ -66,6 +66,16 @@ class ShaderObjectGL2 extends Disposable {
    */
   get Handle() {
     return this._shaderObject;
+  }
+
+  /**
+   * 删除 WebGLShader对象
+   */
+  dispose() {
+    if (this._shaderObject) {
+      this._gl.deleteShader(this._shaderObject);
+      this._shaderObject = null;
+    }
   }
 }
 

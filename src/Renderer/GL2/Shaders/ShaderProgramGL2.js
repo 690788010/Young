@@ -1,5 +1,6 @@
 /**
- * ShaderProgramGL2是ShaderProgram这个抽象类关于WebGL2的实现类
+ * ShaderProgramGL2是ShaderProgram这个抽象类关于WebGL2的实现类，
+ * 它涵盖编译、链接着色器代码等功能
  */
 
 import ShaderProgram from "../../Shaders/ShaderProgram.js";
@@ -33,6 +34,9 @@ class ShaderProgramGL2 extends ShaderProgram {
     this._gl.linkProgram(programHandle);
     // 检查链接错误
     this._checkLinkErrors(programHandle);
+    // 删除WebGLShader对象
+    this._vertexShader.dispose();
+    this._fragmentShader.dispose();
 
     this._fragmentOutputs = new FragmentOutputsGL2(this._program);
     // 保存着色器中所有的attribute属性的元数据
@@ -53,6 +57,9 @@ class ShaderProgramGL2 extends ShaderProgram {
     this._gl.useProgram(this._program.Value);
   }
 
+  /**
+   * @returns {WebGLProgram}
+   */
   get Program() {
     return this._program;
   }
@@ -74,7 +81,7 @@ class ShaderProgramGL2 extends ShaderProgram {
   }
 
   /**
-   * 查找着色器中所有的attribute属性
+   * 查找着色器中所有的attribute属性，并将其抽象为对应的多个ShaderVertexAttribute
    * @param {WebGL2RenderingContext} gl
    * @param  {ShaderProgramNameGL2} program
    * @returns  {ShaderVertexAttributeCollection}
@@ -150,14 +157,6 @@ class ShaderProgramGL2 extends ShaderProgram {
           Device.DrawAutomaticUniformFactories.getByName(uniform.Name).create(uniform));
       }
     }
-  }
-
-  /**
-   * 返回着色器中所有的attribute属性的元数据
-   * @returns {ShaderVertexAttributeCollection}
-   */
-  get VertexAttributes() {
-    return this._vertexAttributes;
   }
 }
 

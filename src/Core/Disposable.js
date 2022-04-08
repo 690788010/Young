@@ -3,9 +3,10 @@
  */
 
 class Disposable {
-  constructor() {
-    
-  }
+  /**
+   * 抽象方法
+   */
+  dispose() {}
 }
 
 export default Disposable;
