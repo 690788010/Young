@@ -8,9 +8,9 @@ import Mesh from "../Core/Geometry/Mesh.js";
 import ShaderVertexAttributeCollection from "./ShaderVertexAttributeCollection.js";
 import BufferHint from "./Buffers/BufferHint.js";
 import Device from "./Device.js";
+import ClearState from "./ClearState/ClearState.js";
 
 class Context {
-
 
   /**
    * 为Mesh创建对应的VertexArray
@@ -41,6 +41,12 @@ class Context {
    * 抽象方法，创建VertexArray
    */
   createVertexArray() {}
+
+  /**
+   * 抽象方法，清除帧缓存
+   * @param {ClearState} clearState
+   */
+  clear(clearState) {}
 }
 
 export default Context;

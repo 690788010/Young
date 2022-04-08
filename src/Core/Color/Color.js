@@ -60,10 +60,37 @@ class Color {
   }
 
   /**
+   * @return {Number}
+   */
+  get A() {
+    return this._a;
+  }
+
+  /**
+   * @param {Number} value
+   */
+  set A(value) {
+    this._a = value;
+  }
+
+  /**
    * @returns {Color}
    */
   static get White() {
     return new Color(1.0, 1.0, 1.0, 1.0);
+  }
+
+  /**
+   * 判断相等
+   * @param {Color} color 
+   * @returns {Boolean}
+   */
+  equals(color) {
+    if (this._r !== color._r) return false;
+    if (this._g !== color._g) return false;
+    if (this._b !== color._b) return false;
+    if (this._a !== color._a) return false;
+    return true;
   }
 }
 

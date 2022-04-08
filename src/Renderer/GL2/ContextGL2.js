@@ -15,11 +15,17 @@ import SceneState from "../Scene/SceneState.js";
 import TypeConverterGL2 from "./TypeConverterGL2.js";
 import DepthTest from "../RenderState/DepthTest.js";
 import FaceCulling from "../RenderState/FaceCulling.js";
+import Color from "../../Core/Color/Color.js";
+import ClearState from "../ClearState/ClearState.js";
 
 class ContextGL2 extends Context {
   constructor(gl, width, height) {
     super();
     this._gl = gl;
+
+    // 保存以下状态信息是为了与ClearState中的颜色信息比较
+    this._clearColor = Color.White;
+    this._clearDepth = this._gl.getParameter(this._gl.DEPTH_CLEAR_VALUE);
 
     // 保存这个RenderState实例用于和传入Draw调用的RenderState
     // 比较，相当于GL状态的副本。如果双方有状态是不同的，才通过GL调用去修改
@@ -90,6 +96,32 @@ class ContextGL2 extends Context {
    */
   get TextureUnits() {
     return this._textureUnits;
+  }
+
+  /**
+   * 清除帧缓存
+   * @param {ClearState} clearState 
+   */
+  clear(clearState) {
+    // ApplyFramebuffer();
+
+    // ApplyScissorTest(clearState.ScissorTest);
+    // ApplyColorMask(clearState.ColorMask);
+    // ApplyDepthMask(clearState.DepthMask);
+
+    if (!this._clearColor.equals(clearState.Color)) {
+      this._gl.clearColor(clearState.Color.R, clearState.Color.G, clearState.Color.B, clearState.Color.A);
+      this._clearColor = clearState.Color;
+    }
+    if (this._clearDepth !== clearState.Depth) {
+      this._gl.clearDepth(clearState.Depth);
+      this._clearDepth = clearState.Depth;
+    }
+    if (this._clearStencil != clearState.Stencil) {
+      this._gl.clearStencil(clearState.Stencil);
+      this._clearStencil = clearState.Stencil;
+    }
+    this._gl.clear(TypeConverterGL2.ClearBuffersToGL(clearState.Buffers));
   }
 
   /**

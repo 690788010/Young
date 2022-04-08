@@ -11,6 +11,7 @@ import ComponentDatatype from "../VertexArray/ComponentDatatype.js";
 import DepthTestFunction from "../RenderState/DepthTestFunction.js";
 import CullFace from "../RenderState/CullFace.js";
 import WindingOrder from "../../Core/Geometry/WindingOrder.js";
+import ClearBuffers from "../ClearState/ClearBuffers.js";
 
 const gl = document.createElement("canvas").getContext("webgl2");
 
@@ -185,6 +186,26 @@ class TypeConverterGL2 {
         return gl.CCW;
     }
     throw new Error("windingOrder");
+  }
+
+  /**
+   * 
+   * @param {ClearBuffers} mask 
+   * @returns 
+   */
+  static ClearBuffersToGL(mask) {
+    switch(mask) {
+      case ClearBuffers.ColorBuffer:
+        return gl.COLOR_BUFFER_BIT;
+      case ClearBuffers.DepthBuffer:
+        return gl.DEPTH_BUFFER_BIT;
+      case ClearBuffers.StencilBuffer:
+        return gl.STENCIL_BUFFER_BIT;
+      case ClearBuffers.ColorAndDepthBuffer:
+        return gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT;
+      case ClearBuffers.All:
+        return gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT;
+    }
   }
 }
 
