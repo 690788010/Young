@@ -1,5 +1,6 @@
 /**
- * DrawState类是一个抽象类，用于包含绘制的状态
+ * DrawState类相当于一个容器，包含了RenderState、ShaderProgram
+ * 和VertexArray.
  */
 import RenderState from "./RenderState/RenderState.js"
 import ShaderProgram from "./Shaders/ShaderProgram.js"
@@ -19,27 +20,45 @@ class DrawState {
   }
 
   /**
-   * 返回RenderState对象
    * @returns {RenderState}
    */
   get RenderState() {
     return this._renderState;
   }
 
+  /**
+   * @param {RenderState} value
+   */
+  set RenderState(value) {
+    this._renderState = value;
+  }
+
+  /**
+   * @returns {ShaderProgram}
+   */
   get ShaderProgram() {
     return this._shaderProgram;
   }
 
+  /**
+   * @param {ShaderProgram} value
+   */
+  set ShaderProgram(value) {
+    this._shaderProgram = value;
+  }
+
+  /**
+   * @returns {VertexArray}
+   */
   get VertexArray() {
     return this._vertexArray;
   }
 
   /**
-   * 设置RenderState对象
-   * @param {RenderState}
+   * @param {VertexArray} value
    */
-  set RenderState(renderState) {
-    this._renderState = renderState;
+  set VertexArray(value) {
+    this._vertexArray = value;
   }
 }
 
