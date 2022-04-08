@@ -14,6 +14,10 @@ import ShaderObjectGL2 from "./ShaderObjectGL2.js";
 import UniformCollection from "../../Shaders/UniformCollection.js";
 import UniformGL2 from "./UniformGL2.js";
 import Device from "../../Device.js";
+import List from "../../../Core/List/List.js";
+import Context from "../../Context.js";
+import DrawState from "../../DrawState.js";
+import SceneState from "../../Scene/SceneState.js";
 
 
 class ShaderProgramGL2 extends ShaderProgram {
@@ -38,12 +42,13 @@ class ShaderProgramGL2 extends ShaderProgram {
     this._vertexShader.dispose();
     this._fragmentShader.dispose();
 
-    this._fragmentOutputs = new FragmentOutputsGL2(this._program);
+    this._fragmentOutputs = new FragmentOutputsGL2(this._gl, this._program);
     // 保存着色器中所有的attribute属性的元数据
     this._vertexAttributes = ShaderProgramGL2.FindVertexAttributes(this._gl, this._program);
     this._uniforms = ShaderProgramGL2.FindUniforms(this._gl, this._program);
     // 任意一个Uniform被更新时，就会添加到_dirtyUniforms这个数组中
-    this._dirtyUniforms = [];
+    this._dirtyUniforms = new List();
+
     // DrawAutomaticUniform的集合
     this._drawAutomaticUniforms = [];
     // 初始化AutomaticUniform
@@ -125,6 +130,16 @@ class ShaderProgramGL2 extends ShaderProgram {
       if (uniformName.startsWith("gl_")) {
         continue;
       }
+
+      // //
+      // // Skip uniforms in a named block
+      // //
+      // int uniformBlockIndex;
+      // GL.GetActiveUniforms(programHandle, 1, ref i, ActiveUniformParameter.UniformBlockIndex, out uniformBlockIndex);
+      // if (uniformBlockIndex != -1)
+      // {
+      //     continue;
+      // }
       // const uniformSize = activeInfo.size;
       // if (uniformSize != 1) {
 
@@ -140,6 +155,24 @@ class ShaderProgramGL2 extends ShaderProgram {
   static CorrectUniformName(name) {
     return name;
   }
+
+  /**
+   * 更新Uniform
+   * @param {Context} context 
+   * @param {DrawState} drawState 
+   * @param {SceneState} sceneState 
+   */
+  clean(context, drawState, sceneState) {
+    // SetDrawAutomaticUniforms(context, drawState, sceneState);
+
+    for (let i = 0, len = this._dirtyUniforms.size(); i < len; i++) {
+      this._dirtyUniforms.get(i).clean(this._gl);
+    }
+    // 清空dirtyUniforms
+    this._dirtyUniforms.clear();
+  }
+
+
 
   /**
    * 初始化AutomaticUniform

@@ -3,6 +3,8 @@
  */
 
 import UniformCollection from "./UniformCollection.js";
+import ShaderVertexAttributeCollection from "../ShaderVertexAttributeCollection.js";
+import FragmentOutputs from "./FragmentOutputs.js"
 
 class ShaderProgram {
 
@@ -10,7 +12,7 @@ class ShaderProgram {
    * 返回着色器中所有的attribute属性的元数据
    * @returns {ShaderVertexAttributeCollection}
    */
-   get VertexAttributes() {
+  get VertexAttributes() {
     return this._vertexAttributes;
   }
 
@@ -20,6 +22,14 @@ class ShaderProgram {
    */
   get Uniforms() {
     return this._uniforms;
+  }
+
+  /**
+   * 返回FragmentOutputs对象
+   * @returns {FragmentOutputs}
+   */
+  get FragmentOutputs() {
+    return this._fragmentOutputs;
   }
 }
 

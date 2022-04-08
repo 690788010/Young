@@ -39,6 +39,9 @@ class ContextGL2 extends Context {
     this._viewPort = new ViewPort(0, 0, width, height);
     // 更新视口
     this.updateViewPort();
+
+    // 当前使用的ShaderProgram
+    this._boundShaderProgram = null;
   }
 
   /**
@@ -260,11 +263,13 @@ class ContextGL2 extends Context {
   _applyShaderProgram(drawState, sceneState) {
     console.log("_applyShaderProgram")
     const shaderProgramGL2 = drawState.ShaderProgram;
+    // 使用或更换ShaderProgram
     if (this._boundShaderProgram !== shaderProgramGL2) {
       shaderProgramGL2.use();
       this._boundShaderProgram = shaderProgramGL2;
     }
-    // _boundShaderProgram.Clean(this, drawState, sceneState);
+    // 更新Uniform
+    this._boundShaderProgram.clean(this, drawState, sceneState);
 
     // 验证 WebGLProgram。 它在检查 WebGLProgram 程序是否链接成功的同时还会
     // 检查其是否能在当前的 WebGL 中使用

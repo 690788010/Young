@@ -31,6 +31,26 @@ class List {
   get(index) {
     return this._values[index];
   }
+
+  /**
+   * 通过name获取特定元素
+   * @param {String} name 
+   * @returns {Object}
+   */
+  getByName(name) {
+    for (let i = 0, len = this._values.length; i < len; i++) {
+      if (this._values[i].Name === name) {
+        return this._values[i];
+      }
+    }
+  }
+
+  /**
+   * 清空集合
+   */
+  clear() {
+    this._values = [];
+  } 
 }
 
 export default List;
