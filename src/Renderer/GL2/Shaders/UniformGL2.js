@@ -57,10 +57,10 @@ class UniformGL2 extends Uniform {
     switch(this._type) {
       case UniformType.Float:
         gl.uniform1f(this._location, this._value);
-        break;
+      break;
       case UniformType.FloatMatrix44: 
         gl.uniform4fv(this._location, false, this._value);
-        break;
+      break;
     }
   }
 }

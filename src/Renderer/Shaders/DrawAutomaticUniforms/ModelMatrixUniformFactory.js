@@ -8,6 +8,11 @@ import DrawAutomaticUniformFactory from "./DrawAutomaticUniformFactory.js";
 import ModelMatrixUniform from "./ModelMatrixUniform.js";
 
 class ModelMatrixUniformFactory extends DrawAutomaticUniformFactory {
+
+  /**
+   * 获取name属性
+   * @returns {String}
+   */
   get Name() {
     return "og_modelMatrix";
   }

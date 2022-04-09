@@ -13,7 +13,6 @@ import FragmentOutputsGL2 from "./FragmentOutputsGL2.js";
 import ShaderObjectGL2 from "./ShaderObjectGL2.js";
 import UniformCollection from "../../Shaders/UniformCollection.js";
 import UniformGL2 from "./UniformGL2.js";
-import Device from "../../Device.js";
 import List from "../../../Core/List/List.js";
 import Context from "../../Context.js";
 import DrawState from "../../DrawState.js";
@@ -49,8 +48,6 @@ class ShaderProgramGL2 extends ShaderProgram {
     // 任意一个Uniform被更新时，就会添加到_dirtyUniforms这个数组中
     this._dirtyUniforms = new List();
 
-    // DrawAutomaticUniform的集合
-    this._drawAutomaticUniforms = [];
     // 初始化AutomaticUniform
     this._initializeAutomaticUniforms(this._uniforms);
   }
@@ -163,18 +160,16 @@ class ShaderProgramGL2 extends ShaderProgram {
    * @param {SceneState} sceneState 
    */
   clean(context, drawState, sceneState) {
-    // SetDrawAutomaticUniforms(context, drawState, sceneState);
-
+    // 更新各个DrawAutomaticUniform的值
+    this._setDrawAutomaticUniforms(context, drawState, sceneState);
+    
+    // 使用dirtyUniforms中的新值，通过GL调用更新Uniform 
     for (let i = 0, len = this._dirtyUniforms.size(); i < len; i++) {
       this._dirtyUniforms.get(i).clean(this._gl);
     }
     // 清空dirtyUniforms
     this._dirtyUniforms.clear();
   }
-
-
-
-  
 }
 
 export default ShaderProgramGL2;

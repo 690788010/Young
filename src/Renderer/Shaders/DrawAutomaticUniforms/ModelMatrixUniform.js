@@ -1,5 +1,6 @@
 /**
- * ModelMatrixUniform类表示模型矩阵的Uniform
+ * ModelMatrixUniform类表示模型矩阵的DrawAutomaticUniform
+ * 每次draw调用前会调用set方法更新对应的Uniform的值
  */
 
 import Uniform from "../Uniform.js";
@@ -17,7 +18,7 @@ class ModelMatrixUniform extends DrawAutomaticUniform {
   }
 
   /**
-   * 更新ModelMatrixUniform
+   * 实时更新ModelMatrixUniform对应的Uniform的值
    * @param {Context} context
    * @param {DrawState} drawState
    * @param {SceneState} sceneState

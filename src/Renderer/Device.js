@@ -12,7 +12,6 @@ import GraphicsWindow from "./GraphicsWindow.js";
 import TextureUniform from "./Shaders/LinkAutomaticUniforms/TextureUniform.js";
 import DrawAutomaticUniformFactoryCollection from "./Shaders/DrawAutomaticUniforms/DrawAutomaticUniformFactoryCollection.js";
 import ModelMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/ModelMatrixUniformFactory.js";
-import DrawAutomaticUniformFactory from "./Shaders/DrawAutomaticUniforms/DrawAutomaticUniformFactory.js";
 import Mesh from "../Core/Geometry/Mesh.js";
 import ShaderVertexAttributeCollection from "./ShaderVertexAttributeCollection.js";
 import BufferHint from "./Buffers/BufferHint.js";
@@ -31,6 +30,7 @@ const commonGL = document.createElement("canvas").getContext("webgl2");
 // 使用Device类的LinkAutoMaticUniform集合中对应的LinkAutoMaticUniform的值为对应的Uniform（以"og_"开头）设置值。
 const s_linkAutomaticUniforms = new LinkAutomaticUniformCollection();
 
+// 保存DrawAutomaticUniformFactory的集合，ShaderProgram类会使用该集合初始化DrawAutomaticUniform
 const s_drawAutomaticUniformFactories = new DrawAutomaticUniformFactoryCollection();
 s_drawAutomaticUniformFactories.add(new ModelMatrixUniformFactory());
 
@@ -169,14 +169,14 @@ class Device {
 
   /**
    * 获取DrawAutomaticUniformFactory的集合
-   * @returns {DrawAutomaticUniformFactory}
+   * @returns {DrawAutomaticUniformFactoryCollection}
    */
   static get DrawAutomaticUniformFactories() {
     return s_drawAutomaticUniformFactories;
   }
 }
 
-// 初始化LinkAutomaticUniformCollection
+// 初始化LinkAutomaticUniformCollection中各个LinkAutomaticUniform的值
 const numberOfTextureUnits = Device.NumberOfTextureUnits;
 for (let i = 0; i < numberOfTextureUnits; i++) {
   s_linkAutomaticUniforms.add(new TextureUniform(i));
