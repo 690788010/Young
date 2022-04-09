@@ -26,6 +26,9 @@ import ComponentDatatype from "./VertexArray/ComponentDatatype.js";
 const commonGL = document.createElement("canvas").getContext("webgl2");
 
 // LinkAutomaticUniform只在编译和链接时设置一次，后面不变
+// Device类保存了一个LinkAutoMaticUniform集合（LinkAutoMaticUniform已包含值），在着色器编译、链接以后，
+// ShaderProgram类就调用_initializeAutomaticUniforms方法遍历着色器的Uniforms，
+// 使用Device类的LinkAutoMaticUniform集合中对应的LinkAutoMaticUniform的值为对应的Uniform（以"og_"开头）设置值。
 const s_linkAutomaticUniforms = new LinkAutomaticUniformCollection();
 
 const s_drawAutomaticUniformFactories = new DrawAutomaticUniformFactoryCollection();

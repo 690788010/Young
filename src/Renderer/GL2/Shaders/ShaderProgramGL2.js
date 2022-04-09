@@ -174,23 +174,7 @@ class ShaderProgramGL2 extends ShaderProgram {
 
 
 
-  /**
-   * 初始化AutomaticUniform
-   * @param {UniformCollection} uniforms 
-   */
-  _initializeAutomaticUniforms(uniforms) {
-    for (let i = 0, len = uniforms.size(); i < len; i++) {
-      const uniform = uniforms.get(i);
-      if (Device.LinkAutomaticUniforms.contains(uniform.Name)) {
-        // 初始化LinkAutomaticUniform
-        Device.LinkAutomaticUniforms.getByName(uniform.Name).set(uniform);
-      } else if (Device.DrawAutomaticUniformFactories.contains(uniform.Name)) {
-        // 初始化DrawAutomaticUniform
-        this._drawAutomaticUniforms.push(
-          Device.DrawAutomaticUniformFactories.getByName(uniform.Name).create(uniform));
-      }
-    }
-  }
+  
 }
 
 export default ShaderProgramGL2;

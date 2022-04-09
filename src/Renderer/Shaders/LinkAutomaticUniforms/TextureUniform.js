@@ -1,5 +1,6 @@
 /**
  * TextureUniform类是LinkAutomaticUniform抽象类的实现类
+ * 目前LinkAutomaticUniform抽象类只有TextureUniform类这一个子类
  */
 
 import LinkAutomaticUniform from "./LinkAutomaticUniform.js"
@@ -16,13 +17,15 @@ class TextureUniform extends LinkAutomaticUniform {
     this._textureUnit = textureUnit;
   }
 
+  /**
+   * @returns {String}
+   */
   get Name() {
     return "og_texture" + this._textureUnit;
   }
-
   
   /**
-   * 将传入的Uniform的值设置为这个LinkAutomaticUniform的值
+   * 为传入的Uniform设置值
    * @param {Uniform} uniform 
    */
   set(uniform) {

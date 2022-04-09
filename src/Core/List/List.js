@@ -24,6 +24,20 @@ class List {
   }
 
   /**
+   * 根据name判断集合中是否包含该元素
+   * @param {String} name
+   * @returns {Boolean}
+   */
+  contains(name) {
+    for (let i = 0, len = this._values.length; i < len; i++) {
+      if (this._values[i].Name === name) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * 通过索引访问元素
    * @param {Number} index 
    * @returns {Object}
