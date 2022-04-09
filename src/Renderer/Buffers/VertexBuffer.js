@@ -3,8 +3,21 @@
  */
 
 import Disposable from "../../Core/Disposable.js";
+import BufferHint from "./BufferHint.js";
 
 class VertexBuffer extends Disposable {
+
+  /**
+   * 抽象方法
+   * @returns {Number}
+   */
+   get SizeInBytes() {}
+
+   /**
+    * 抽象方法
+    * @returns {BufferHint}
+    */
+   get UsageHint() {}
 
   /**
    * 从系统内存拷贝数据到显卡缓冲区

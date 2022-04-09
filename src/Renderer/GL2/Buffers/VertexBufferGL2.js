@@ -22,6 +22,22 @@ class VertexBufferGL2 extends VertexBuffer {
   }
 
   /**
+   * 缓冲区的大小
+   * @returns {Number}
+   */
+  get SizeInBytes() {
+    this._bufferObject.SizeInBytes;
+  }
+
+  /**
+    * 缓冲区的Usage参数，BufferHint的枚举项
+    * @returns {BufferHint}
+    */
+  get UsageHint() {
+    return this._bufferObject.UsageHint;
+  }
+
+  /**
    * 从系统内存拷贝数据到显卡缓冲区
    * @param {Typed Array} bufferInSystemMemory 类型化数组
    * @param {Number} destinationOffsetInBytes 目的缓冲区中数据起始偏移量，单位字节
@@ -36,6 +52,13 @@ class VertexBufferGL2 extends VertexBuffer {
    */
   bind() {
     this._bufferObject.bind();
+  }
+
+  /**
+   * 删除WebGLBuffer对象
+   */
+  dispose() {
+    this._bufferObject.dispose();
   }
 }
 

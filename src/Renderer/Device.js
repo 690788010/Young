@@ -57,8 +57,8 @@ class Device {
   // }
 
   /**
-   * 创建一个VertexBufferGL2对象
-   * @param  {String} usageHint
+   * 创建一个VertexBuffer对象
+   * @param  {BufferHint} usageHint
    * @param  {Number} sizeInBytes
    * @returns {VertexBufferGL2}
    */
@@ -67,8 +67,8 @@ class Device {
   }
 
   /**
-   * 创建一个VertexBufferGL2对象
-   * @param  {String} usageHint
+   * 创建一个VertexBuffer对象
+   * @param  {BufferHint} usageHint
    * @param  {Number} sizeInBytes
    * @returns {IndexBufferGL2}
    */

@@ -8,8 +8,9 @@ class BufferNameGL2 {
    * @param  {WebGL2RenderingContext} gl WebGL2环境对象
    */
   constructor(gl) {
+    this._gl = gl;
     // 创建一个WebGLBuffer对象
-    this._value = gl.createBuffer();
+    this._value = this._gl.createBuffer();
   }
 
   /**
@@ -18,6 +19,16 @@ class BufferNameGL2 {
    */
   get Value() {
     return this._value;
+  }
+
+  /**
+   * 删除WebGLBuffer对象
+   */
+  dispose() {
+    if (this._value) {
+      this._gl.deleteBuffer(this._value);
+      this._value = null;
+    }
   }
 }
 
