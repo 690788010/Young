@@ -30,7 +30,7 @@ class FaceCulling {
    * @returns {CullFace}
    */
   get CullFace() {
-    this._cullFace;
+    return this._cullFace;
   }
 
   /**

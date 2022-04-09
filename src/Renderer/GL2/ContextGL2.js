@@ -63,7 +63,7 @@ class ContextGL2 extends Context {
 
   _enable(enableCap, enable) {
     if (enable) {
-      this._gl.enable(enableCapm);
+      this._gl.enable(enableCap);
     } else {
       this._gl.disable(enableCap);
     }
@@ -260,6 +260,11 @@ class ContextGL2 extends Context {
     vertexArray.clean();
   }
 
+  /**
+   * 使用ShaderProgram并更新Uniform（包括DrawAutomaticUniform）
+   * @param {} drawState 
+   * @param {*} sceneState 
+   */
   _applyShaderProgram(drawState, sceneState) {
     console.log("_applyShaderProgram")
     const shaderProgramGL2 = drawState.ShaderProgram;

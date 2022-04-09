@@ -5,9 +5,9 @@
 import UniformCollection from "./UniformCollection.js";
 import ShaderVertexAttributeCollection from "../ShaderVertexAttributeCollection.js";
 import FragmentOutputs from "./FragmentOutputs.js"
+import Device from "../Device.js";
 
 class ShaderProgram {
-
   constructor() {
     this._drawAutomaticUniforms = [];
   }

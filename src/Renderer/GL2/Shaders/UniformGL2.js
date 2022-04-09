@@ -59,6 +59,7 @@ class UniformGL2 extends Uniform {
         gl.uniform1f(this._location, this._value);
       break;
       case UniformType.FloatMatrix44: 
+        console.log(this._location, this._value);
         gl.uniform4fv(this._location, false, this._value);
       break;
     }
