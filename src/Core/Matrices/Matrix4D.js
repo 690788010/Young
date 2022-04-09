@@ -37,6 +37,13 @@ class Matrix4D {
   }
 
   /**
+   * @returns {Array}
+   */
+  get Value() {
+    return this._values;
+  }
+
+  /**
    * 获取矩阵的分量个数
    * @returns {Number}
    */

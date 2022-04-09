@@ -24,7 +24,7 @@ class ModelMatrixUniform extends DrawAutomaticUniform {
    * @param {SceneState} sceneState
    */
   set(context, drawState, sceneState) {
-    this._uniform.Value = sceneState.ModelMatrixUniform;
+    this._uniform.Value = sceneState.ModelMatrix;
   }
 }
 

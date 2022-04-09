@@ -14,14 +14,17 @@ class SceneState {
     this._shininess = 12;
     this._camera = new Camera();
     this._sunPosition = new Vector3D(200000, 0, 0);
+    // 模型矩阵
     this._modelMatrix = Matrix4D.Identity;
     this._highResolutionSnapScale = 1;
   }
 
+  /**
+   * @returns {Matrix4D}
+   */
   get ModelMatrix() {
     return this._modelMatrix;
   }
-
 
 }
 
