@@ -36,6 +36,11 @@ class VertexBuffer extends Disposable {
    * @param {Number} lengthInBytes 从源数据要复制多少字节数据到显卡缓冲区
    */
   _copyFromSystemMemory(bufferInSystemMemory, destinationOffsetInBytes, lengthInBytes) {}
+
+  /**
+   * 抽象方法，删除缓冲区
+   */
+  dispose() {}
 }
 
 export default VertexBuffer;

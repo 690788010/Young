@@ -26,7 +26,7 @@ class VertexBufferGL2 extends VertexBuffer {
    * @returns {Number}
    */
   get SizeInBytes() {
-    this._bufferObject.SizeInBytes;
+    return this._bufferObject.SizeInBytes;
   }
 
   /**

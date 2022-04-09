@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #mapContainer {
+      width: 800px;
+      height: 600px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <div id="mapContainer"></div>
+
+  <script type="module">
+    import Device from "../../src/Renderer/Device.js";
+    import BufferHint from "../../src/Renderer/Buffers/BufferHint.js";
+
+    // // separate buffers
+    // const positions = new Float32Array([1, 0, 0, 0, 1, 0]);
+    // const positionBuffer = Device.CreateVertexBuffer(BufferHint.StaticDraw, positions.byteLength);
+    // positionBuffer.copyFromSystemMemory(positions);
+    // console.log(positionBuffer)
+
+    // noninterleaved buffers
+    const positions = new Float32Array([1, 0, 0, 0, 1, 0]);
+    const normals = new Float32Array([1, 0, 1, 0, 1, 1]);
+    const texCoordinates = new Float32Array([0, 1, 0.5, 0.5]);
+    const vertexBuffer = Device.CreateVertexBuffer(BufferHint.StaticDraw, 
+      positions.byteLength + normals.byteLength + texCoordinates.byteLength);
+    vertexBuffer.copyFromSystemMemory(positions);
+    vertexBuffer.copyFromSystemMemory(normals, positions.byteLength);
+    vertexBuffer.copyFromSystemMemory(texCoordinates, (positions.byteLength + normals.byteLength));
+    console.log(vertexBuffer)
+  </script>
+</body>
+</html>
