@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-04-09T09:13:33.484Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" etag="UXeKILtnDFLpjgloWlcb" version="17.4.1" type="github">
+<mxfile host="app.diagrams.net" modified="2022-04-09T09:19:51.663Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" etag="2JZNwzg1_RCBo7WJ-CVt" version="17.4.1" type="github">
   <diagram name="Page-1" id="c4acf3e9-155e-7222-9cf6-157b1a14988f">
     <mxGraphModel dx="3122" dy="1862" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
       <root>
@@ -64,7 +64,7 @@
           <mxGeometry y="130" width="310" height="90" as="geometry" />
         </mxCell>
         <mxCell id="6bP1jbc2AMFmi3UJRwTk-20" value="BufferNameGL2" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-          <mxGeometry x="1190" y="480" width="160" height="86" as="geometry" />
+          <mxGeometry x="1260" y="480" width="160" height="100" as="geometry" />
         </mxCell>
         <mxCell id="6bP1jbc2AMFmi3UJRwTk-21" value="_value : WebGLBuffer&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="6bP1jbc2AMFmi3UJRwTk-20" vertex="1">
           <mxGeometry y="26" width="160" height="26" as="geometry" />
@@ -72,8 +72,8 @@
         <mxCell id="6bP1jbc2AMFmi3UJRwTk-22" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="6bP1jbc2AMFmi3UJRwTk-20" vertex="1">
           <mxGeometry y="52" width="160" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="6bP1jbc2AMFmi3UJRwTk-23" value="get Value() : WebGLBuffer" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="6bP1jbc2AMFmi3UJRwTk-20" vertex="1">
-          <mxGeometry y="60" width="160" height="26" as="geometry" />
+        <mxCell id="6bP1jbc2AMFmi3UJRwTk-23" value="get Value() : WebGLBuffer&#xa;dispose()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="6bP1jbc2AMFmi3UJRwTk-20" vertex="1">
+          <mxGeometry y="60" width="160" height="40" as="geometry" />
         </mxCell>
         <mxCell id="6bP1jbc2AMFmi3UJRwTk-24" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="6bP1jbc2AMFmi3UJRwTk-20" target="6bP1jbc2AMFmi3UJRwTk-17" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
