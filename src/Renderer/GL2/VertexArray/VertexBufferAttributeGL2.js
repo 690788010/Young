@@ -98,6 +98,22 @@ class VertexBufferAttributeGL2 extends VertexBufferAttribute {
   set Dirty(value) {
     this._dirty = value;
   }
+
+  /**
+   * 抽象方法，用于比较两个VertexBufferAttribute是否相等
+   * @param {VertexBufferAttributeGL2}
+   * @returns {Boolean}
+   */
+  equals(other) {
+    if (!(other instanceof VertexBufferAttributeGL2)) return false;
+    if (this.VertexBuffer !== other.VertexBuffer) return false;
+    if (this.ComponentDatatype !== other.ComponentDatatype) return false;
+    if (this.NumberOfComponents !== other.NumberOfComponents) return false;
+    if (this.Normalize !== other.Normalize) return false;
+    if (this.OffsetInBytes !== other.OffsetInBytes) return false;
+    if (this.StrideInBytes !== other.StrideInBytes) return false;
+    return true;
+  }
 }
 
 export default VertexBufferAttributeGL2;

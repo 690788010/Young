@@ -15,7 +15,7 @@ class VertexBufferAttributesGL2 extends VertexBufferAttributes {
 
     this._gl = gl;
     // 存放多个VertexBufferAttribute
-    this._attributes = new Array[Device.MaximumNumberOfVertexAttributes];
+    this._attributes = new Array(Device.MaximumNumberOfVertexAttributes);
     // _attributes中包含的有效VertexBufferAttribute的数量
     this._count = 0;
     this._maximumArrayIndex = 0;
@@ -58,7 +58,7 @@ class VertexBufferAttributesGL2 extends VertexBufferAttributes {
    * @param {VertexBufferAttribute} value 
    */
   set(index, value) {
-    if (this._attributes[index] !== value) {
+    if ((!this._attributes[index]) || !(this._attributes[index].equals(value))) {
       if (value !== null) {
         if (value.NumberOfComponents < 1 || value.NumberOfComponents > 4) {
           throw new Error("NumberOfComponents must be between one and four.");

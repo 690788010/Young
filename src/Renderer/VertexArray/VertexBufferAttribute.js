@@ -4,11 +4,12 @@
  */
 
 class VertexBufferAttribute {
-  // /**
-  //  * 抽象方法，用于比较两个VertexBufferAttribute是否相等
-  //  * @returns {Boolean}
-  //  */
-  // equals() {}
+  /**
+   * 抽象方法，用于比较两个VertexBufferAttribute是否相等
+   * @param {VertexBufferAttribute}
+   * @returns {Boolean}
+   */
+  equals(other) {}
   
   /**
    * 抽象方法

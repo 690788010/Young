@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #mapContainer {
+      width: 800px;
+      height: 600px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <div id="mapContainer"></div>
+
+  <script type="module">
+    import Device from "../../src/Renderer/Device.js";
+    import BufferHint from "../../src/Renderer/Buffers/BufferHint.js";
+    import VertexBufferAttributeGL2 from "../../src/Renderer/GL2/VertexArray/VertexBufferAttributeGL2.js";
+    import ComponentDatatype from "../../src/Renderer/VertexArray/ComponentDatatype.js";
+
+    // const positions = new Float32Array([1, 0, 0, 0, 1, 0]);
+    // const positionBuffer = Device.CreateVertexBuffer(BufferHint.StaticDraw, positions.byteLength);
+    // positionBuffer.copyFromSystemMemory(positions);
+    // const normals = new Float32Array([1, 0, 1, 1, 1, 0]);
+    // const normalBuffer = Device.CreateVertexBuffer(BufferHint.StaticDraw, normals.byteLength);
+    // normalBuffer.copyFromSystemMemory(normals);
+    // const texCoors = new Float32Array([1, 0, 1, 0.5]);
+    // const texCoorBuffer = Device.CreateVertexBuffer(BufferHint.StaticDraw, texCoors.byteLength);
+    // texCoorBuffer.copyFromSystemMemory(texCoors);
+
+    // const window = Device.CreateWindow("mapContainer");
+    // const context = window.Context;
+    // const va = context.createVertexArray();
+    // va.Attributes.set(0, new VertexBufferAttributeGL2(positionBuffer, ComponentDatatype.Float, 3));
+    // va.Attributes.set(1, new VertexBufferAttributeGL2(normalBuffer, ComponentDatatype.Float, 3));
+    // va.Attributes.set(2, new VertexBufferAttributeGL2(texCoorBuffer, ComponentDatatype.Float, 3));
+    //console.log(va);
+
+    // // noninterleaved buffers
+    // const positions = new Float32Array([1, 0, 0, 0, 1, 0]);
+    // const normals = new Float32Array([1, 0, 1, 0, 1, 1]);
+    // const texCoordinates = new Float32Array([0, 1, 0.5, 0.5]);
+    // const vertexBuffer = Device.CreateVertexBuffer(BufferHint.StaticDraw, 
+    //   positions.byteLength + normals.byteLength + texCoordinates.byteLength);
+    // vertexBuffer.copyFromSystemMemory(positions);
+    // vertexBuffer.copyFromSystemMemory(normals, positions.byteLength);
+    // vertexBuffer.copyFromSystemMemory(texCoordinates, (positions.byteLength + normals.byteLength));
+
+    // const window = Device.CreateWindow("mapContainer");
+    // const context = window.Context;
+    // const va = context.createVertexArray();
+    // va.Attributes.set(0, new VertexBufferAttributeGL2(vertexBuffer, ComponentDatatype.Float, 3));
+    // va.Attributes.set(1, new VertexBufferAttributeGL2(vertexBuffer, ComponentDatatype.Float, 3, false, positions.byteLength, 0));
+    // va.Attributes.set(2, new VertexBufferAttributeGL2(vertexBuffer, ComponentDatatype.Float, 3, false, (positions.byteLength + normals.byteLength), 0));
+    // console.log(va);
+
+    // interleaved buffers
+    const vertexes = new Float32Array([
+      1, 0, 0, 1, 0, 1, 0, 1, 
+      0, 1, 0, 0, 1, 1, 0.5, 0.5]);
+    const vertexBuffer = Device.CreateVertexBuffer(BufferHint.StaticDraw, vertexes.byteLength);
+    vertexBuffer.copyFromSystemMemory(vertexes);
+
+    const window = Device.CreateWindow("mapContainer");
+    const context = window.Context;
+    const va = context.createVertexArray();
+    va.Attributes.set(0, new VertexBufferAttributeGL2(vertexBuffer, ComponentDatatype.Float, 3, false, 0, (Float32Array.BYTES_PER_ELEMENT*8)));
+    va.Attributes.set(1, new VertexBufferAttributeGL2(vertexBuffer, ComponentDatatype.Float, 3, false, (Float32Array.BYTES_PER_ELEMENT*3), (Float32Array.BYTES_PER_ELEMENT*8)));
+    va.Attributes.set(2, new VertexBufferAttributeGL2(vertexBuffer, ComponentDatatype.Float, 3, false, (Float32Array.BYTES_PER_ELEMENT*6), (Float32Array.BYTES_PER_ELEMENT*8)));
+    console.log(va);
+  </script>
+</body>
+</html>
