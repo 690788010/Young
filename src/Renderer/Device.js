@@ -174,6 +174,14 @@ class Device {
   static get DrawAutomaticUniformFactories() {
     return s_drawAutomaticUniformFactories;
   }
+
+  /**
+   * 获取GL支持的最大顶点attribute属性的数量
+   * @returns {Number}
+   */
+  static get MaximumNumberOfVertexAttributes() {
+    return commonGL.getParameter(commonGL.MAX_VERTEX_ATTRIBS);
+  }
 }
 
 // 初始化LinkAutomaticUniformCollection中各个LinkAutomaticUniform的值

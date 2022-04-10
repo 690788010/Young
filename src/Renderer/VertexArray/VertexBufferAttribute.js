@@ -4,7 +4,23 @@
  */
 
 class VertexBufferAttribute {
+  // /**
+  //  * 抽象方法，用于比较两个VertexBufferAttribute是否相等
+  //  * @returns {Boolean}
+  //  */
+  // equals() {}
+  
+  /**
+   * 抽象方法
+   * @returns {Boolean}
+   */
+  get Dirty() {}
 
+  /**
+   * 抽象方法
+   * @param {Boolean}
+   */
+  set Dirty(value) {}
 }
 
 export default VertexBufferAttribute;

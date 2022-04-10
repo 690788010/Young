@@ -39,37 +39,62 @@ class VertexBufferAttributeGL2 extends VertexBufferAttribute {
     this._offsetInBytes = offsetInBytes;
     this._strideInBytes = strideInBytes;
 
+    // 标识新值是否被GL调用更新，true为否
     this._dirty = true;
   }
 
-  get VertexBuffer() {
+  /**
+   * @returns {VertexBuffer}
+   */
+   get VertexBuffer() {
     return this._vertexBuffer;
   }
 
+  /**
+   * @returns {ComponentDatatype}
+   */
   get ComponentDatatype() {
     return this._componentDatatype;
   }
 
+  /**
+   * @returns {Number}
+   */
   get NumberOfComponents() {
     return this._numberOfComponents;
   }
 
+  /**
+   * @returns {Boolean}
+   */
   get Normalize() {
     return this._normalize;
   }
 
+  /**
+   * @returns {Number}
+   */
   get OffsetInBytes() {
     return this._offsetInBytes;
   }
 
+  /**
+   * @returns {Number}
+   */
   get StrideInBytes() {
     return this._strideInBytes;
   }
 
+  /**
+   * @returns {Boolean}
+   */
   get Dirty() {
     return this._dirty;
   }
 
+  /**
+   * @param {Boolean} value
+   */
   set Dirty(value) {
     this._dirty = value;
   }

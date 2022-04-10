@@ -27,8 +27,15 @@ class IndexBufferGL2 extends IndexBuffer {
   /**
    * 绑定索引缓冲区
    */
-   bind() {
+  bind() {
     this._bufferObject.bind();
+  }
+
+  /**
+   * 解绑索引缓冲区
+   */
+  unBind() {
+    this._bufferObject.unbind();
   }
 
   /**

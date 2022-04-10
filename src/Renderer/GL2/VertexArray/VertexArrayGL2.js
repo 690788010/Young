@@ -7,6 +7,7 @@ import VertexArray from "../../VertexArray/VertexArray.js";
 import VertexArrayNameGL2 from "../Names/VertexArrayNameGL2.js";
 import VertexBufferAttributesGL2 from "./VertexBufferAttributesGL2.js";
 import IndexBuffer from "../../Buffers/IndexBuffer.js"
+import VertexBufferAttributes from "../../VertexArray/VertexBufferAttributes.js";
 
 class VertexArrayGL2 extends VertexArray {
   /**
@@ -20,6 +21,7 @@ class VertexArrayGL2 extends VertexArray {
     this._name = new VertexArrayNameGL2(this._gl);
     this._attributes = new VertexBufferAttributesGL2(this._gl);
     this._indexBuffer = null;
+    this._dirtyIndexBuffer = false;
   }
 
   /**
@@ -29,14 +31,30 @@ class VertexArrayGL2 extends VertexArray {
     this._gl.bindVertexArray(this._name.Value);
   }
 
+  /**
+   * 完成更新操作
+   */
   clean() {
-    this._attributes.clean();
+    // 为被更新的VertexBufferAttribute通过GL调用进行更新同步
+    this._attributes.clean();   
+    if (this._dirtyIndexBuffer) {
+      if (this._indexBuffer) {
+        this._indexBuffer.bind();
+      }
+      this._dirtyIndexBuffer = false;
+    }
   }
 
+  /**
+   * @returns {VertexBufferAttributes}
+   */
   get Attributes() {
     return this._attributes;
   }
 
+  /**
+   * @returns {IndexBuffer}
+   */
   get IndexBuffer() {
     return this._indexBuffer;
   }
@@ -47,6 +65,7 @@ class VertexArrayGL2 extends VertexArray {
    */
   set IndexBuffer(value) {
     this._indexBuffer = value;
+    this._dirtyIndexBuffer = true;
   }
 
   maximumArrayIndex() {

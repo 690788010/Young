@@ -40,6 +40,13 @@ class BufferGL2 {
   }
 
   /**
+   * 解绑缓冲区
+   */
+  unbind() {
+    this._gl.bindBuffer(this._type, null);
+  }
+
+  /**
    * 获取BufferNameGl2对象
    * @returns {BufferNameGl2}
    */
