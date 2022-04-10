@@ -18,8 +18,49 @@ class IndexBufferGL2 extends IndexBuffer {
   constructor(gl, usageHint, sizeInBytes) {
     super();
     
+    this._count = 0;  // 缓冲区中索引的数量
+    // 索引的数据类型
+    this._dataType = IndexBufferDataType.UnsignedShort;
     this._bufferObject = new BufferGL2(gl, BufferTarget.ElementArrayBuffer, usageHint, sizeInBytes);
   }
+
+  /**
+   * 绑定索引缓冲区
+   */
+   bind() {
+    this._bufferObject.bind();
+  }
+
+  /**
+   * @returns {Number}
+   */
+  get Count() {
+    return this._count;
+  } 
+
+  /**
+   * 
+   * @returns {IndexBufferDataType}
+   */
+  DataType() {
+    return this._dataType;
+  }
+
+  /**
+   * 缓冲区的大小
+   * @returns {Number}
+   */
+   get SizeInBytes() {
+    return this._bufferObject.SizeInBytes;
+  }
+
+  /**
+    * 缓冲区的Usage参数，BufferHint的枚举项
+    * @returns {BufferHint}
+    */
+  get UsageHint() {
+    return this._bufferObject.UsageHint;
+  }  
 
   /**
    * 从系统内存拷贝数据到显卡缓冲区
@@ -35,22 +76,16 @@ class IndexBufferGL2 extends IndexBuffer {
     } else {
       throw new Error("bufferInSystemMemory must be an array of Uint16Array or UnsignedInt.");
     }
+    // 缓冲区中索引的数量
+    this._count = bufferInSystemMemory.length;
     this._bufferObject.copyFromSystemMemory(bufferInSystemMemory, destinationOffsetInBytes, lengthInBytes);
   }
 
   /**
-   * 绑定索引缓冲区
+   * 删除WebGLBuffer对象
    */
-  bind() {
-    this._bufferObject.bind();
-  }
-
-  Count() {
-    return this._count;
-  } 
-
-  DataType() {
-    return this._dataType;
+  dispose() {
+    this._bufferObject.dispose();
   }
 }
 

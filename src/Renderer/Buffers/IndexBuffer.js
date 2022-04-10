@@ -3,8 +3,27 @@
  */
 
 import Disposable from "../../Core/Disposable.js";
+import IndexBufferDataType from "./IndexBufferDataType.js";
 
 class IndexBuffer extends Disposable {
+
+  /**
+   * 抽象方法
+   * @returns {Number}
+   */
+  get SizeInBytes() {}
+
+  /**
+    * 抽象方法
+    * @returns {BufferHint}
+    */
+  get UsageHint() {}
+
+  /**
+   * 抽象方法
+   * @returns {IndexBufferDataType}
+   */
+  get DataType() {}
 
   /**
    * 从系统内存拷贝数据到显卡缓冲区
@@ -23,6 +42,11 @@ class IndexBuffer extends Disposable {
    * @param {Number} lengthInBytes 从源数据要复制多少字节数据到显卡缓冲区
    */
   _copyFromSystemMemory(bufferInSystemMemory, destinationOffsetInBytes, lengthInBytes) {}
+
+  /**
+   * 抽象方法，删除缓冲区
+   */
+  dispose() {}
 }
 
 export default IndexBuffer;
