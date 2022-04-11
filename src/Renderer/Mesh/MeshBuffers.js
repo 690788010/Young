@@ -8,10 +8,12 @@ import MeshVertexBufferAttributes from "./MeshVertexBufferAttributes.js";
 class MeshBuffers {
   constructor() {
     this._attributes = new MeshVertexBufferAttributes();
+
+    this._indexBuffer = null;
   }
 
   /**
-   * @returns {Array<MeshVertexBufferAttributes>}
+   * @returns {MeshVertexBufferAttributes}
    */
   get Attributes() {
     return this._attributes;

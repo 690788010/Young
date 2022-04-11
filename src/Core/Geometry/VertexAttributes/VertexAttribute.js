@@ -5,7 +5,6 @@
 import VertexAttributeType from "./VertexAttributeType.js";
 
 class VertexAttribute {
-  
   /**
    * 获取VertexAttribute的名字
    * @returns {String}

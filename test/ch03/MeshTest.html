@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #mapContainer {
+      width: 800px;
+      height: 600px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <div id="mapContainer"></div>
+
+  <script type="module">
+    import Device from "../../src/Renderer/Device.js";
+    import Mesh from "../../src/Core/Geometry/Mesh.js";
+    import PrimitiveType from "../../src/Core/Geometry/PrimitiveType.js";
+    import WindingOrder from "../../src/Core/Geometry/WindingOrder.js";
+    import VertexAttributeFloatVector3 from "../../src/Core/Geometry/VertexAttributes/VertexAttributeFloatVector3.js";
+    import Vector3D from "../../src/Core/Vectors/Vector3D.js";
+    import IndicesUnsignedShort from "../../src/Core/Geometry/Indices/IndicesUnsignedShort.js";
+    import TriangleIndices from "../../src/Core/Geometry/Indices/TriangleIndices.js";
+    import BufferHint from "../../src/Renderer/Buffers/BufferHint.js";
+
+    const vs = `#version 300 es
+
+      layout(location = og_positionVertexLocation) in vec4 position;
+      uniform mat4 og_modelMatrix;
+
+      void main() {
+        gl_Position = og_modelMatrix * position; 
+      }`;
+    const fs = `#version 300 es
+      precision mediump float;
+
+      out vec3 fragmentColor;
+      uniform vec3 u_color;
+      uniform vec3 og_texture3;
+
+      void main() {
+        fragmentColor = u_color * og_texture3;
+      }`;
+
+    const mesh = new Mesh();
+    mesh.PrimitiveType = PrimitiveType.Triangles;
+    mesh.WindingOrder = WindingOrder.CCW;
+
+    const positionsAttribute = new VertexAttributeFloatVector3("position", 3);
+    positionsAttribute.add(new Vector3D(0, 0, 0));
+    positionsAttribute.add(new Vector3D(1, 0, 0));
+    positionsAttribute.add(new Vector3D(0, 0, 1));
+    positionsAttribute.add(new Vector3D(0, 0, 1));
+    mesh.Attributes.add(positionsAttribute);
+
+    const indices = new IndicesUnsignedShort();
+    indices.addTriangle(new TriangleIndices(0, 1, 2));
+    mesh.Indices = indices;
+    
+    const window = Device.CreateWindow("mapContainer");
+    const sp = window.createShaderProgram(vs, fs);
+    const va = window.Context.createVertexArrayByMesh(mesh, sp.VertexAttributes, BufferHint.StaticDraw);
+    console.log(va)
+    
+  </script>
+</body>
+</html>

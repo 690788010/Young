@@ -10,8 +10,9 @@ import WindingOrder from "./WindingOrder.js";
 class Mesh {
   constructor() {
     this._attributes = new VertexAttributeCollection();
+    this._indices = null;
     this._primitiveType = PrimititveType.Triangles;
-    this._windingOrder = WindingOrder.Counterclockwise;
+    this._windingOrder = WindingOrder.CCW;
   } 
 
   /**

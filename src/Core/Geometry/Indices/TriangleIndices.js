@@ -1,8 +1,8 @@
 /**
- * TriangleIndicesUnsignedShort类
+ * TriangleIndices类
  */
 
-class TriangleIndicesUnsignedShort {
+class TriangleIndices {
   /**
    * 构造函数
    * @param {Number} ui0 
@@ -37,4 +37,4 @@ class TriangleIndicesUnsignedShort {
   }
 } 
 
-export default TriangleIndicesUnsignedShort;
+export default TriangleIndices;

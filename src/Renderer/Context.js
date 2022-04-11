@@ -31,7 +31,7 @@ class Context {
     const va = this.createVertexArray();
     va.DisposeBuffers = true;
     va.IndexBuffer = meshBuffers.IndexBuffer;
-    for (let i = 0, len = meshBuffers.Attributes.count(); i < len; i++) {
+    for (let i = 0, len = meshBuffers.Attributes.Count; i < len; i++) {
       va.Attributes.set(i, meshBuffers.Attributes.get(i));
     }
     return va;

@@ -137,24 +137,24 @@ class ContextGL2 extends Context {
     this._verifyDraw(drawState, sceneState);
     // 初始化设置
     this._applyBeforeDraw(drawState, sceneState);
+
     const vertexArray = drawState.VertexArray;
     const indexBuffer = vertexArray.IndexBuffer;
-    // if (indexBuffer != null) {
-      this._gl.clearColor(1.0, 1.0, 1.0, 1);
-      this._gl.clear(this._gl.DEPTH_BUFFER_BIT | this._gl.COLOR_BUFFER_BIT)
+
+    if (indexBuffer != null) {
       // this._gl.drawElements(
       //   TypeConverterGL2.PrimitiveTypeTo(primitiveType),
       //   indexBuffer.Count,
       //   indexBuffer.DataType,
       //   0
       // );
-    // } else {
+    } else {
       this._gl.drawArrays(
         TypeConverterGL2.PrimitiveTypeTo(primitiveType),
         0,
         3
       );
-    // }
+    }
   }
 
   /**

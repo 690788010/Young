@@ -20,6 +20,7 @@ import IndicesType from "../Core/Geometry/Indices/IndicesType.js";
 import VertexAttributeType from "../Core/Geometry/VertexAttributes/VertexAttributeType.js";
 import VertexBufferAttributeGL2 from "./GL2/VertexArray/VertexBufferAttributeGL2.js";
 import ComponentDatatype from "./VertexArray/ComponentDatatype.js";
+import VertexBuffer from "./Buffers/VertexBuffer.js";
 
 
 const commonGL = document.createElement("canvas").getContext("webgl2");
@@ -83,11 +84,11 @@ class Device {
    * @param {BufferHint} usageHint 
    */
   static CreateMeshBuffers(mesh, shaderAttributes, usageHint) {
-    if (mesh === null) {
+    if (!mesh) {
       throw new Error("mesh is null.");
     }
 
-    if (shaderAttributes === null) {
+    if (!shaderAttributes) {
       throw new Error("shaderAttributes is null.");
     }
 
@@ -101,14 +102,17 @@ class Device {
         indexBuffer.copyFromSystemMemory(indices);
         meshBuffers.IndexBuffer = indexBuffer;
       } else if (mesh.Indices.DataType === IndicesType.UnsignedInt) {
-
+        const indices = new Uint32Array(mesh.Indices.Values);
+        const indexBuffer = Device.CreateIndexBuffer(usageHint, indices.byteLength);
+        indexBuffer.copyFromSystemMemory(indices);
+        meshBuffers.IndexBuffer = indexBuffer;
       } else {
         throw new Error("mesh.Indices.Datatype " +
           mesh.Indices.DataType + " is not supported.");
       }
     }
 
-    // 为mesh的顶点属性数据分配显卡缓冲区并将索引数据复制到显卡缓冲区
+    // 为mesh的顶点属性数据分配顶点缓冲区并将索引数据复制到索引缓冲区
     for (let i = 0, len = shaderAttributes.size(); i < len; i++) {
       const shaderAttribute = shaderAttributes.get(i);
       if (!mesh.Attributes.contains(shaderAttribute.Name)) {
@@ -116,7 +120,15 @@ class Device {
       }
       const attribute = mesh.Attributes.getByName(shaderAttribute.Name);
       if (attribute.DataType === VertexAttributeType.FloatVector3) {
-        const vertexBuffer = this._CreateVertexBuffer(attribute.Values, usageHint);
+        const floatArr = [];
+        const list = attribute.Values;
+        for (let i = 0, len = list.size(); i < len; i++) {
+          const item = list.get(i);
+          floatArr.push(item.X);
+          floatArr.push(item.Y);
+          floatArr.push(item.Z);
+        }
+        const vertexBuffer = this._CreateVertexBuffer(new Float32Array(floatArr), usageHint);
         meshBuffers.Attributes.set(shaderAttribute.Location, 
           new VertexBufferAttributeGL2(vertexBuffer, ComponentDatatype.Float, 3));
       } else {
@@ -129,11 +141,11 @@ class Device {
 
   /**
    * 根据包含顶点数据的数组创建对应的顶点缓冲区
-   * @param {Array} values 
+   * @param {Typed Array} valuesArray
    * @param {BufferHint} usageHint
+   * @returns {VertexBuffer}
    */
-  static _CreateVertexBuffer(values, usageHint) {
-    const valuesArray = new Float32Array(values);
+  static _CreateVertexBuffer(valuesArray, usageHint) {
     const vertexBuffer = this.CreateVertexBuffer(usageHint, valuesArray.byteLength);
     vertexBuffer.copyFromSystemMemory(valuesArray);
     return vertexBuffer;

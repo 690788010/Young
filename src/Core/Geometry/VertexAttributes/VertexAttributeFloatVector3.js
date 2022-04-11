@@ -6,15 +6,15 @@
 import VertexAttribute from "./VertexAttribute.js";
 import VertexAttributeType from "./VertexAttributeType.js";
 import Vector3 from "../../Vectors/Vector3D.js";
+import List from "../../List/List.js";
 
 class VertexAttributeFloatVector3 extends VertexAttribute {
-  constructor(name, capacity) {
+  constructor(name) {
     super();
     this._dataType = VertexAttributeType.FloatVector3;
 
     this._name = name;
-    this._capacity = capacity;
-    this._values = [];
+    this._values = new List();
   }
 
   /**
@@ -29,7 +29,7 @@ class VertexAttributeFloatVector3 extends VertexAttribute {
    * @param {Vector3} item 
    */
   add(item) {
-    this._values.push(item);
+    this._values.add(item);
   }
 }
 

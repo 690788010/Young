@@ -14,15 +14,19 @@ class MeshVertexBufferAttributes extends VertexBufferAttributes {
     this._count = 0;
   }
 
-  count() {
+  /**
+   * 返回有效的VertexBufferAttribute元素的个数
+   * @returns {Number}
+   */
+  get Count() {
     return this._count;
   }
 
   /**
-   * 抽象方法
+   * 返回数组的长度
    * @returns {Number}
    */
-  maximumCount() {
+  get MaximumCount() {
     return this._attributes.length;
   }
 
@@ -41,7 +45,11 @@ class MeshVertexBufferAttributes extends VertexBufferAttributes {
    * @param {VertexBufferAttribute} value 
    */
   set(index, value) {
-    this._count++;
+    if ((this._attributes[index]) && (value === null)) {
+      this._count--;
+    } else if ((!this._attributes[index]) && (value !== null)) {
+      this._count++;
+    }
     this._attributes[index] = value;
   }
 }
