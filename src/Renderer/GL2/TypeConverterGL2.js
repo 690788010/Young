@@ -12,6 +12,7 @@ import DepthTestFunction from "../RenderState/DepthTestFunction.js";
 import CullFace from "../RenderState/CullFace.js";
 import WindingOrder from "../../Core/Geometry/WindingOrder.js";
 import ClearBuffers from "../ClearState/ClearBuffers.js";
+import IndexBufferDataType from "../Buffers/IndexBufferDataType.js";
 
 const gl = document.createElement("canvas").getContext("webgl2");
 
@@ -105,6 +106,8 @@ class TypeConverterGL2 {
         return UniformType.Float;
       case gl.FLOAT_VEC3:
         return UniformType.FloatVector3;
+      case gl.FLOAT_VEC4:
+        return UniformType.FloatVector4;
       case gl.FLOAT_MAT4:
         return UniformType.FloatMatrix44;
     }
@@ -205,6 +208,19 @@ class TypeConverterGL2 {
         return gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT;
       case ClearBuffers.All:
         return gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT;
+    }
+  }
+
+  /**
+   * 
+   * @param {IndexBufferDataType} type 
+   */
+  static IndexDataTypeToGL(type) {
+    switch(type) {
+      case IndexBufferDataType.UnsignedShort:
+        return gl.UNSIGNED_SHORT;
+      case IndexBufferDataType.UnsignedInt:
+        return gl.UNSIGNED_INT;
     }
   }
 }
