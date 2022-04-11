@@ -101,7 +101,7 @@ class VertexBufferAttributesGL2 extends VertexBufferAttributes {
             this._attach(i);
             attribute.Dirty = false;
           }
-        } else {
+        } else if (attribute === null) {
           this._detach(i);
         }
       }
@@ -114,15 +114,16 @@ class VertexBufferAttributesGL2 extends VertexBufferAttributes {
    * @param {Number} index 
    */
   _attach(index) {
-    this._gl.enableVertexAttribArray(index);
+    // debugger;
     const attribute = this._attributes[index];
     const vertexBuffer = attribute.VertexBuffer;
-
     vertexBuffer.bind(); // 绑定顶点缓冲区
+    
     // 告诉GL从当前绑定的顶点缓冲区如何读取数据
     this._gl.vertexAttribPointer(index, attribute.NumberOfComponents,
       TypeConverterGL2.ComponentDataTypeTo(attribute.ComponentDatatype),
       attribute.Normalize, attribute.StrideInBytes, attribute.OffsetInBytes);
+    this._gl.enableVertexAttribArray(index);
   }
 
   /**

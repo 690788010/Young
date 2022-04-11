@@ -17,11 +17,19 @@ import DepthTest from "../RenderState/DepthTest.js";
 import FaceCulling from "../RenderState/FaceCulling.js";
 import Color from "../../Core/Color/Color.js";
 import ClearState from "../ClearState/ClearState.js";
+import GraphicsWindowGL2 from "./GraphicsWindowGL2.js";
 
 class ContextGL2 extends Context {
-  constructor(gl, width, height) {
+  /**
+   * 
+   * @param {GraphicsWindowGL2} window 
+   * @param {Number} width 
+   * @param {Number} height 
+   */
+  constructor(window, width, height) {
     super();
-    this._gl = gl;
+    this._window = window;
+    this._gl = this._window._gl;
 
     // 保存以下状态信息是为了与ClearState中的颜色信息比较
     this._clearColor = Color.White;
@@ -35,7 +43,7 @@ class ContextGL2 extends Context {
     // 同步GL状态和默认RenderState状态一致
     this._forceApplyRenderState(this._renderState);
 
-    // 设置视口大小
+    // // 设置视口大小
     this._viewPort = new ViewPort(0, 0, width, height);
     // 更新视口
     this.updateViewPort();
@@ -45,15 +53,40 @@ class ContextGL2 extends Context {
   }
 
   /**
+   * 为Mesh创建对应的VertexArray
+   * @param {Mesh} mesh 
+   * @param {ShaderVertexAttributeCollection} shaderAttributes 
+   * @param {BufferHint} usageHint 
+   */
+   createVertexArrayByMesh(mesh, shaderAttributes, usageHint) {
+    return this._createVertexArrayByMeshBuffers(
+      this._window.createMeshBuffers(mesh, shaderAttributes, usageHint));
+  }
+
+  /**
+   * 
+   * @param {MeshBuffers} meshBuffers 
+   */
+  _createVertexArrayByMeshBuffers(meshBuffers) {
+    const va = this.createVertexArray();
+    va.DisposeBuffers = true;
+    va.IndexBuffer = meshBuffers.IndexBuffer;
+    for (let i = 0, len = meshBuffers.Attributes.Count; i < len; i++) {
+      va.Attributes.set(i, meshBuffers.Attributes.get(i));
+    }
+    return va;
+  }
+
+  /**
    * 同步GL状态和默认RenderState状态一致
    * @param {RenderState} renderState 
    */
   _forceApplyRenderState(renderState) {
 
-    // 同步面剔除相关状态信息
-    this._enable(this._gl.CULL_FACE, renderState.FaceCulling.Enabled);
-    this._gl.cullFace(TypeConverterGL2.CullFaceModeToGL(renderState.FaceCulling.CullFace));
-    this._gl.frontFace(TypeConverterGL2.FrontFaceDirectionToGL(renderState.FaceCulling.FrontFace));
+    // // 同步面剔除相关状态信息
+    // this._enable(this._gl.CULL_FACE, renderState.FaceCulling.Enabled);
+    // this._gl.cullFace(TypeConverterGL2.CullFaceModeToGL(renderState.FaceCulling.CullFace));
+    // this._gl.frontFace(TypeConverterGL2.FrontFaceDirectionToGL(renderState.FaceCulling.FrontFace));
 
     // 同步深度测试相关状态信息
     this._enable(this._gl.DEPTH_TEST, renderState.DepthTest.Enabled);
@@ -133,6 +166,7 @@ class ContextGL2 extends Context {
    * @param {SceneState} sceneState
    */
   draw(primitiveType, drawState, sceneState) {
+    const shaderProgram = drawState.ShaderProgram;
     // 校验参数
     this._verifyDraw(drawState, sceneState);
     // 初始化设置
@@ -141,20 +175,21 @@ class ContextGL2 extends Context {
     const vertexArray = drawState.VertexArray;
     const indexBuffer = vertexArray.IndexBuffer;
 
-    if (indexBuffer != null) {
-      // this._gl.drawElements(
-      //   TypeConverterGL2.PrimitiveTypeTo(primitiveType),
-      //   indexBuffer.Count,
-      //   indexBuffer.DataType,
-      //   0
-      // );
-    } else {
+    // if (indexBuffer != null) {
+    //   this._gl.drawElements(
+    //     TypeConverterGL2.PrimitiveTypeTo(primitiveType),
+    //     indexBuffer.Count,
+    //     this._gl.UNSIGNED_SHORT,
+    //     // TypeConverterGL2.IndexDataTypeToGL(indexBuffer.DataType),
+    //     0
+    //   );
+    // } else {
       this._gl.drawArrays(
         TypeConverterGL2.PrimitiveTypeTo(primitiveType),
         0,
         3
       );
-    }
+    // }
   }
 
   /**
@@ -163,19 +198,19 @@ class ContextGL2 extends Context {
    * @param {SceneState} sceneState 
    */
   _verifyDraw(drawState, sceneState) {
-    if (drawState == null) {
+    if (!drawState) {
       throw new Error("drawState is null.");
     }
-    if (drawState.RenderState == null) {
+    if (!drawState.RenderState) {
       throw new Error("drawState.RenderState is null.");
     }
-    if (drawState.ShaderProgram == null) {
+    if (!drawState.ShaderProgram) {
       throw new Error("drawState.ShaderProgram is null.");
     }
-    if (drawState.VertexArray == null) {
+    if (!drawState.VertexArray) {
       throw new Error("drawState.VertexArray is null.");
     }
-    if (sceneState == null) {
+    if (!sceneState) {
       throw new Error("sceneState is null.");
     }
   }
@@ -256,7 +291,7 @@ class ContextGL2 extends Context {
   _applyVertexArray(vertexArray) {
     console.log("_applyVertexArray")
     // 绑定VertexArray
-    vertexArray.bind();
+    // vertexArray.bind();
     vertexArray.clean();
   }
 

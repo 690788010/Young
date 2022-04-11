@@ -24,7 +24,7 @@
     import Mesh from "../../src/Core/Geometry/Mesh.js";
     import VertexAttributeFloatVector3 from "../../src/Core/Geometry/VertexAttributes/VertexAttributeFloatVector3.js";
     import IndicesUnsignedShort from "../../src/Core/Geometry/Indices/IndicesUnsignedShort.js";
-    import TriangleIndicesUnsignedShort from "../../src/Core/Geometry/Indices/TriangleIndicesUnsignedShort.js";
+    import TriangleIndices from "../../src/Core/Geometry/Indices/TriangleIndices.js";
     import BufferHint from "../../src/Renderer/Buffers/BufferHint.js";
     import RenderState from "../../src/Renderer/RenderState/RenderState.js";
     import DrawState from "../../src/Renderer/DrawState.js";
@@ -33,44 +33,39 @@
 
     const window = Device.CreateWindow("mapContainer");
     const sceneState = new SceneState();
-    const clearState = new ClearState();
+    // const clearState = new ClearState();
 
-    const vs = `#version 300 es
-
-      layout(location = og_positionVertexLocation) in vec4 position;
+    const vs = `#version 300 es      // 声明版本
+      layout (location = 0) in vec3 position;
       uniform mat4 og_modelMatrix;
 
       void main() {
-        gl_Position = og_modelMatrix * position; 
+        gl_Position = vec4(position, 1.0);
       }`;
-    const fs = `#version 300 es
-      precision mediump float;
-               
-      out vec3 fragmentColor;
-      uniform vec3 u_color;
-      uniform vec3 og_texture3;
-
+    const fs = `#version 300 es       // 声明版本
+      precision mediump float;      // 设置浮点变量的精度
+      out vec4 FragColor;
+      uniform vec3 ourColor;
       void main() {
-        fragmentColor = u_color * og_texture3;
+        FragColor = vec4(ourColor, 1.0);
       }`;
     const sp = window.createShaderProgram(vs, fs);
-    sp.Uniforms.getByName("u_color").Value = new Vector3D(1, 0, 0);
-    // ------------------------------------------------------------
+    sp.Uniforms.getByName("ourColor").Value = new Vector3D(0, 0, 1);
+    // // ------------------------------------------------------------
 
     const mesh = new Mesh();
     
     const positionsAttribute = new VertexAttributeFloatVector3("position", 3);
-    positionsAttribute.add(new Vector3D(0, 0, 0));
-    positionsAttribute.add(new Vector3D(1, 0, 0));
-    positionsAttribute.add(new Vector3D(0, 0, 1));
+    positionsAttribute.add(new Vector3D(0.5, -0.5, 0.0));
+    positionsAttribute.add(new Vector3D(-0.5, -0.5, 0.0));
+    positionsAttribute.add(new Vector3D(0.0,  0.5, 0.0));
     mesh.Attributes.add(positionsAttribute);
 
     const indices = new IndicesUnsignedShort(3);
-    indices.addTriangle(new TriangleIndicesUnsignedShort(0, 1, 2));
+    indices.addTriangle(new TriangleIndices(0, 1, 2));
     mesh.Indices = indices;
 
     const va = window.Context.createVertexArrayByMesh(mesh, sp.VertexAttributes, BufferHint.StaticDraw);
-
     // -------------------------------------------------------------------
     
     const renderState = new RenderState();

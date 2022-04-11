@@ -122,15 +122,15 @@ class TypeConverterGL2 {
   static PrimitiveTypeTo(type) {
     switch(type) {
       case PrimitiveType.Points:
-        return gl.Points;
+        return gl.POINTS;
       case PrimitiveType.Lines:
-        return gl.Lines;
+        return gl.LINES;
       case PrimitiveType.LineLoop:
-        return gl.LineLoop;
+        return gl.LINE_LOOP;
       case PrimitiveType.LineStrip:
-        return gl.LineStrip;
+        return gl.LINE_STRIP;
       case PrimitiveType.Triangles:
-        return gl.Triangles;
+        return gl.TRIANGLES;
     }
     throw new Error("An implementation for primitive type " + type + " does not exist.");
   }

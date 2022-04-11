@@ -17,7 +17,6 @@ class VertexBufferGL2 extends VertexBuffer {
    */
   constructor(gl, usageHint, sizeInBytes) {
     super();
-
     this._bufferObject = new BufferGL2(gl, BufferTarget.ArrayBuffer, usageHint, sizeInBytes);
   }
 

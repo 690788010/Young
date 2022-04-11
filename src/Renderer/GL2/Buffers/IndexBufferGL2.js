@@ -17,7 +17,6 @@ class IndexBufferGL2 extends IndexBuffer {
    */
   constructor(gl, usageHint, sizeInBytes) {
     super();
-    
     this._count = 0;  // 缓冲区中索引的数量
     // 索引的数据类型
     this._dataType = IndexBufferDataType.UnsignedShort;

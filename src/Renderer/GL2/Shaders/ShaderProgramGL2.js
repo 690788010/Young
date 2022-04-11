@@ -165,7 +165,7 @@ class ShaderProgramGL2 extends ShaderProgram {
   clean(context, drawState, sceneState) {
     // 更新各个DrawAutomaticUniform的值
     this._setDrawAutomaticUniforms(context, drawState, sceneState);
-    console.log(this._dirtyUniforms)
+    
     // 使用dirtyUniforms中的新值，通过GL调用更新Uniform 
     for (let i = 0, len = this._dirtyUniforms.size(); i < len; i++) {
       this._dirtyUniforms.get(i).clean(this._gl);
