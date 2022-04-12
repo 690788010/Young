@@ -21,7 +21,7 @@ class PixelBufferGL2 {
       throw new Error("sizeInBytes must be greater than zero.");
     }
 
-    this._name = new BufferNameGL2(gl);
+    this._name = new BufferNameGL2(this._gl);
 
     this._type = type;
     this._sizeInBytes = sizeInBytes;
@@ -45,6 +45,45 @@ class PixelBufferGL2 {
    */
   bind() {
     this._gl.bindBuffer(this._type, this._name.Value);
+  }
+
+  /**
+   * 从系统内存拷贝数据到显卡缓冲区
+   * @param {Typed Array} bufferInSystemMemory 类型化数组
+   * @param {Number} destinationOffsetInBytes 目的缓冲区中数据起始偏移量，单位字节
+   * @param {Number} lengthInBytes 从源数据要复制多少字节数据到显卡缓冲区
+   */
+  copyFromSystemMemory(bufferInSystemMemory, destinationOffsetInBytes, lengthInBytes) {
+    if (destinationOffsetInBytes < 0) {
+      throw new Error("destinationOffsetInBytes must be greater than or equal to zero.");
+    }
+    // 不能超过已分配的显卡缓冲区大小
+    if (destinationOffsetInBytes + lengthInBytes > this._sizeInBytes) {
+      throw new Error("destinationOffsetInBytes + lengthInBytes must be less than or equal to SizeInBytes.");
+    }
+    if (lengthInBytes < 0) {
+      throw new Error("lengthInBytes must be greater than or equal to zero.");
+    }
+    if (lengthInBytes > bufferInSystemMemory.byteLength) {
+      throw new Error("lengthInBytes must be less than or equal to the size of bufferInSystemMemory in bytes.");
+    }
+
+    this.bind();
+    this._gl.bufferSubData(this._type, destinationOffsetInBytes, bufferInSystemMemory, 0, (lengthInBytes / bufferInSystemMemory.BYTES_PER_ELEMENT));
+  }
+
+  /**
+   * @returns {Number}
+   */
+  get SizeInBytes() {
+    return this._sizeInBytes;
+  }
+
+   /**
+    * @returns {PixelBufferHint}
+    */
+  get UsageHint() {
+    return this._usageHint;
   }
 }
 

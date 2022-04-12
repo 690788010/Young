@@ -6,7 +6,6 @@
 import WritePixelBuffer from "../../Buffers/WritePixelBuffer.js";
 import BufferHint from "../../Buffers/BufferHint.js";
 import PixelBufferGL2 from "./PixelBufferGL2.js";
-import BufferTarget from "../../Buffers/BufferTarget.js"
 
 class WritePixelBufferGL2 extends WritePixelBuffer {
   /**
@@ -19,8 +18,7 @@ class WritePixelBufferGL2 extends WritePixelBuffer {
     super();
     this._gl = gl;
 
-    this._bufferObject = new PixelBufferGL2(this._gl.PIXEL_UNPACK_BUFFER, usageHint, sizeInBytes);
-    this._usageHint = usageHint;
+    this._bufferObject = new PixelBufferGL2(this._gl, this._gl.PIXEL_UNPACK_BUFFER, usageHint, sizeInBytes);
   }
 
   /**
@@ -35,6 +33,31 @@ class WritePixelBufferGL2 extends WritePixelBuffer {
    */
   unBind() {
     this._gl.bindBuffer(this._gl.PIXEL_UNPACK_BUFFER, null);
+  }
+
+  /**
+   * 从系统内存拷贝数据到显卡缓冲区
+   * @param {Typed Array} bufferInSystemMemory 类型化数组
+   * @param {Number} destinationOffsetInBytes 目的缓冲区中数据起始偏移量，单位字节
+   * @param {Number} lengthInBytes 从源数据要复制多少字节数据到显卡缓冲区
+   */
+   _copyFromSystemMemory(bufferInSystemMemory, destinationOffsetInBytes, lengthInBytes) {
+    this._bufferObject.copyFromSystemMemory(bufferInSystemMemory, destinationOffsetInBytes, lengthInBytes);
+   }
+
+  /**
+   * 抽象方法
+   * @returns {Number}
+   */
+  get SizeInBytes() {
+    return this._bufferObject.SizeInBytes;
+  }
+
+  /**
+   * @returns {PixelBufferHint}
+   */
+  get UsageHint() {
+    return this._bufferObject.UsageHint;
   }
 }
 

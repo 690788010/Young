@@ -3,9 +3,9 @@
  */
 
 const PixelBufferHint = {
-  Stream: "Stream",
-  Static: "Static",
-  Dynamic: "Dynamic"
+  Stream: "StreamDraw",
+  Static: "StaticDraw",
+  Dynamic: "DynamicDraw"
 };
 
 export default PixelBufferHint;

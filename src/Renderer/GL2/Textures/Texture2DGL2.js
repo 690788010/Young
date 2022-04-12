@@ -61,6 +61,14 @@ class Texture2DGL2 extends Texture2D {
     this._gl.bindTexture(this._target, this._name.Value);
   }
 
+  /**
+   * 生成Mipmap
+   */
+  _generateMipmaps() {
+    if (this._description.GenerateMipmaps) {
+      this._gl.generateMipmap(this._gl.TEXTURE_2D);
+    }
+  }
 
   /**
    * 激活最后一个纹理单元，并将纹理绑定到目标
@@ -68,6 +76,20 @@ class Texture2DGL2 extends Texture2D {
   bindToLastTextureUnit() {
     this._gl.activeTexture(this._lastTextureUnit);  // 激活最后一个纹理单元
     this.bind();
+  }
+
+  /**
+   * @returns {TextureNameGL2}
+   */
+  get Handle() {
+    return this._name;
+  }
+
+  /**
+   * @returns {TextureTarget}
+   */
+  get Target() {
+    return this._target;
   }
 }
 

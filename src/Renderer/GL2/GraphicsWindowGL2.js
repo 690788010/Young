@@ -16,6 +16,9 @@ import ComponentDatatype from "../VertexArray/ComponentDatatype.js";
 import Texture2DDescription from "../Textures/Texture2DDescription.js";
 import Texture2D from "../Textures/Texture2D.js";
 import Texture2DGL2 from "./Textures/Texture2DGL2.js";
+import WritePixelBufferGL2 from "./Buffers/WritePixelBufferGL2.js";
+import PixelBufferHint from "../Buffers/PixelBufferHint.js";
+import WritePixelBuffer from "../Buffers/WritePixelBuffer.js";
 
 class GraphicsWindowGL2 extends GraphicsWindow {
   /**
@@ -163,6 +166,16 @@ class GraphicsWindowGL2 extends GraphicsWindow {
    */
   createTexture2D(description) {
     return new Texture2DGL2(this._gl, description, this._gl.TEXTURE_2D);
+  }
+
+  /**
+   * 创建WritePixelBuffer
+   * @param {PixelBufferHint} usageHint
+   * @param {Number} sizeInBytes
+   * @returns {WritePixelBuffer}
+   */
+  createWritePixelBuffer(usageHint, sizeInBytes) {
+    return new WritePixelBufferGL2(this._gl, usageHint, sizeInBytes);
   }
 }
 

@@ -35,7 +35,6 @@ const s_linkAutomaticUniforms = new LinkAutomaticUniformCollection();
 const s_drawAutomaticUniformFactories = new DrawAutomaticUniformFactoryCollection();
 s_drawAutomaticUniformFactories.add(new ModelMatrixUniformFactory());
 
-
 class Device {
   
   /**
@@ -95,6 +94,21 @@ class Device {
    */
   static get MaximumNumberOfVertexAttributes() {
     return commonGL.getParameter(commonGL.MAX_VERTEX_ATTRIBS);
+  }
+
+  /**
+   * 将加载了图片的Image对象转换为Typed Array
+   * @param {Image} image 
+   * @returns {Typed Array}
+   */
+  static ImageToTypedArray(image) {
+    const canvasEle = document.createElement("canvas");
+    canvasEle.width = image.width;
+    canvasEle.height = image.height;
+    const canvas2D = canvasEle.getContext("2d");
+    canvas2D.drawImage(image, 0, 0);
+    const imageData = canvas2D.getImageData(0, 0, image.width, image.height);
+    return imageData.data;
   }
 }
 

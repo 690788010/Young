@@ -9,6 +9,7 @@ class BufferNameGL2 {
    */
   constructor(gl) {
     this._gl = gl;
+
     // 创建一个WebGLBuffer对象
     this._value = this._gl.createBuffer();
   }

@@ -20,11 +20,20 @@
     import Device from "../../src/Renderer/Device.js";
     import Texture2DDescription from "../../src/Renderer/Textures/Texture2DDescription.js";
     import TextureFormat from "../../src/Renderer/Textures/TextureFormat.js";
+    import PixelBufferHint from "../../src/Renderer/Buffers/PixelBufferHint.js";
 
     const window = Device.CreateWindow("mapContainer");
     
-    const description = new Texture2DDescription(256, 256, TextureFormat.RGBA8);
-    const texture = window.createTexture2D(description);
+    // const description = new Texture2DDescription(256, 256, TextureFormat.RGBA8);
+    // const texture = window.createTexture2D(description);
+
+    const image = new Image();
+    image.addEventListener("load", () => {
+      const typedArray = Device.ImageToTypedArray(image);
+      const pixelBuffer = window.createWritePixelBuffer(PixelBufferHint.Stream, typedArray.byteLength);
+      pixelBuffer.copyFromSystemMemory(typedArray);
+    });
+    image.src = "./imgs/container.jpg";
   </script>
 </body>
 </html>
