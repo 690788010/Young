@@ -9,23 +9,23 @@ import BufferHint from "../../Buffers/BufferHint.js";
 class PixelBufferGL2 {
   /**
    * 构造函数
+   * @param {WebGL2RenderingContext} gl
    * @param {BufferTarget} type 像素缓冲区的绑定目标，例如gl.PIXEL_UNPACK_BUFFER
    * @param {BufferHint} usageHint 像素缓冲区的usage参数
    * @param {Number} sizeInBytes 像素缓冲区的大小（以字节为单位）
    */
-  constructor(type, usageHint, sizeInBytes) {
-    super();
+  constructor(gl, type, usageHint, sizeInBytes) {
+    this._gl = gl;
 
     if (sizeInBytes <= 0) {
       throw new Error("sizeInBytes must be greater than zero.");
     }
 
-    const gl = document.createElement("canvas").getContext("webgl2");
     this._name = new BufferNameGL2(gl);
 
-    this._sizeInBytes = sizeInBytes;
     this._type = type;
-    this._usageHint = TypeConverterGL2.BufferHintTo(usageHint);
+    this._sizeInBytes = sizeInBytes;
+    this._usageHint = usageHint;
 
     //
     // Allocating here with GL.BufferData, then writing with GL.BufferSubData
@@ -37,15 +37,14 @@ class PixelBufferGL2 {
     // CopyFromSystemMemory() call.
     //
     this.bind();    // 绑定缓冲区
-    gl.bufferData(this._type, this._sizeInBytes, this._usageHint);  // 初始化缓冲区的数据存储区
+    gl.bufferData(this._type, this._sizeInBytes, TypeConverterGL2.BufferHintTo(this._usageHint));  // 初始化缓冲区的数据存储区
   }
 
   /**
-   * 绑定缓冲区
-   * @param  {WebGL2RenderingContext} gl WebGL2的环境对象
+   * 绑定像素缓冲区
    */
-  bind(gl) {
-    gl.bindBuffer(this._type, this._name.Value);
+  bind() {
+    this._gl.bindBuffer(this._type, this._name.Value);
   }
 }
 

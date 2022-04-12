@@ -8,8 +8,9 @@ class TextureNameGL2 {
    * @param {WebGL2RenderingContext}
    */
   constructor(gl) {
+    this._gl = gl;
     // 创建一个 WebGLTexture 对象
-    this._value = gl.createTexture();
+    this._value = this._gl.createTexture();
   }
 
   /**
@@ -18,6 +19,16 @@ class TextureNameGL2 {
    */
   get Value() {
     return this._value;
+  }
+
+  /**
+   * 删除WebGLTexture
+   */
+  dispose() {
+    if (!this._value) {
+      this._gl.deleteTexture(this._value);
+      this._value = null;
+    }
   }
 }
 

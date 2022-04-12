@@ -48,7 +48,7 @@ class IndexBufferGL2 extends IndexBuffer {
    * 
    * @returns {IndexBufferDataType}
    */
-  DataType() {
+  get DataType() {
     return this._dataType;
   }
 

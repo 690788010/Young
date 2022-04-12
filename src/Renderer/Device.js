@@ -57,12 +57,6 @@ class Device {
   //   return new ShaderProgramGL2(commonGL, vertexShaderSource, fragmentShaderSource);
   // }
 
-
-
-  static CreateTexture2D(description) {
-    return new Texture2DGL3x(description, TextureTarget.Texture2D);
-  }
-
   /**
    * 获取着色器程序中已声明的顶点属性的数量
    * @returns {Number}

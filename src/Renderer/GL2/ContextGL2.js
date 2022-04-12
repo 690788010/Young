@@ -166,7 +166,6 @@ class ContextGL2 extends Context {
    * @param {SceneState} sceneState
    */
   draw(primitiveType, drawState, sceneState) {
-    const shaderProgram = drawState.ShaderProgram;
     // 校验参数
     this._verifyDraw(drawState, sceneState);
     // 初始化设置
@@ -175,21 +174,20 @@ class ContextGL2 extends Context {
     const vertexArray = drawState.VertexArray;
     const indexBuffer = vertexArray.IndexBuffer;
 
-    // if (indexBuffer != null) {
-    //   this._gl.drawElements(
-    //     TypeConverterGL2.PrimitiveTypeTo(primitiveType),
-    //     indexBuffer.Count,
-    //     this._gl.UNSIGNED_SHORT,
-    //     // TypeConverterGL2.IndexDataTypeToGL(indexBuffer.DataType),
-    //     0
-    //   );
-    // } else {
+    if (indexBuffer != null) {
+      this._gl.drawElements(
+        TypeConverterGL2.PrimitiveTypeTo(primitiveType),
+        indexBuffer.Count,
+        TypeConverterGL2.IndexDataTypeToGL(indexBuffer.DataType),
+        0
+      );
+    } else {
       this._gl.drawArrays(
         TypeConverterGL2.PrimitiveTypeTo(primitiveType),
         0,
         3
       );
-    // }
+    }
   }
 
   /**

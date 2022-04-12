@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #mapContainer {
+      width: 800px;
+      height: 600px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <div id="mapContainer"></div>
+
+  <script type="module">
+    import Device from "../../src/Renderer/Device.js";
+    import Texture2DDescription from "../../src/Renderer/Textures/Texture2DDescription.js";
+    import TextureFormat from "../../src/Renderer/Textures/TextureFormat.js";
+
+    const window = Device.CreateWindow("mapContainer");
+    
+    const description = new Texture2DDescription(256, 256, TextureFormat.RGBA8);
+    const texture = window.createTexture2D(description);
+  </script>
+</body>
+</html>

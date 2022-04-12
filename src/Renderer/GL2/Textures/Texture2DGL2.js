@@ -1,19 +1,21 @@
-import Device from "../../Device";
-import Texture2D from "../../Textures/Texture2D";
-import Texture2DDescription from "../../Textures/Texture2DDescription";
-import TextureNameGL2 from "../Names/TextureNameGL2";
+import Device from "../../Device.js";
+import Texture2D from "../../Textures/Texture2D.js";
+import Texture2DDescription from "../../Textures/Texture2DDescription.js";
+import TextureNameGL2 from "../Names/TextureNameGL2.js";
 import WritePixelBufferGL2 from "../Buffers/WritePixelBufferGL2.js";
-import TypeConverterGL2 from "../TypeConverterGL2";
+import TypeConverterGL2 from "../TypeConverterGL2.js";
 
 
 class Texture2DGL2 extends Texture2D {
   /**
    * 构造函数
+   * @param {WebGL2RenderingContext} gl
    * @param  {Texture2DDescription} description 二维纹理的描述
    * @param  {TextureTarget} textureTarget 纹理的绑定目标，例如gl.TEXTURE_2D  
    */
-  constructor(description, textureTarget) {
+  constructor(gl, description, textureTarget) {
     super();
+    this._gl = gl;
 
     if (description.Width <= 0) {
       throw new Error("description.Width must be greater than zero.");
@@ -27,17 +29,19 @@ class Texture2DGL2 extends Texture2D {
 
     }
 
-    const gl = document.createElement("canvas").getContext("webgl2");
-    this._name = new TextureNameGL2(gl);
+    this._name = new TextureNameGL2(this._gl);
     this._target = textureTarget;
     this._description = description;
-    this._lastTextureUnit = gl.TEXTURE0 + (Device.NumberOfTextureUnits - 1);
+    // 最后一个纹理单元
+    this._lastTextureUnit = this._gl.TEXTURE0 + (Device.NumberOfTextureUnits - 1);
 
     //
     // TexImage2D is just used to allocate the texture so a PBO can't be bound.
     //
-    WritePixelBufferGL2.UnBind();
-    this.bindToLastTextureUnit(gl);
+    this._gl.bindBuffer(this._gl.PIXEL_UNPACK_BUFFER, null);
+    // 绑定到最后一个纹理单元
+    this.bindToLastTextureUnit();
+    // 指定二维纹理图像
     gl.texImage2D(this._target, 0, 
       TypeConverterGL2.TextureFormatTo(this._description.TextureFormat),
       this._description.Width,
@@ -53,17 +57,17 @@ class Texture2DGL2 extends Texture2D {
    * 绑定纹理
    * @param {WebGL2RenderingContext} gl 
    */
-  bind(gl) {
-    gl.bindTexture(this._target, this._name.Value);
+  bind() {
+    this._gl.bindTexture(this._target, this._name.Value);
   }
 
 
   /**
    * 激活最后一个纹理单元，并将纹理绑定到目标
    */
-  bindToLastTextureUnit(gl) {
-    gl.activeTexture(this._lastTextureUnit);  // 激活最后一个纹理单元
-    this.bind(gl);
+  bindToLastTextureUnit() {
+    this._gl.activeTexture(this._lastTextureUnit);  // 激活最后一个纹理单元
+    this.bind();
   }
 }
 

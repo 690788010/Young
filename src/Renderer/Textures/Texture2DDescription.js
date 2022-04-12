@@ -2,7 +2,7 @@
  * Texture2DDescription类是二维纹理的描述类
  */
 
-import TextureFormat from "./TextureFormat";
+import TextureFormat from "./TextureFormat.js";
 
 class Texture2DDescription {
   /**

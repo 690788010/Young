@@ -13,6 +13,9 @@ import VertexAttributeType from "../../Core/Geometry/VertexAttributes/VertexAttr
 import VertexBufferGL2 from "./Buffers/VertexBufferGL2.js";
 import VertexBufferAttributeGL2 from "./VertexArray/VertexBufferAttributeGL2.js";
 import ComponentDatatype from "../VertexArray/ComponentDatatype.js";
+import Texture2DDescription from "../Textures/Texture2DDescription.js";
+import Texture2D from "../Textures/Texture2D.js";
+import Texture2DGL2 from "./Textures/Texture2DGL2.js";
 
 class GraphicsWindowGL2 extends GraphicsWindow {
   /**
@@ -151,6 +154,15 @@ class GraphicsWindowGL2 extends GraphicsWindow {
     const vertexBuffer = this.createVertexBuffer(usageHint, valuesArray.byteLength);
     vertexBuffer.copyFromSystemMemory(valuesArray);
     return vertexBuffer;
+  }
+
+  /**
+   * 创建二维纹理
+   * @param {Texture2DDescription} description 
+   * @returns {Texture2D}
+   */
+  createTexture2D(description) {
+    return new Texture2DGL2(this._gl, description, this._gl.TEXTURE_2D);
   }
 }
 

@@ -3,8 +3,9 @@
  */
 
 const TextureFormat = {
-  RedGreenBlue8: "RedGreenBlue8",
-  RedGreenBlue16: "RedGreenBlue16"
+  RGBA8: "RGBA8"
+  // RedGreenBlue8: "RedGreenBlue8",
+  // RedGreenBlue16: "RedGreenBlue16"
   // RedGreenBlueAlpha8,
   // RedGreenBlue10A2,
   // RedGreenBlueAlpha16,

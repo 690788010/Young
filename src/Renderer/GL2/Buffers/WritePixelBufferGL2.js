@@ -3,30 +3,38 @@
  * WritePixelBufferGL2类用于从系统内存传输数据到纹理
  */
 
-import WritePixelBuffer from "../../Buffers/WritePixelBuffer";
+import WritePixelBuffer from "../../Buffers/WritePixelBuffer.js";
 import BufferHint from "../../Buffers/BufferHint.js";
-import PixelBufferGL2 from "./PixelBufferGL2";
+import PixelBufferGL2 from "./PixelBufferGL2.js";
 import BufferTarget from "../../Buffers/BufferTarget.js"
 
 class WritePixelBufferGL2 extends WritePixelBuffer {
   /**
    * 构造函数
+   * @param {WebGL2RenderingContext} gl
    * @param {BufferHint} usageHint 像素缓冲区的usage参数
    * @param {Number} sizeInBytes 缓冲区的大小（以字节为单位）
    */
-  constructor(usageHint, sizeInBytes) {
+  constructor(gl, usageHint, sizeInBytes) {
     super();
+    this._gl = gl;
 
-    this._bufferObject = new PixelBufferGL2(BufferTarget.PixelUnpackBuffer, usageHint, sizeInBytes);
+    this._bufferObject = new PixelBufferGL2(this._gl.PIXEL_UNPACK_BUFFER, usageHint, sizeInBytes);
     this._usageHint = usageHint;
   }
 
   /**
-   * 解绑目标为gl.PIXEL_UNPACK_BUFFER的缓冲区
+   * 绑定像素缓冲区
    */
-  static UnBind() {
-    const gl = document.createElement("canvas").getContext("webgl2");
-    gl.bindBuffer(BufferTarget.PixelUnpackBuffer, null);
+  bind() {
+    this._bufferObject.bind();
+  }
+
+  /**
+   * 解绑像素缓冲区
+   */
+  unBind() {
+    this._gl.bindBuffer(this._gl.PIXEL_UNPACK_BUFFER, null);
   }
 }
 
