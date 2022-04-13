@@ -5,8 +5,6 @@
 
 import List from "../../../Core/List/List.js";
 
-class DrawAutomaticUniformFactoryCollection extends List {
-  
-}
+class DrawAutomaticUniformFactoryCollection extends List {}
 
 export default DrawAutomaticUniformFactoryCollection;

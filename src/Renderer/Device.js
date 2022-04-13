@@ -22,7 +22,7 @@ for (let i = 0; i < numberOfTextureUnits; i++) {
   LinkAutomaticUniforms.add(new TextureUniform(i));
 }
 
-// 保存DrawAutomaticUniformFactory的集合，ShaderProgram类会使用该集合初始化DrawAutomaticUniform
+// 保存DrawAutomaticUniformFactory的集合，ShaderProgram类会使用该集合创建对应的DrawAutomaticUniform并保存
 const DrawAutomaticUniformFactories = new DrawAutomaticUniformFactoryCollection();
 DrawAutomaticUniformFactories.add(new ModelMatrixUniformFactory());
 
