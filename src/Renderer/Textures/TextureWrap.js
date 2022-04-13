@@ -3,9 +3,9 @@
  */
 
 const TextureWrap = {
-  Clamp: "Clamp",
-  Repeat: "Repeat",
-  MirroredRepeat: "MirroredRepeat"
+  CLAMP_TO_EDGE: "CLAMP_TO_EDGE",
+  REPEAT: "REPEAT",
+  MIRRORED_REPEAT: "MIRRORED_REPEAT"
 };
 
 export default TextureWrap;

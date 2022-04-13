@@ -13,6 +13,12 @@ import CullFace from "../RenderState/CullFace.js";
 import WindingOrder from "../../Core/Geometry/WindingOrder.js";
 import ClearBuffers from "../ClearState/ClearBuffers.js";
 import IndexBufferDataType from "../Buffers/IndexBufferDataType.js";
+import ImageFormat from "../Textures/ImageFormat.js";
+import ImageDataType from "../Textures/ImageDataType.js";
+import BufferNameGL2 from "./Names/BufferNameGL2.js";
+import TextureMinificationFilter from "../Textures/TextureMinificationFilter.js";
+import TextureMagnificationFilter from "../Textures/TextureMagnificationFilter.js";
+import TextureWrap from "../Textures/TextureWrap.js";
 
 const gl = document.createElement("canvas").getContext("webgl2");
 
@@ -62,9 +68,14 @@ class TypeConverterGL2 {
    */
   static TextureFormatTo(format) {
     switch (format) {
+      case TextureFormat.RGBA:
+        return gl.RGBA;
+      case TextureFormat.RGBA8:
+        return gl.RGBA8;
       case TextureFormat.RedGreenBlue8:
         return gl.RGB8;
     }
+    throw new Error("TextureFormat");
   }
 
   /**
@@ -77,6 +88,10 @@ class TypeConverterGL2 {
     //     throw new ArgumentException("Invalid texture format.", "textureFormat");
     // }
     switch (textureFormat) {
+      case TextureFormat.RGBA:
+        return gl.RGBA;
+      case TextureFormat.RGBA8:
+        return gl.RGBA8;
       case TextureFormat.RedGreenBlue8:
       case TextureFormat.RedGreenBlue16:
         return gl.RGB8;
@@ -88,6 +103,8 @@ class TypeConverterGL2 {
     //     throw new ArgumentException("Invalid texture format.", "textureFormat");
     // }
     switch(textureFormat) {
+      case TextureFormat.RGBA:
+        return gl.UNSIGNED_BYTE;
       case TextureFormat.RedGreenBlue8:
         return gl.UNSIGNED_BYTE;
     }
@@ -223,6 +240,88 @@ class TypeConverterGL2 {
         return gl.UNSIGNED_INT;
     }
   }
+
+  /**
+   * 
+   * @param {ImageFormat} format 
+   * @returns {GLenum}
+   */
+  static ImageFormatToGL(format) {
+    switch(format) {
+      case ImageFormat.RGB:
+        return gl.RGB;
+      case ImageFormat.RGBA:
+        return gl.RGBA;
+    }
+    throw new Error("ImageFormat");
+  }
+
+  /**
+   * 
+   * @param {ImageDataType} type 
+   * @returns {GLenum}
+   */
+  static ImageDataTypeToGL(type) {
+    switch(type) {
+      case ImageDataType.UNSIGNED_BYTE:
+        return gl.UNSIGNED_BYTE;
+    }
+    throw new Error("ImageDataType");
+  }
+
+  /**
+   * 
+   * @param {TextureMinificationFilter} filter 
+   * @param {GLenum}
+   */
+  static TextureMinFilterToGL(filter) {
+    switch(filter) {
+      case TextureMinificationFilter.LINEAR:
+        return gl.LINEAR;
+      case TextureMinificationFilter.NEAREST:
+        return gl.NEAREST;
+      case TextureMinificationFilter.NEAREST_MIPMAP_NEAREST:
+        return gl.NEAREST_MIPMAP_NEAREST;
+      case TextureMinificationFilter.LINEAR_MIPMAP_NEAREST:
+        return gl.LINEAR_MIPMAP_NEAREST;
+      case TextureMinificationFilter.NEAREST_MIPMAP_LINEAR:
+        return gl.NEAREST_MIPMAP_LINEAR;
+      case TextureMinificationFilter.LINEAR_MIPMAP_LINEAR:
+        return gl.LINEAR_MIPMAP_LINEAR
+    }
+    throw new Error("TextureMinificationFilter");
+  }
+
+  /**
+   * 
+   * @param {TextureMagnificationFilter} filter 
+   * @returns {GLenum} 
+   */
+  TextureMagFilterToGL(filter) {
+    switch(filter) {
+      case TextureMagnificationFilter.NEAREST:
+        return gl.NEAREST;
+      case TextureMagnificationFilter.LINEAR:
+        return gl.LINEAR;
+    }
+    throw new Error("TextureMagnificationFilter")
+  }
+
+  /**
+   * 
+   * @param {TextureWrap} wrap 
+   * @returns {GLenum}
+   */
+  TextureWrapToGL(wrap) {
+    switch(wrap) {
+      case TextureWrap.CLAMP_TO_EDGE:
+        return gl.CLAMP_TO_EDGE;
+      case TextureWrap.REPEAT:
+        return gl.REPEAT;
+      case TextureWrap.MIRRORED_REPEAT:
+        return gl.MIRRORED_REPEAT;
+    }
+  } 
 }
 
 export default TypeConverterGL2;

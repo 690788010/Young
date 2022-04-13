@@ -4,6 +4,9 @@ import Texture2DDescription from "../../Textures/Texture2DDescription.js";
 import TextureNameGL2 from "../Names/TextureNameGL2.js";
 import WritePixelBufferGL2 from "../Buffers/WritePixelBufferGL2.js";
 import TypeConverterGL2 from "../TypeConverterGL2.js";
+import ImageFormat from "../../Textures/ImageFormat.js";
+import ImageDataType from "../../Textures/ImageDataType.js";
+import TextureUtility from "../../Textures/TextureUtility.js";
 
 
 class Texture2DGL2 extends Texture2D {
@@ -42,15 +45,14 @@ class Texture2DGL2 extends Texture2D {
     // 绑定到最后一个纹理单元
     this.bindToLastTextureUnit();
     // 指定二维纹理图像
-    gl.texImage2D(this._target, 0, 
+    this._gl.texImage2D(this._target, 0, 
       TypeConverterGL2.TextureFormatTo(this._description.TextureFormat),
       this._description.Width,
       this._description.Height,
       0,
       TypeConverterGL2.TextureToPixelFormat(this._description.TextureFormat),
       TypeConverterGL2.TextureToPixelType(this._description.TextureFormat),
-      null
-    );
+      null);
   }
 
   /**
@@ -59,6 +61,67 @@ class Texture2DGL2 extends Texture2D {
    */
   bind() {
     this._gl.bindTexture(this._target, this._name.Value);
+  }
+
+  /**
+   * 
+   * @param {WritePixelBufferGL2} pixelBuffer 
+   * @param {Number} xOffset 纹理局部更新子矩形左下角x坐标
+   * @param {Number} yOffset 纹理局部更新子矩形左下角y坐标
+   * @param {Number} width 纹理局部更新子矩形宽度
+   * @param {Number} height 纹理局部更新子矩形高度
+   * @param {ImageFormat} format 图片像素的数据格式 
+   * @param {ImageDataType} dataType 图片像素的数据类型 
+   * @param {Number} rowAlignment 行对齐的字节数
+   */
+  _copyFromBuffer(pixelBuffer, xOffset, yOffset, width, height, format, dataType, rowAlignment) {
+    if (pixelBuffer.SizeInBytes < TextureUtility.RequiredSizeInBytes(
+      width, height, format, dataType, rowAlignment)) 
+    {
+      throw new Error("Pixel buffer is not big enough for provided width, height, format, and datatype.");
+    }
+    if (xOffset < 0) {
+      throw new Error("xOffset must be greater than or equal to zero.");
+    }
+    if (yOffset < 0) {
+      throw new Error("yOffset must be greater than or equal to zero.");
+    }
+    if (xOffset + width > this._description.Width) {
+      throw new Error("xOffset + width must be less than or equal to Description.Width.");
+    }
+    if (yOffset + height > this._description.Height) {
+      throw new Error("yOffset + height must be less than or equal to Description.Height.");
+    }
+
+    // 验证行对齐字节数是否合法
+    this._verifyRowAlignment(rowAlignment);
+
+    pixelBuffer.bind();
+    this.bindToLastTextureUnit();
+    this._gl.pixelStorei(this._gl.UNPACK_ALIGNMENT, rowAlignment);
+    this._gl.texSubImage2D(this._target, 0,
+      xOffset,
+      yOffset,
+      width,
+      height,
+      TypeConverterGL2.ImageFormatToGL(format),
+      TypeConverterGL2.ImageDataTypeToGL(dataType),
+      0);
+    this._generateMipmaps();
+  }
+
+  /**
+   * 验证行对齐字节数是否合法
+   * @param {Number} rowAlignment  行对齐字节数
+   */
+  _verifyRowAlignment(rowAlignment) {
+    if ((rowAlignment !== 1) &&
+        (rowAlignment !== 2) &&
+        (rowAlignment !== 4) &&
+        (rowAlignment !== 8))
+    {
+      throw new Error("rowAlignment is illegal.");
+    }
   }
 
   /**
@@ -90,6 +153,13 @@ class Texture2DGL2 extends Texture2D {
    */
   get Target() {
     return this._target;
+  }
+
+  /**
+   * @returns {Description}
+   */
+  get Description() {
+    return this._description;
   }
 }
 

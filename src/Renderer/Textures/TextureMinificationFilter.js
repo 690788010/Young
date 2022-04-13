@@ -3,12 +3,12 @@
  */
 
 const TextureMinificationFilter = {
-  Nearest: "Nearest",
-  Linear: "Linear",
-  NearestMipmapNearest: "NearestMipmapNearest",
-  LinearMipmapNearest: "LinearMipmapNearest",
-  NearestMipmapLinear: "NearestMipmapLinear",
-  LinearMipmapLinear: "LinearMipmapLinear"
+  NEAREST: "NEAREST",
+  LINEAR: "LINEAR",
+  NEAREST_MIPMAP_NEAREST: "NEAREST_MIPMAP_NEAREST",
+  LINEAR_MIPMAP_NEAREST: "LINEAR_MIPMAP_NEAREST",
+  NEAREST_MIPMAP_LINEAR: "NEAREST_MIPMAP_LINEAR",
+  LINEAR_MIPMAP_LINEAR: "LINEAR_MIPMAP_LINEAR"
 };
 
 export default TextureMinificationFilter;

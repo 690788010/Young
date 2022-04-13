@@ -5,9 +5,11 @@
 import Disposable from "../../Core/Disposable.js";
 
 class TextureSampler extends Disposable{
-  constructor() {
-
-  }
+  
+  /**
+   * 抽象方法
+   */
+  dispose() {}
 }
 
 export default TextureSampler;

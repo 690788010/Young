@@ -3,6 +3,7 @@
  */
 
 const TextureFormat = {
+  RGBA: "RGBA",
   RGBA8: "RGBA8"
   // RedGreenBlue8: "RedGreenBlue8",
   // RedGreenBlue16: "RedGreenBlue16"

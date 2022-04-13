@@ -3,8 +3,8 @@
  */
 
 const TextureMagnificationFilter = {
-  Nearest: "Nearest",
-  Linear: "Linear"
+  NEAREST: "NEAREST",
+  LINEAR: "LINEAR"
 };
 
 export default TextureMagnificationFilter;
