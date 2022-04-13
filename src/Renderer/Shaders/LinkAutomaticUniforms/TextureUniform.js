@@ -1,7 +1,7 @@
 /**
  * TextureUniform类是LinkAutomaticUniform抽象类的实现类
  * 目前LinkAutomaticUniform抽象类只有TextureUniform类这一个子类
- * TextureUniform类对应2D Sampler
+ * TextureUniform类的作用是为对应的Sampler2D Uniform赋值
  */
 
 import LinkAutomaticUniform from "./LinkAutomaticUniform.js"
@@ -19,6 +19,7 @@ class TextureUniform extends LinkAutomaticUniform {
   }
 
   /**
+   * 获取name属性
    * @returns {String}
    */
   get Name() {

@@ -11,7 +11,7 @@ class List {
    * 返回集合的长度
    * @returns {Number}
    */
-   size() {
+  size() {
     return this._values.length;
   }
 

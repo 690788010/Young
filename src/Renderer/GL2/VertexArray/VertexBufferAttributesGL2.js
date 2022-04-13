@@ -15,7 +15,7 @@ class VertexBufferAttributesGL2 extends VertexBufferAttributes {
 
     this._gl = gl;
     // 存放多个VertexBufferAttribute
-    this._attributes = new Array(Device.MaximumNumberOfVertexAttributes);
+    this._attributes = new Array(Device.MAX_VERTEX_ATTRIBS);
     // _attributes中包含的有效VertexBufferAttribute的数量
     this._count = 0;
     this._maximumArrayIndex = 0;

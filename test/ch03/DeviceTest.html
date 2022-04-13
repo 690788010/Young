@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #mapContainer {
+      width: 800px;
+      height: 600px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <div id="mapContainer"></div>
+
+  <script type="module">
+    import Device from "../../src/Renderer/Device.js";
+
+    console.log(Device.MAX_VERTEX_ATTRIBS);
+    console.log(Device.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+    console.log(Device.LinkAutomaticUniforms);
+  </script>
+</body>
+</html>

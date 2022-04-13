@@ -10,7 +10,7 @@ class MeshVertexBufferAttributes extends VertexBufferAttributes {
   constructor() {
     super();
 
-    this._attributes = new Array(Device.MaximumNumberOfVertexAttributes);
+    this._attributes = new Array(Device.MAX_VERTEX_ATTRIBS);
     this._count = 0;
   }
 

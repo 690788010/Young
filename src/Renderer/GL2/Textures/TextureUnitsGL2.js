@@ -10,7 +10,7 @@ class TextureUnitsGL2 extends TextureUnits {
   constructor(gl) {
     super();
     //
-    // Device.NumberOfTextureUnits is not initialized yet.
+    // Device.MAX_COMBINED_TEXTURE_IMAGE_UNITS is not initialized yet.
     //
     const numberOfTextureUnits = gl.getParameter(gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
     

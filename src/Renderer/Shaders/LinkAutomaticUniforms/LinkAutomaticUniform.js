@@ -12,7 +12,7 @@ class LinkAutomaticUniform {
 
   /**
    * 抽象方法，为传入的Uniform设置值
-   * @param {Uniform} uniform 
+   * @param {Uniform} uniform
    */
   set(uniform) {}
 }

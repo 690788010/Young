@@ -4,7 +4,6 @@
 
 import List from "../../../Core/List/List.js";
 
-class LinkAutomaticUniformCollection extends List{
-}
+class LinkAutomaticUniformCollection extends List {}
 
 export default LinkAutomaticUniformCollection;
