@@ -10,7 +10,23 @@ class TextureUnitGL2 extends TextureUnit {
     super();
     
     this._textureUnitIndex = index;
+    this._texture = null;
+    this._textureSampler = null;
   }
+
+  /**
+   * @returns {Texture2D}
+   */
+   get Texture() {
+     return this._texture;
+   }
+
+   /**
+    * @returns {TextureSampler}
+    */
+   get TextureSampler() {
+     return this._textureSampler;
+   }
 }
 
 export default TextureUnitGL2;
