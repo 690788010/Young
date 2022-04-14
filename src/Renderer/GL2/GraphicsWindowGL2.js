@@ -19,6 +19,10 @@ import Texture2DGL2 from "./Textures/Texture2DGL2.js";
 import WritePixelBufferGL2 from "./Buffers/WritePixelBufferGL2.js";
 import PixelBufferHint from "../Buffers/PixelBufferHint.js";
 import WritePixelBuffer from "../Buffers/WritePixelBuffer.js";
+import TextureMinificationFilter from "../Textures/TextureMinificationFilter.js";
+import TextureMagnificationFilter from "../Textures/TextureMagnificationFilter.js";
+import TextureWrap from "../Textures/TextureWrap.js";
+import TextureSamplerGL2 from "./Textures/TextureSamplerGL2.js";
 
 class GraphicsWindowGL2 extends GraphicsWindow {
   /**
@@ -176,6 +180,22 @@ class GraphicsWindowGL2 extends GraphicsWindow {
    */
   createWritePixelBuffer(usageHint, sizeInBytes) {
     return new WritePixelBufferGL2(this._gl, usageHint, sizeInBytes);
+  }
+
+  /**
+   * 
+   * @param {TextureMinificationFilter} minificationFilter 
+   * @param {TextureMagnificationFilter} magnificationFilter 
+   * @param {TextureWrap} wrapS 
+   * @param {TextureWrap} WrapT 
+   * @param {Number} maximumAnistropy
+   * @returns {TextureSamplerGL2}
+   */
+  createTexture2DSampler(minificationFilter, magnificationFilter, 
+    wrapS, WrapT, maximumAnistropy) 
+  {
+    return new TextureSamplerGL2(this._gl, minificationFilter, magnificationFilter,
+      wrapS, WrapT, maximumAnistropy);
   }
 }
 

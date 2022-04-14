@@ -54,6 +54,14 @@ class Device {
   }
 
   /**
+   * 获取WebGL的纹理单元0的数字编号
+   * @returns {GLenum}
+   */
+  static get TEXTURE0() {
+    return GL.TEXTURE0;
+  }
+
+  /**
    * 获取LinkAutomaticUniform的集合
    * @returns {LinkAutomaticUniformCollection}
    */

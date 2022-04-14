@@ -29,6 +29,8 @@
     const description = new Texture2DDescription(512, 512, TextureFormat.RGBA);
     const texture = window.createTexture2D(description);
 
+    const sampler = window.createTexture2DSampler()
+
     const image = new Image();
     image.addEventListener("load", () => {
       const typedArray = Device.ImageToTypedArray(image);
