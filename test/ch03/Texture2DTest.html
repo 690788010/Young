@@ -23,13 +23,20 @@
     import PixelBufferHint from "../../src/Renderer/Buffers/PixelBufferHint.js";
     import ImageFormat from "../../src/Renderer/Textures/ImageFormat.js";
     import ImageDataType from "../../src/Renderer/Textures/ImageDataType.js";
+    import TextureMinificationFilter from "../../src/Renderer/Textures/TextureMinificationFilter.js";
+    import TextureMagnificationFilter from "../../src/Renderer/Textures/TextureMagnificationFilter.js";
+    import TextureWrap from "../../src/Renderer/Textures/TextureWrap.js";
 
     const window = Device.CreateWindow("mapContainer");
     
     const description = new Texture2DDescription(512, 512, TextureFormat.RGBA);
     const texture = window.createTexture2D(description);
 
-    const sampler = window.createTexture2DSampler()
+    const sampler = window.createTexture2DSampler(
+      TextureMinificationFilter.LINEAR,
+      TextureMagnificationFilter.LINEAR,
+      TextureWrap.REPEAT,
+      TextureWrap.REPEAT);
 
     const image = new Image();
     image.addEventListener("load", () => {

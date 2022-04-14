@@ -58,7 +58,7 @@ class TextureUnitsGL2 extends TextureUnits {
    * @param {Number} index 
    * @returns {TextureUnitGL2}
    */
-   get(index) {
+  get(index) {
     return this._textureUnits[index];
   }
 }

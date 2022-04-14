@@ -3,7 +3,7 @@
  * TextureSampler类是一个抽象类，它用于表示纹理的采样器
  */
 
-import TextureSampler from "../../Textures/TextureSampler";
+import TextureSampler from "../../Textures/TextureSampler.js";
 import TextureMinificationFilter from "../../Textures/TextureMinificationFilter.js";
 import TextureMagnificationFilter from "../../Textures/TextureMagnificationFilter.js";
 import TextureWrap from "../../Textures/TextureWrap.js";

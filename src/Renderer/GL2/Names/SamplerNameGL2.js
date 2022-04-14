@@ -30,3 +30,5 @@ class SamplerNameGL2 {
     }
   }
 }
+
+export default  SamplerNameGL2;

@@ -38,7 +38,8 @@ class ContextGL2 extends Context {
     // 保存这个RenderState实例用于和传入Draw调用的RenderState
     // 比较，相当于GL状态的副本。如果双方有状态是不同的，才通过GL调用去修改
     this._renderState = new RenderState(this._gl);
-    this._textureUnits = new TextureUnitsGL2(this._gl);   // 初始化纹理单元
+    // 保存了一个TextureUnitGL2的集合
+    this._textureUnits = new TextureUnitsGL2(this._gl);   
 
     // 同步GL状态和默认RenderState状态一致
     this._forceApplyRenderState(this._renderState);

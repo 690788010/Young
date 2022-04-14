@@ -10,7 +10,6 @@ import TextureSamplerGL2 from "./TextureSamplerGL2.js";
 import Device from "../../Device.js";
 
 const None = 0, Texture = 1, TextureSampler = 2;
-All = Texture | TextureSampler
 const DirtyFlags = {    // 用于标识TextureUnitGL2对象的状态
   None: None,
   Texture: Texture,

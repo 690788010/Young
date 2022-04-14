@@ -297,7 +297,7 @@ class TypeConverterGL2 {
    * @param {TextureMagnificationFilter} filter 
    * @returns {GLenum} 
    */
-  TextureMagFilterToGL(filter) {
+  static TextureMagFilterToGL(filter) {
     switch(filter) {
       case TextureMagnificationFilter.NEAREST:
         return gl.NEAREST;
@@ -312,7 +312,7 @@ class TypeConverterGL2 {
    * @param {TextureWrap} wrap 
    * @returns {GLenum}
    */
-  TextureWrapToGL(wrap) {
+  static TextureWrapToGL(wrap) {
     switch(wrap) {
       case TextureWrap.CLAMP_TO_EDGE:
         return gl.CLAMP_TO_EDGE;
