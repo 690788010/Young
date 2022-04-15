@@ -121,12 +121,16 @@ class TypeConverterGL2 {
         return UniformType.Int;
       case gl.FLOAT:
         return UniformType.Float;
+      case gl.FLOAT_VEC2:
+        return UniformType.FloatVector2;
       case gl.FLOAT_VEC3:
         return UniformType.FloatVector3;
       case gl.FLOAT_VEC4:
         return UniformType.FloatVector4;
       case gl.FLOAT_MAT4:
         return UniformType.FloatMatrix44;
+      case gl.SAMPLER_2D:
+        return UniformType.Sampler2D;
     }
     throw new Error("An implementation for uniform type " + type + " does not exist.");
   }

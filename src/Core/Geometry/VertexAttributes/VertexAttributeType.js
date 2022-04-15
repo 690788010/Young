@@ -9,7 +9,7 @@ const VertexAttributeType = {
   // HalfFloatVector3,
   // HalfFloatVector4,
   // Float,
-  // FloatVector2,
+  FloatVector2: "FloatVector2",
   FloatVector3: "FloatVector3",
   // FloatVector4,
   // EmulatedDoubleVector3

@@ -223,6 +223,8 @@ class ContextGL2 extends Context {
     this._applyRenderState(drawState.RenderState);
     this._applyVertexArray(drawState.VertexArray);
     this._applyShaderProgram(drawState, sceneState);
+
+    this._textureUnits.clean();
   }
 
   /**

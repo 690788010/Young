@@ -5,7 +5,7 @@
 const UniformType = {
   Int: "Int",
   Float: "Float",
-  // FloatVector2,
+  FloatVector2: "FloatVector2",
   FloatVector3: "FloatVector3",
   // FloatVector4,
   // IntVector2,
@@ -19,7 +19,7 @@ const UniformType = {
   // FloatMatrix33,
   FloatMatrix44: "FloatMatrix44",
   // Sampler1D,
-  // Sampler2D,
+  Sampler2D: "Sampler2D",
   // Sampler2DRectangle,
   // Sampler2DRectangleShadow,
   // Sampler3D,

@@ -131,7 +131,18 @@ class GraphicsWindowGL2 extends GraphicsWindow {
         throw new Error("Shader requires vertex attribute \"" + shaderAttribute.Name + "\", which is not present in mesh.");
       }
       const attribute = mesh.Attributes.getByName(shaderAttribute.Name);
-      if (attribute.DataType === VertexAttributeType.FloatVector3) {
+      if (attribute.DataType === VertexAttributeType.FloatVector2) {
+        const floatArr = [];
+        const list = attribute.Values;
+        for (let i = 0, len = list.size(); i < len; i++) {
+          const item = list.get(i);
+          floatArr.push(item.X);
+          floatArr.push(item.Y);
+        }
+        const vertexBuffer = this._createVertexBuffer(new Float32Array(floatArr), usageHint);
+        meshBuffers.Attributes.set(shaderAttribute.Location, 
+          new VertexBufferAttributeGL2(vertexBuffer, ComponentDatatype.Float, 2));
+      } else if (attribute.DataType === VertexAttributeType.FloatVector3) {
         const floatArr = [];
         const list = attribute.Values;
         for (let i = 0, len = list.size(); i < len; i++) {

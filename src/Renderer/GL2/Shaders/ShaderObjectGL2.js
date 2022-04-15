@@ -18,7 +18,7 @@ class ShaderObjectGL2 extends Disposable {
     if (shaderType === ShaderType.VertexShader) {
       builtinConstants += "#define og_posVertexLoc " + VertexLocations.Position + "\n";
       builtinConstants += "#define og_normalVertexLoc " + VertexLocations.Normal + "\n";
-      builtinConstants += "#define og_texCoordVertexLoc" + VertexLocations.TextureCoordinate + "\n";
+      builtinConstants += "#define og_texCoordVertexLoc " + VertexLocations.TextureCoordinate + "\n";
     }
     
       // 内置函数

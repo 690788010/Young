@@ -58,8 +58,8 @@ class VertexBufferAttributesGL2 extends VertexBufferAttributes {
    * @param {VertexBufferAttribute} value 
    */
   set(index, value) {
-    if ((!this._attributes[index]) || !(this._attributes[index].equals(value))) {
-      if (value !== null) {
+    if ((this._attributes[index] !== value) || (this._attributes[index] && !(this._attributes[index].equals(value)))) {
+      if (value !== null && value !== undefined) {
         if (value.NumberOfComponents < 1 || value.NumberOfComponents > 4) {
           throw new Error("NumberOfComponents must be between one and four.");
         }
