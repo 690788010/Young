@@ -72,7 +72,7 @@ class ContextGL2 extends Context {
     const va = this.createVertexArray();
     va.DisposeBuffers = true;
     va.IndexBuffer = meshBuffers.IndexBuffer;
-    for (let i = 0, len = meshBuffers.Attributes.Count; i < len; i++) {
+    for (let i = 0, len = meshBuffers.Attributes.MaximumCount; i < len; i++) {
       va.Attributes.set(i, meshBuffers.Attributes.get(i));
     }
     return va;
@@ -318,6 +318,10 @@ class ContextGL2 extends Context {
     if(!this._gl.getProgramParameter(this._boundShaderProgram.Program.Value, this._gl.VALIDATE_STATUS)) {
       throw new Error("Shader program validation failed");
     }
+  }
+
+  get GL() {
+    return this._gl;
   }
 }
 

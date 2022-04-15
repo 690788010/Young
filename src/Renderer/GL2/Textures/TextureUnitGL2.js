@@ -110,6 +110,7 @@ class TextureUnitGL2 extends TextureUnit {
     if (this._texture !== texture) {
       // 如果当前对象的DirtyFlags状态是None，则通知TextureUnitsGL2
       // 这个观察者将当前对象添加到集合中
+      // debugger
       if (this._dirtyFlags === DirtyFlags.None) {
         this._observer.notifyDirty(this);
       }
@@ -135,7 +136,7 @@ class TextureUnitGL2 extends TextureUnit {
       if (this._dirtyFlags === DirtyFlags.None) {
         this._observer.notifyDirty(this);
       }
-      this._dirtyFlags != DirtyFlags.TextureSampler;
+      this._dirtyFlags |= DirtyFlags.TextureSampler;
       this._textureSampler = sampler;
     }
   }

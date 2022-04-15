@@ -101,7 +101,7 @@
     const renderState = new RenderState();
     const drawState = new DrawState(renderState, sp, va);
     
-    const description = new Texture2DDescription(512, 512, TextureFormat.RGBA);
+    const description = new Texture2DDescription(512, 512, TextureFormat.RGBA, false);
     const texture = window.createTexture2D(description);
 
     const sampler = window.createTexture2DSampler(
@@ -109,16 +109,17 @@
       TextureMagnificationFilter.LINEAR,
       TextureWrap.REPEAT,
       TextureWrap.REPEAT);
+    
 
     const image = new Image();
     image.addEventListener("load", () => {
       const typedArray = Device.ImageToTypedArray(image);
       const pixelBuffer = window.createWritePixelBuffer(PixelBufferHint.Stream, typedArray.byteLength);
       pixelBuffer.copyFromSystemMemory(typedArray);
-      texture.copyFromBuffer(pixelBuffer, ImageFormat.RGBA, ImageDataType.UNSIGNED_BYTE);
+      texture.copyFromBuffer(pixelBuffer, ImageFormat.RGBA, ImageDataType.UNSIGNED_BYTE, 4);
 
       const context = window.Context;
-
+      const gl = context.GL;
       context.TextureUnits.get(0).Texture = texture;
       context.TextureUnits.get(0).TextureSampler = sampler;
 

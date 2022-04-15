@@ -3,6 +3,7 @@
  * 表示Uniform变量
  */
 
+import Vector2D from "../../../Core/Vectors/Vector2D.js";
 import Vector3D from "../../../Core/Vectors/Vector3D.js";
 import Uniform from "../../Shaders/Uniform.js";
 import UniformType from "../../Shaders/UniformType.js";
@@ -59,6 +60,13 @@ class UniformGL2 extends Uniform {
       case UniformType.Float:
         gl.uniform1f(this._location, this._value);
       break;
+      case UniformType.FloatVector2:
+        if (!(this._value instanceof Vector2D)) {
+          throw new Error("Uniform's value is not a Vector3D instance!");
+        }
+        console.log(this._location);
+        gl.uniform2fv(this._location, new Float32Array([this._value.X, this._value.Y]));
+      break;
       case UniformType.FloatVector3:
         if (!(this._value instanceof Vector3D)) {
           throw new Error("Uniform's value is not a Vector3D instance!");
@@ -67,6 +75,9 @@ class UniformGL2 extends Uniform {
       break;
       case UniformType.FloatMatrix44: 
         gl.uniformMatrix4fv(this._location, false, new Float32Array(this._value.Value));
+      break;
+      case UniformType.Sampler2D:
+        gl.uniform1i(this._location, this._value);
       break;
     }
   }

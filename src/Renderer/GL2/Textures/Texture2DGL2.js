@@ -37,6 +37,7 @@ class Texture2DGL2 extends Texture2D {
     this._description = description;
     // 最后一个纹理单元
     this._lastTextureUnit = this._gl.TEXTURE0 + (Device.MAX_COMBINED_TEXTURE_IMAGE_UNITS - 1);
+    // this._lastTextureUnit = this._gl.TEXTURE0;
 
     //
     // TexImage2D is just used to allocate the texture so a PBO can't be bound.
