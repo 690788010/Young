@@ -31,6 +31,13 @@ class VertexAttributeFloatVector3 extends VertexAttribute {
   add(item) {
     this._values.add(item);
   }
+
+  /**
+   * @returns {Number}
+   */
+  size() {
+    return this._values.size();
+  }
 }
 
 export default VertexAttributeFloatVector3;

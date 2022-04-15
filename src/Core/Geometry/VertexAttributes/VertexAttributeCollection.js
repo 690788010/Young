@@ -4,8 +4,6 @@
 
 import List from "../../List/List.js";
 
-class VertexAttributeCollection extends List{
-  
-}
+class VertexAttributeCollection extends List{}
 
 export default VertexAttributeCollection;

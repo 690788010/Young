@@ -1,7 +1,8 @@
 
+import IndicesBase from "./IndicesBase.js";
 import IndicesType from "./IndicesType.js";
 
-class IndicesUnsignedInt {
+class IndicesUnsignedInt extends IndicesBase{
   constructor() {
     super();
     this._indicesType = IndicesType.UnsignedInt;

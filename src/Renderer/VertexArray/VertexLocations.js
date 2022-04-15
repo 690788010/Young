@@ -1,5 +1,5 @@
 /**
- * VertexLocations对象是顶点着色器中attribute属性的索引位置的枚举
+ * VertexLocations对象是顶点着色器中attribute属性的预设值索引位置的枚举
  */
 
 const VertexLocations = {

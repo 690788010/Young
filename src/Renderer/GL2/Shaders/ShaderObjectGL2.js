@@ -16,7 +16,9 @@ class ShaderObjectGL2 extends Disposable {
     
     // 向顶点着色器添加内置常量
     if (shaderType === ShaderType.VertexShader) {
-      builtinConstants += "#define og_positionVertexLocation " + VertexLocations.Position + "\n";
+      builtinConstants += "#define og_posVertexLoc " + VertexLocations.Position + "\n";
+      builtinConstants += "#define og_normalVertexLoc " + VertexLocations.Normal + "\n";
+      builtinConstants += "#define og_texCoordVertexLoc" + VertexLocations.TextureCoordinate + "\n";
     }
     
       // 内置函数
@@ -34,7 +36,7 @@ class ShaderObjectGL2 extends Disposable {
     }
 
     const sources = builtinConstants + builtinFunctions + modifiedSource;
-    
+
     /// 创建着色器对象
     this._shaderObject = this._gl.createShader(shaderType);
     // 向着色器对象中填充着色器程序的源代码

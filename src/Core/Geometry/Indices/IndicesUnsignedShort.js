@@ -5,7 +5,6 @@
 
 import IndicesBase from "./IndicesBase.js";
 import IndicesType from "./IndicesType.js";
-import TriangleIndicesUnsignedShort from "./TriangleIndices.js";
 
 class IndicesUnsignedShort extends IndicesBase {
   constructor() {

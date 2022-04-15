@@ -115,7 +115,7 @@ class GraphicsWindowGL2 extends GraphicsWindow {
         meshBuffers.IndexBuffer = indexBuffer;
       } else if (mesh.Indices.DataType === IndicesType.UnsignedInt) {
         const indices = new Uint32Array(mesh.Indices.Values);
-        const indexBuffer = Device.CreateIndexBuffer(usageHint, indices.byteLength);
+        const indexBuffer = this.createIndexBuffer(usageHint, indices.byteLength);
         indexBuffer.copyFromSystemMemory(indices);
         meshBuffers.IndexBuffer = indexBuffer;
       } else {
