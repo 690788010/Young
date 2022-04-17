@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-04-17T11:46:04.433Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" etag="3xtUGP61g6JuYm3gGZ9a" version="17.4.4" type="github">
+<mxfile host="app.diagrams.net" modified="2022-04-17T11:50:59.041Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" etag="LERpMQtrthD38OAQcGcI" version="17.4.4" type="github">
   <diagram name="Page-1" id="c4acf3e9-155e-7222-9cf6-157b1a14988f">
     <mxGraphModel dx="3122" dy="1862" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
       <root>
@@ -359,16 +359,16 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="3BeOqxg2h7bQfwQp6ark-69" value="ShaderVertexAttribute" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-          <mxGeometry x="-962.5" y="-190" width="215" height="170" as="geometry" />
+          <mxGeometry x="-1041.25" y="-190" width="372.5" height="180" as="geometry" />
         </mxCell>
         <mxCell id="3BeOqxg2h7bQfwQp6ark-70" value="_name : String&#xa;_location: Number&#xa;_type : ShaderVertexAttributeType&#xa;_length : Number" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="3BeOqxg2h7bQfwQp6ark-69" vertex="1">
-          <mxGeometry y="26" width="215" height="64" as="geometry" />
+          <mxGeometry y="26" width="372.5" height="64" as="geometry" />
         </mxCell>
         <mxCell id="3BeOqxg2h7bQfwQp6ark-71" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="3BeOqxg2h7bQfwQp6ark-69" vertex="1">
-          <mxGeometry y="90" width="215" height="8" as="geometry" />
+          <mxGeometry y="90" width="372.5" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="3BeOqxg2h7bQfwQp6ark-72" value="get Name(): String&#xa;get Location(): Number&#xa;get Type(): ShaderVertexAttributeType&#xa;get Length(): Number" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="3BeOqxg2h7bQfwQp6ark-69" vertex="1">
-          <mxGeometry y="98" width="215" height="72" as="geometry" />
+        <mxCell id="3BeOqxg2h7bQfwQp6ark-72" value="constructor(String, Number, ShaderVertexAttributeType, Number)&#xa;get Name(): String&#xa;get Location(): Number&#xa;get Type(): ShaderVertexAttributeType&#xa;get Length(): Number" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="3BeOqxg2h7bQfwQp6ark-69" vertex="1">
+          <mxGeometry y="98" width="372.5" height="82" as="geometry" />
         </mxCell>
         <mxCell id="M0LL1-UYa6yYR9HPbbaC-2" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;rounded=0;" parent="1" source="3BeOqxg2h7bQfwQp6ark-34" target="3BeOqxg2h7bQfwQp6ark-29" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
