@@ -24,6 +24,15 @@ class List {
   }
 
   /**
+   * 基于索引更新元素
+   * @param {Number} index 
+   * @param {Object} value 
+   */
+  set(index, value) {
+    this._values[index] = value;
+  }
+
+  /**
    * 根据name判断集合中是否包含该元素
    * @param {String} name
    * @returns {Boolean}

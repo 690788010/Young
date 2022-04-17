@@ -1,3 +1,6 @@
+/**
+ * SubdivisionSphereTessellatorSimple提供了细分柏拉图四面体得到球面的功能
+ */
 
 import Mesh from "../Geometry/Mesh.js";
 import PrimitiveType from "../Geometry/PrimitiveType.js";
@@ -12,6 +15,7 @@ class SubdivisionSphereTessellatorSimple {
   /**
    * 
    * @param {Number} numberOfSubdivisions 细分次数
+   * @returns {Mesh}
    */
   static Compute(numberOfSubdivisions) {
     if (numberOfSubdivisions < 0) {
