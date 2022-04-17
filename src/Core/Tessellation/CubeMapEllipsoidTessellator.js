@@ -7,7 +7,7 @@ import Mesh from "../Geometry/Mesh.js";
 import PrimitiveType from "../Geometry/PrimitiveType.js";
 import WindingOrder from "../Geometry/WindingOrder.js";
 import Vector3D from "../Vectors/Vector3D.js";
-import CubeMapFlags from "./CubeMapFlags.js";
+import VertexAttributeComponents from "./VertexAttributeComponents.js";
 import List from "../List/List.js";
 import Vector2D from "../Vectors/Vector2D.js";
 import IndicesUnsignedInt from "../Geometry/Indices/IndicesUnsignedInt.js";
@@ -114,14 +114,14 @@ class CubeMapEllipsoidTessellator {
    * 
    * @param {Ellipsoid} ellipsoid 
    * @param {Number} numberOfPartitions 
-   * @param {CubeMapFlags} cubeMapFlags 
+   * @param {VertexAttributeComponents} vertexAttributeComponents 
    * @returns {Mesh}
    */
-  static Compute(ellipsoid, numberOfPartitions, cubeMapFlags) {
+  static Compute(ellipsoid, numberOfPartitions, vertexAttributeComponents) {
     if (numberOfPartitions < 0) {
       throw new  Error("numberOfPartions");
     }
-    if ((cubeMapFlags & CubeMapFlags.Position) !== CubeMapFlags.Position) {
+    if ((vertexAttributeComponents & VertexAttributeComponents.Position) !== VertexAttributeComponents.Position) {
       throw new Error("Positions must be provided.");
     }
 
@@ -140,13 +140,13 @@ class CubeMapEllipsoidTessellator {
     cubeMapMesh.Positions = positionAttribute.Values;
     cubeMapMesh.Indices = indices;
 
-    if ((cubeMapFlags & CubeMapFlags.Normal) === CubeMapFlags.Normal) {
+    if ((vertexAttributeComponents & VertexAttributeComponents.Normal) === VertexAttributeComponents.Normal) {
       const normalsAttribute = new VertexAttributeFloatVector3("normal");
       mesh.Attributes.add(normalsAttribute);
       cubeMapMesh.Normals = normalsAttribute.Values;
     }
 
-    if ((cubeMapFlags & CubeMapFlags.TextureCoordinate) === CubeMapFlags.TextureCoordinate) {
+    if ((vertexAttributeComponents & VertexAttributeComponents.TextureCoordinate) === VertexAttributeComponents.TextureCoordinate) {
       const textureCoordinatesAttribute = new VertexAttributeFloatVector3("texCoord");
       mesh.Attributes.add(textureCoordinatesAttribute);
       cubeMapMesh.Normals = textureCoordinatesAttribute.Values;
