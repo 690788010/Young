@@ -39,9 +39,10 @@
     const vs = `#version 300 es      // 声明版本
       layout (location = og_posVertexLoc) in vec3 position;
       uniform mat4 og_modelMatrix;
+      uniform mat4 og_viewMatrix;
 
       void main() {
-        gl_Position = og_modelMatrix * vec4(position, 1.0);
+        gl_Position = og_viewMatrix * og_modelMatrix * vec4(position, 1.0);
       }`;
     const fs = `#version 300 es       // 声明版本
       precision mediump float;      // 设置浮点变量的精度
@@ -63,7 +64,7 @@
     const drawState = new DrawState(renderState, sp, va);
 
     const context = window.Context;
-    context.draw(PrimitiveType.Triangles, drawState, sceneState);
+    context.draw(PrimitiveType.LineStrip, drawState, sceneState);
   </script>
 </body>
 </html>

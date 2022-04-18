@@ -20,10 +20,34 @@ class SceneState {
   }
 
   /**
+   * 模型矩阵
    * @returns {Matrix4D}
    */
   get ModelMatrix() {
     return this._modelMatrix;
+  }
+
+  /**
+   * @param {Matrix4D} matrix
+   */
+  set ModelMatrix(matrix) {
+    this._modelMatrix = matrix;
+  }
+
+  /**
+   * 视图矩阵
+   * @returns {Matrix4D}
+   */
+  get ViewMatrix() {
+    return Matrix4D.LookAt(this._camera.Eye, this._camera.Target, this._camera.Up);
+  }
+
+  /**
+   * 模型视图矩阵
+   * @returns {Matrix4D}
+   */
+  get ModelViewMatrix() {
+    return this.ViewMatrix.multiply(this.ModelMatrix);
   }
 
 }

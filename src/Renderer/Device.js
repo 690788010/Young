@@ -8,6 +8,7 @@ import GraphicsWindow from "./GraphicsWindow.js";
 import TextureUniform from "./Shaders/LinkAutomaticUniforms/TextureUniform.js";
 import DrawAutomaticUniformFactoryCollection from "./Shaders/DrawAutomaticUniforms/DrawAutomaticUniformFactoryCollection.js";
 import ModelMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/ModelMatrixUniformFactory.js";
+import ViewMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/ViewMatrixUniformFactory.js";
 
 
 const GL = document.createElement("canvas").getContext("webgl2");
@@ -25,6 +26,7 @@ for (let i = 0; i < numberOfTextureUnits; i++) {
 // 保存DrawAutomaticUniformFactory的集合，ShaderProgram类会使用该集合创建对应的DrawAutomaticUniform并保存
 const DrawAutomaticUniformFactories = new DrawAutomaticUniformFactoryCollection();
 DrawAutomaticUniformFactories.add(new ModelMatrixUniformFactory());
+DrawAutomaticUniformFactories.add(new ViewMatrixUniformFactory());
 
 class Device {
   

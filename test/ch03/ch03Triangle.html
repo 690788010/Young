@@ -56,10 +56,11 @@
     const mesh = new Mesh();
     
     const positionsAttribute = new VertexAttributeFloatVector3("position");
-    positionsAttribute.add(new Vector3D(-0.5,  0.5, 0.0));
-    positionsAttribute.add(new Vector3D(-0.5, -0.5, 0.0));
-    positionsAttribute.add(new Vector3D(0.5, -0.5, 0.0));
-    positionsAttribute.add(new Vector3D(0.5, 0.5, 0.0));
+    const positions = positionsAttribute.Values;
+    positions.add(new Vector3D(-0.5,  0.5, 0.0));
+    positions.add(new Vector3D(-0.5, -0.5, 0.0));
+    positions.add(new Vector3D(0.5, -0.5, 0.0));
+    positions.add(new Vector3D(0.5, 0.5, 0.0));
     mesh.Attributes.add(positionsAttribute);
 
     const indices = new IndicesUnsignedShort();

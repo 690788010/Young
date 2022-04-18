@@ -10,6 +10,8 @@ import Disposable from "../../Core/Disposable.js";
 
 class ShaderProgram extends Disposable{
   constructor() {
+    super();
+
     this._drawAutomaticUniforms = [];
   }
 

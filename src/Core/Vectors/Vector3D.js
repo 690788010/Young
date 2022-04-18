@@ -9,6 +9,34 @@ class Vector3D {
     this._z = z;
   }
 
+  /**
+   * @returns {Vector3D}
+   */
+  static get Zero() {
+    return new Vector3D(0.0, 0.0, 0.0);
+  }
+
+  /**
+   * @returns {Vector3D}
+   */
+  static get UnitX() {
+    return new Vector3D(1.0, 0.0, 0.0);
+  }
+
+  /**
+   * @returns {Vector3D}
+   */
+  static get UnitY() {
+    return new Vector3D(0.0, 1.0, 0.0);
+  }
+
+  /**
+   * @returns {Vector3D}
+   */
+  static get UnitZ() {
+    return new Vector3D(0.0, 0.0, 1.0);
+  }
+
   // 获取x分量
   get X() {
     return this._x;

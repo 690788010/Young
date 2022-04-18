@@ -2,6 +2,8 @@
  * Matrix4D类表示4x4矩阵
  */
 
+import Vector3D from "../Vectors/Vector3D.js";
+
 class Matrix4D {
   /**
    * 构造函数
@@ -39,7 +41,7 @@ class Matrix4D {
   /**
    * @returns {Array}
    */
-  get Value() {
+  get Values() {
     return this._values;
   }
 
@@ -61,6 +63,134 @@ class Matrix4D {
       0.0, 1.0, 0.0, 0.0,
       0.0, 0.0, 1.0, 0.0,
       0.0, 0.0, 0.0, 1.0);
+  }
+
+  /**
+   * 根据传入参数返回一个视图矩阵
+   * @param {Vector3D} eye 
+   * @param {Vector3D} target 
+   * @param {Vector3D} up 
+   */
+  static LookAt(eye, target, up) {
+    const v = target.subtract(eye).normalize();
+    const n = v.cross(up).normalize();
+    const u = n.cross(v).normalize();
+
+    const rotation = new Matrix4D(
+      n.X,  n.Y,  n.Z, 0.0,
+      u.X,  u.Y,  u.Z, 0.0,
+     -v.X, -v.Y, -v.Z, 0.0,
+      0.0,  0.0,  0.0, 1.0);
+    const translation = new Matrix4D(
+      1.0, 0.0, 0.0, -eye.X,
+      0.0, 1.0, 0.0, -eye.Y,
+      0.0, 0.0, 1.0, -eye.Z,
+      0.0, 0.0, 0.0, 1.0);
+    return rotation.multiply(translation);
+  }
+
+
+  /**
+   * 乘以一个Matrix4D矩阵
+   * @param {Matrix4D} right 
+   * @returns {Matrix4D}
+   */
+  multiply(right) {
+    if (!(right instanceof Matrix4D)) {
+      throw new Error("right");
+    } 
+
+    const rightValues = right.Values
+
+    const col0row0 = 
+      this._values[0] * rightValues[0] + 
+      this._values[4] * rightValues[1] + 
+      this._values[8] * rightValues[2] + 
+      this._values[12] * rightValues[3];
+    const col0row1 = 
+      this._values[1] * rightValues[0] + 
+      this._values[5] * rightValues[1] + 
+      this._values[9] * rightValues[2] + 
+      this._values[13] * rightValues[3];
+    const col0row2 = 
+      this._values[2] * rightValues[0] + 
+      this._values[6] * rightValues[1] + 
+      this._values[10] * rightValues[2] + 
+      this._values[14] * rightValues[3];
+    const col0row3 = 
+      this._values[3] * rightValues[0] + 
+      this._values[7] * rightValues[1] + 
+      this._values[11] * rightValues[2] + 
+      this._values[15] * rightValues[3];
+
+    const col1row0 = 
+      this._values[0] * rightValues[4] + 
+      this._values[4] * rightValues[5] + 
+      this._values[8] * rightValues[6] + 
+      this._values[12] * rightValues[7];
+    const col1row1 = 
+      this._values[1] * rightValues[4] + 
+      this._values[5] * rightValues[5] + 
+      this._values[9] * rightValues[6] + 
+      this._values[13] * rightValues[7];
+    const col1row2 = 
+      this._values[2] * rightValues[4] + 
+      this._values[6] * rightValues[5] + 
+      this._values[10] * rightValues[6] + 
+      this._values[14] * rightValues[7];
+    const col1row3 = 
+      this._values[3] * rightValues[4] + 
+      this._values[7] * rightValues[5] + 
+      this._values[11] * rightValues[6] + 
+      this._values[15] * rightValues[7];
+
+    const col2row0 = 
+      this._values[0] * rightValues[8] + 
+      this._values[4] * rightValues[9] + 
+      this._values[8] * rightValues[10] + 
+      this._values[12] * rightValues[11];
+    const col2row1 = 
+      this._values[1] * rightValues[8] + 
+      this._values[5] * rightValues[9] + 
+      this._values[9] * rightValues[10] + 
+      this._values[13] * rightValues[11];
+    const col2row2 = 
+      this._values[2] * rightValues[8] + 
+      this._values[6] * rightValues[9] + 
+      this._values[10] * rightValues[10] + 
+      this._values[14] * rightValues[11];
+    const col2row3 = 
+      this._values[3] * rightValues[8] + 
+      this._values[7] * rightValues[9] + 
+      this._values[11] * rightValues[10] + 
+      this._values[15] * rightValues[11];
+
+    const col3row0 = 
+      this._values[0] * rightValues[12] + 
+      this._values[4] * rightValues[13] + 
+      this._values[8] * rightValues[14] + 
+      this._values[12] * rightValues[15];
+    const col3row1 = 
+      this._values[1] * rightValues[12] + 
+      this._values[5] * rightValues[13] + 
+      this._values[9] * rightValues[14] + 
+      this._values[13] * rightValues[15];
+    const col3row2 = 
+      this._values[2] * rightValues[12] + 
+      this._values[6] * rightValues[13] + 
+      this._values[10] * rightValues[14] + 
+      this._values[14] * rightValues[15];
+    const col3row3 = 
+      this._values[3] * rightValues[12] + 
+      this._values[7] * rightValues[13] + 
+      this._values[11] * rightValues[14] + 
+      this._values[15] * rightValues[15];
+
+    return new Matrix4D(
+      col0row0, col1row0, col2row0, col3row0,
+      col0row1, col1row1, col2row1, col3row1,
+      col0row2, col1row2, col2row2, col3row2,
+      col0row3, col1row3, col2row3, col3row3);
   }
 }
 

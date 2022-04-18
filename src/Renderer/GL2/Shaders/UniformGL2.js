@@ -74,7 +74,7 @@ class UniformGL2 extends Uniform {
         gl.uniform3fv(this._location, new Float32Array([this._value.X, this._value.Y, this._value.Z]));
       break;
       case UniformType.FloatMatrix44: 
-        gl.uniformMatrix4fv(this._location, false, new Float32Array(this._value.Value));
+        gl.uniformMatrix4fv(this._location, false, new Float32Array(this._value.Values));
       break;
       case UniformType.Sampler2D:
         gl.uniform1i(this._location, this._value);
