@@ -9,6 +9,7 @@ import TextureUniform from "./Shaders/LinkAutomaticUniforms/TextureUniform.js";
 import DrawAutomaticUniformFactoryCollection from "./Shaders/DrawAutomaticUniforms/DrawAutomaticUniformFactoryCollection.js";
 import ModelMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/ModelMatrixUniformFactory.js";
 import ViewMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/ViewMatrixUniformFactory.js";
+import ModelViewMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/ModelViewMatrixUniformFactory.js";
 
 
 const GL = document.createElement("canvas").getContext("webgl2");
@@ -27,6 +28,7 @@ for (let i = 0; i < numberOfTextureUnits; i++) {
 const DrawAutomaticUniformFactories = new DrawAutomaticUniformFactoryCollection();
 DrawAutomaticUniformFactories.add(new ModelMatrixUniformFactory());
 DrawAutomaticUniformFactories.add(new ViewMatrixUniformFactory());
+DrawAutomaticUniformFactories.add(new ModelViewMatrixUniformFactory());
 
 class Device {
   
