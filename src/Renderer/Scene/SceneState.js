@@ -18,6 +18,14 @@ class SceneState {
     this._modelMatrix = Matrix4D.Identity;
     this._highResolutionSnapScale = 1;
   }
+  
+  /**
+   * 相机灯光的位置（世界坐标）
+   * @returns {Vector3D}
+   */
+  get CameraLightPosition() {
+    return this._camera.Eye.multiply(5.0);
+  }
 
   /**
    * 模型矩阵

@@ -48,7 +48,6 @@ class SubdivisionSphereTessellatorSimple {
     this.Subdivide(positions, indices, new TriangleIndices(0, 3, 1), numberOfSubdivisions);
     this.Subdivide(positions, indices, new TriangleIndices(1, 3, 2), numberOfSubdivisions);
 
-    console.log(positionAttribute)
     return mesh;
   }
 

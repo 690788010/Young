@@ -10,6 +10,7 @@ import DrawAutomaticUniformFactoryCollection from "./Shaders/DrawAutomaticUnifor
 import ModelMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/ModelMatrixUniformFactory.js";
 import ViewMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/ViewMatrixUniformFactory.js";
 import ModelViewMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/ModelViewMatrixUniformFactory.js";
+import CameraLightPositionUniformFactory from "./Shaders/DrawAutomaticUniforms/CameraLightPositionUniformFactory.js";
 
 
 const GL = document.createElement("canvas").getContext("webgl2");
@@ -29,6 +30,7 @@ const DrawAutomaticUniformFactories = new DrawAutomaticUniformFactoryCollection(
 DrawAutomaticUniformFactories.add(new ModelMatrixUniformFactory());
 DrawAutomaticUniformFactories.add(new ViewMatrixUniformFactory());
 DrawAutomaticUniformFactories.add(new ModelViewMatrixUniformFactory());
+DrawAutomaticUniformFactories.add(new CameraLightPositionUniformFactory());
 
 class Device {
   
