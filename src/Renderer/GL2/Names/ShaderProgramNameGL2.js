@@ -3,8 +3,13 @@
  */
 
 class ShaderProgramNameGL2 {
+  /**
+   * 构造函数
+   * @param {WebGL2RenderingContext} gl 
+   */
   constructor(gl) {
     this._gl = gl;
+    
     // 创建一个 WebGLProgram 对象
     this._value = this._gl.createProgram();
   }

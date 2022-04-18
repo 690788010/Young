@@ -1,5 +1,5 @@
 /**
- * ShaderType对象
+ * ShaderType对象是着色器类型的枚举
  */
 
 const ShaderType = {

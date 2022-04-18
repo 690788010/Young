@@ -7,10 +7,10 @@ import ShaderVertexAttributeType from "../Shaders/ShaderVertexAttributeType.js";
 class ShaderVertexAttribute {
   /**
    * 构造函数
-   * @param {String} name 
-   * @param {Number} location 
-   * @param {ShaderVertexAttributeType} type 
-   * @param {Number} length 
+   * @param {String} name attribute属性名
+   * @param {Number} location attribute属性的索引位置
+   * @param {ShaderVertexAttributeType} type attribute属性的类型
+   * @param {Number} length attribute属性的所占空间大小，单位字节
    */
   constructor(name, location, type, length) {
     this._name = name;    // attribute属性名

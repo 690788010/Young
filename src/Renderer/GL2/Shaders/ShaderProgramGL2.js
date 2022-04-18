@@ -6,7 +6,7 @@
 import ShaderProgram from "../../Shaders/ShaderProgram.js";
 import ShaderType from "../../Shaders/ShaderType.js";
 import ShaderVertexAttribute from "../../Shaders/ShaderVertexAttribute.js";
-import ShaderVertexAttributeCollection from "../../ShaderVertexAttributeCollection.js";
+import ShaderVertexAttributeCollection from "../../Shaders/ShaderVertexAttributeCollection.js";
 import ShaderProgramNameGL2 from "../Names/ShaderProgramNameGL2.js";
 import TypeConverterGL2 from "../TypeConverterGL2.js";
 import FragmentOutputsGL2 from "./FragmentOutputsGL2.js";
@@ -20,6 +20,12 @@ import SceneState from "../../Scene/SceneState.js";
 
 
 class ShaderProgramGL2 extends ShaderProgram {
+  /**
+   * 构造函数
+   * @param {WebGL2RenderingContext} gl 
+   * @param {String} vertexShaderSource 
+   * @param {String} fragmentShaderSource 
+   */
   constructor(gl, vertexShaderSource, fragmentShaderSource) {
     super();
 
@@ -42,9 +48,11 @@ class ShaderProgramGL2 extends ShaderProgram {
     this._fragmentShader.dispose();
 
     this._fragmentOutputs = new FragmentOutputsGL2(this._gl, this._program);
+    
     // 保存着色器中所有的attribute属性的元数据
     this._vertexAttributes = ShaderProgramGL2.FindVertexAttributes(this._gl, this._program);
     this._uniforms = ShaderProgramGL2.FindUniforms(this._gl, this._program);
+    
     // 任意一个Uniform被更新时，就会添加到_dirtyUniforms这个数组中
     this._dirtyUniforms = new List();
     for (let i = 0, len = this._uniforms.size(); i < len; i++) {

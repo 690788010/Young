@@ -4,8 +4,6 @@
 
 import List from "../../Core/List/List.js";
 
-class UniformCollection extends List{
-  
-}
+class UniformCollection extends List {}
 
 export default UniformCollection;

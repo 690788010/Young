@@ -1,6 +1,6 @@
 /**
  * GraphicsWindowGL2类是GraphicsWindow抽象类的关于WebGL2的实现类
- * GraphicsWindow类是表示窗口画布的一个抽象类，该类也用于创建Context类对象
+ * GraphicsWindow类是表示窗口画布的一个抽象类，该类创建了Context类对象
  */
 
 import GraphicsWindow from "../GraphicsWindow.js";
@@ -52,21 +52,21 @@ class GraphicsWindowGL2 extends GraphicsWindow {
   }
 
   /**
-   * 创建一个ShaderProgram对象
-   * @param  {String} vertexShaderSource
-   * @param  {String} fragmentShaderSource
-   * @returns {ShaderProgram}
-   */
-  createShaderProgram(vertexShaderSource, fragmentShaderSource) {
-    return new ShaderProgramGL2(this._gl, vertexShaderSource, fragmentShaderSource);
-  }
-
-  /**
    * 获取内置的ContextGL对象
    * @returns {ContextGL2} 
    */
   get Context() {
     return this._context;
+  }
+
+  /**
+   * 创建一个ShaderProgramGL2对象
+   * @param  {String} vertexShaderSource 顶点着色器
+   * @param  {String} fragmentShaderSource 片元着色器
+   * @returns {ShaderProgramGL2}
+   */
+  createShaderProgram(vertexShaderSource, fragmentShaderSource) {
+    return new ShaderProgramGL2(this._gl, vertexShaderSource, fragmentShaderSource);
   }
 
   /**

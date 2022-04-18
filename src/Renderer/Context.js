@@ -5,7 +5,7 @@
 
 import MeshBuffers from "./Mesh/MeshBuffers.js";
 import Mesh from "../Core/Geometry/Mesh.js";
-import ShaderVertexAttributeCollection from "./ShaderVertexAttributeCollection.js";
+import ShaderVertexAttributeCollection from "./Shaders/ShaderVertexAttributeCollection.js";
 import BufferHint from "./Buffers/BufferHint.js";
 import Device from "./Device.js";
 import ClearState from "./ClearState/ClearState.js";

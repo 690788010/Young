@@ -1,11 +1,16 @@
 /**
- * GraphicsWindow类是表示窗口画布的一个抽象类，该类也用于创建Context类对象
+ * GraphicsWindow类是表示窗口画布的一个抽象类
  */
 
+import Context from "./Context.js";
+
 class GraphicsWindow {
-  constructor() {
-    
-  }
+  
+  /**
+   * 抽象方法
+   * @returns {Context}
+   */
+  get Context() {}
 }
 
 export default GraphicsWindow;

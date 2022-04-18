@@ -3,11 +3,12 @@
  */
 
 import UniformCollection from "./UniformCollection.js";
-import ShaderVertexAttributeCollection from "../ShaderVertexAttributeCollection.js";
+import ShaderVertexAttributeCollection from "./ShaderVertexAttributeCollection.js";
 import FragmentOutputs from "./FragmentOutputs.js"
 import Device from "../Device.js";
+import Disposable from "../../Core/Disposable.js";
 
-class ShaderProgram {
+class ShaderProgram extends Disposable{
   constructor() {
     this._drawAutomaticUniforms = [];
   }
@@ -35,6 +36,11 @@ class ShaderProgram {
   get FragmentOutputs() {
     return this._fragmentOutputs;
   }
+
+  /**
+   * 抽象方法
+   */
+  dispose() {}
 
   /**
    * 初始化AutomaticUniform
