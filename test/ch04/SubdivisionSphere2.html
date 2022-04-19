@@ -30,7 +30,7 @@
     import DrawState from "../../src/Renderer/DrawState.js";
     import PrimitiveType from "../../src/Core/Geometry/PrimitiveType.js";
     import CubeMapEllipsoidTessellator from "../../src/Core/Tessellation/CubeMapEllipsoidTessellator.js";
-    import CubeMapFlags from "../../src/Core/Tessellation/CubeMapFlags.js";
+    import VertexAttributeComponents from "../../src/Core/Tessellation/VertexAttributeComponents.js";
     import Ellipsoid from "../../src/Core/Geometry/Ellipsoid.js";
 
   
@@ -40,25 +40,64 @@
 
     const vs = `#version 300 es      // 声明版本
       layout (location = og_posVertexLoc) in vec3 position;
-      uniform mat4 og_modelMatrix;
+
+      uniform mat4 og_modelViewMatrix;
+      uniform vec3 og_cameraEye;
+      uniform vec3 og_cameraLightPosition;
+
+      out vec3 worldPosition;
+      out vec3 positionToLight;
+      out vec3 positionToEye;
 
       void main() {
-        gl_Position = og_modelMatrix * vec4(position, 1.0);
-        gl_PointSize = 10.0;
+        gl_Position = og_modelViewMatrix * vec4(position, 1.0);
+
+        worldPosition = position.xyz;
+        positionToLight = og_cameraLightPosition - worldPosition;
+        positionToEye = og_cameraEye - worldPosition;
       }`;
     const fs = `#version 300 es       // 声明版本
       precision mediump float;      // 设置浮点变量的精度
+
+      in vec3 worldPosition;
+      in vec3 positionToLight;
+      in vec3 positionToEye;
+
+      //uniform vec4 og_diffuseSpecularAmbientShininess;
+
       out vec4 FragColor;
-      uniform vec3 ourColor;
+
+      float LightIntensity(vec3 normal, vec3 toLight, vec3 toEye, 
+        vec4 diffuseSpecularAmbientShininess)
+      {
+        vec3 toReflectedLight = reflect(-toLight, normal);
+
+        float diffuse = max(dot(toLight, normal), 0.0);
+        float specular = max(dot(toReflectedLight, toEye), 0.0);
+        specular = pow(specular, diffuseSpecularAmbientShininess.w);
+
+        return (diffuseSpecularAmbientShininess.x * diffuse) +
+          (diffuseSpecularAmbientShininess.y * specular) +
+          diffuseSpecularAmbientShininess.z;
+      }
+
+      vec2 ComputeTextureCoordinates(vec3 normal){
+        return vec2(atan(normal.y, normal.x) * og_oneOverTwoPi + 0.5, asin(normal.z) * og_oneOverPi + 0.5);
+      }
+
       void main() {
-        FragColor = vec4(ourColor, 1.0);
+        vec4 og_diffuseSpecularAmbientShininess = vec4(0.6, 0.3, 0.1, 70);
+        vec3 normal = normalize(worldPosition);
+        float intensity = LightIntensity(normal, normalize(positionToLight),
+          normalize(positionToEye), og_diffuseSpecularAmbientShininess);
+        FragColor = vec4(intensity, intensity, intensity, 1.0);
       }`;
     const sp = window.createShaderProgram(vs, fs);
-    sp.Uniforms.getByName("ourColor").Value = new Vector3D(0, 0, 1);
+    // sp.Uniforms.getByName("ourColor").Value = new Vector3D(0, 0, 1);
     // ------------------------------------------------------------
 
     const ellipsoid = Ellipsoid.UnitSphere;
-    const mesh = CubeMapEllipsoidTessellator.Compute(ellipsoid, 10, CubeMapFlags.Position);
+    const mesh = CubeMapEllipsoidTessellator.Compute(ellipsoid, 20, VertexAttributeComponents.Position);
 
     const va = window.Context.createVertexArrayByMesh(mesh, sp.VertexAttributes, BufferHint.StaticDraw);
     // -------------------------------------------------------------------
@@ -67,7 +106,7 @@
     const drawState = new DrawState(renderState, sp, va);
 
     const context = window.Context;
-    context.draw(PrimitiveType.LineStrip, drawState, sceneState);
+    context.draw(PrimitiveType.Triangles, drawState, sceneState);
   </script>
 </body>
 </html>

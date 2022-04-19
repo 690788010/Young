@@ -8,6 +8,9 @@ import Geodetic3D from "./Geodetic3D.js";
 const RadiansPerDegree = Math.PI / 180.0;
 
 class Trig {
+  static OneOverPi = 1.0 / Math.PI;
+  static OneOverTwoPi = 1.0 / (2.0 * Math.PI);
+
   // 将十进制度转换为弧度
   static ToRadians(degrees) {
     return degrees * RadiansPerDegree;

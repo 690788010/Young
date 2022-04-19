@@ -3,6 +3,7 @@
  */
 
 import Disposable from "../../../Core/Disposable.js";
+import Trig from "../../../Core/Trig.js";
 import ShaderType from "../../Shaders/ShaderType.js";
 import VertexLocations from "../../VertexArray/VertexLocations.js";
 
@@ -20,6 +21,9 @@ class ShaderObjectGL2 extends Disposable {
       builtinConstants += "#define og_normalVertexLoc " + VertexLocations.Normal + "\n";
       builtinConstants += "#define og_texCoordVertexLoc " + VertexLocations.TextureCoordinate + "\n";
     }
+
+    builtinConstants += "const float og_oneOverPi = " + Trig.OneOverPi + "\n";
+    builtinConstants += "const float og_oneOverTwoPi = " + Trig.OneOverTwoPi + "\n";
     
       // 内置函数
     const builtinFunctions = "";

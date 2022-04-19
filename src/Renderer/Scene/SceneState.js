@@ -18,6 +18,13 @@ class SceneState {
     this._modelMatrix = Matrix4D.Identity;
     this._highResolutionSnapScale = 1;
   }
+
+  /**
+   * @returns {Camera}
+   */
+  get Camera() {
+    return this._camera;
+  }
   
   /**
    * 相机灯光的位置（世界坐标）
