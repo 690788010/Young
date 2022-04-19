@@ -15,15 +15,19 @@ class ShaderObjectGL2 extends Disposable {
     // 内置常量
     let builtinConstants = "#version 300 es \n";
     
-    // 向顶点着色器添加内置常量
+    // 向顶点着色器添加内置变量
     if (shaderType === ShaderType.VertexShader) {
       builtinConstants += "#define og_posVertexLoc " + VertexLocations.Position + "\n";
       builtinConstants += "#define og_normalVertexLoc " + VertexLocations.Normal + "\n";
       builtinConstants += "#define og_texCoordVertexLoc " + VertexLocations.TextureCoordinate + "\n";
     }
 
-    builtinConstants += "const float og_oneOverPi = " + Trig.OneOverPi + "\n";
-    builtinConstants += "const float og_oneOverTwoPi = " + Trig.OneOverTwoPi + "\n";
+    if (shaderType === ShaderType.FragmentShader) {
+      builtinConstants += "precision mediump float;\n";
+    }
+
+    builtinConstants += "const float og_oneOverPi = " + Trig.OneOverPi + ";\n";
+    builtinConstants += "const float og_oneOverTwoPi = " + Trig.OneOverTwoPi + ";\n";
     
       // 内置函数
     const builtinFunctions = "";

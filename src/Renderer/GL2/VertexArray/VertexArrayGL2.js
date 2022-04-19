@@ -65,7 +65,7 @@ class VertexArrayGL2 extends VertexArray {
    */
   set IndexBuffer(value) {
     this._indexBuffer = value;
-    this._dirtyIndexBuffer = true;
+    this._dirtyIndexBuffer = true;    // 标识有新的未使用的索引缓存
   }
 
   maximumArrayIndex() {

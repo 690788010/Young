@@ -7,6 +7,7 @@ import Vector2D from "../../../Core/Vectors/Vector2D.js";
 import Vector3D from "../../../Core/Vectors/Vector3D.js";
 import Uniform from "../../Shaders/Uniform.js";
 import UniformType from "../../Shaders/UniformType.js";
+import ShaderProgramGL2 from "./ShaderProgramGL2.js";
 
 
 class UniformGL2 extends Uniform {
@@ -15,14 +16,17 @@ class UniformGL2 extends Uniform {
    * @param {String} name Uniform变量名
    * @param {UniformType} type Uniform变量的数据类型
    * @param {WebGLUniformLocation} location Uniform变量的位置索引
+   * @param {ShaderProgramGL2}
    */
-  constructor(name, type, location) {
+  constructor(name, type, location, observer) {
     super();
 
     this._name = name;
     this._type = type;
     this._location = location;
-    this._dirty = true;
+    this._observer = observer;
+
+    this._dirty = false;
   }
 
   /**
@@ -47,6 +51,9 @@ class UniformGL2 extends Uniform {
   set Value(value) {
     if (!this._dirty && (this._value !== value)) {
       this._dirty = true;
+      // 将当前Uniform实例添加到ShaderProgramGL2中的_dirtyUniforms集合，
+      // 以等待GL调用进行更新
+      this._observer.notifyDirty(this);
     }
     this._value = value;
   }
@@ -56,29 +63,32 @@ class UniformGL2 extends Uniform {
    * @param {WebGL2RenderingContext} gl
    */
   clean(gl) {
-    switch(this._type) {
-      case UniformType.Float:
-        gl.uniform1f(this._location, this._value);
-      break;
-      case UniformType.FloatVector2:
-        if (!(this._value instanceof Vector2D)) {
-          throw new Error("Uniform's value is not a Vector3D instance!");
-        }
-        console.log(this._location);
-        gl.uniform2fv(this._location, new Float32Array([this._value.X, this._value.Y]));
-      break;
-      case UniformType.FloatVector3:
-        if (!(this._value instanceof Vector3D)) {
-          throw new Error("Uniform's value is not a Vector3D instance!");
-        }
-        gl.uniform3fv(this._location, new Float32Array([this._value.X, this._value.Y, this._value.Z]));
-      break;
-      case UniformType.FloatMatrix44: 
-        gl.uniformMatrix4fv(this._location, false, new Float32Array(this._value.Values));
-      break;
-      case UniformType.Sampler2D:
-        gl.uniform1i(this._location, this._value);
-      break;
+    if (this._dirty) {
+      switch(this._type) {
+        case UniformType.Float:
+          gl.uniform1f(this._location, this._value);
+        break;
+        case UniformType.FloatVector2:
+          if (!(this._value instanceof Vector2D)) {
+            throw new Error("Uniform's value is not a Vector3D instance!");
+          }
+          gl.uniform2fv(this._location, new Float32Array([this._value.X, this._value.Y]));
+        break;
+        case UniformType.FloatVector3:
+          if (!(this._value instanceof Vector3D)) {
+            throw new Error("Uniform's value is not a Vector3D instance!");
+          }
+          gl.uniform3fv(this._location, new Float32Array([this._value.X, this._value.Y, this._value.Z]));
+        break;
+        case UniformType.FloatMatrix44: 
+          gl.uniformMatrix4fv(this._location, false, new Float32Array(this._value.Values));
+        break;
+        case UniformType.Sampler2D:
+          gl.uniform1i(this._location, this._value);
+        break;
+      }
+
+      this._dirty = false;
     }
   }
 }

@@ -32,6 +32,14 @@
     import CubeMapEllipsoidTessellator from "../../src/Core/Tessellation/CubeMapEllipsoidTessellator.js";
     import VertexAttributeComponents from "../../src/Core/Tessellation/VertexAttributeComponents.js";
     import Ellipsoid from "../../src/Core/Geometry/Ellipsoid.js";
+    import Texture2DDescription from "../../src/Renderer/Textures/Texture2DDescription.js";
+    import TextureFormat from "../../src/Renderer/Textures/TextureFormat.js";
+    import TextureMinificationFilter from "../../src/Renderer/Textures/TextureMinificationFilter.js";
+    import TextureMagnificationFilter from "../../src/Renderer/Textures/TextureMagnificationFilter.js";
+    import TextureWrap from "../../src/Renderer/Textures/TextureWrap.js";
+    import PixelBufferHint from "../../src/Renderer/Buffers/PixelBufferHint.js";
+    import ImageFormat from "../../src/Renderer/Textures/ImageFormat.js";
+    import ImageDataType from "../../src/Renderer/Textures/ImageDataType.js";
 
   
     const window = Device.CreateWindow("mapContainer");
@@ -57,17 +65,17 @@
         positionToEye = og_cameraEye - worldPosition;
       }`;
     const fs = `#version 300 es       // 声明版本
-      precision mediump float;      // 设置浮点变量的精度
 
       in vec3 worldPosition;
       in vec3 positionToLight;
       in vec3 positionToEye;
 
       //uniform vec4 og_diffuseSpecularAmbientShininess;
+      uniform sampler2D og_texture0;
 
       out vec4 FragColor;
 
-      float LightIntensity(vec3 normal, vec3 toLight, vec3 toEye, 
+      float lightIntensity(vec3 normal, vec3 toLight, vec3 toEye, 
         vec4 diffuseSpecularAmbientShininess)
       {
         vec3 toReflectedLight = reflect(-toLight, normal);
@@ -81,16 +89,16 @@
           diffuseSpecularAmbientShininess.z;
       }
 
-      vec2 ComputeTextureCoordinates(vec3 normal){
+      vec2 computeTextureCoordinates(vec3 normal){
         return vec2(atan(normal.y, normal.x) * og_oneOverTwoPi + 0.5, asin(normal.z) * og_oneOverPi + 0.5);
       }
 
       void main() {
-        vec4 og_diffuseSpecularAmbientShininess = vec4(0.6, 0.3, 0.1, 70);
+        vec4 og_diffuseSpecularAmbientShininess = vec4(0.6, 0.3, 0.2, 10);
         vec3 normal = normalize(worldPosition);
-        float intensity = LightIntensity(normal, normalize(positionToLight),
+        float intensity = lightIntensity(normal, normalize(positionToLight),
           normalize(positionToEye), og_diffuseSpecularAmbientShininess);
-        FragColor = vec4(intensity, intensity, intensity, 1.0);
+        FragColor = vec4(intensity * texture(og_texture0, computeTextureCoordinates(normal)).rgb, 1.0);
       }`;
     const sp = window.createShaderProgram(vs, fs);
     // sp.Uniforms.getByName("ourColor").Value = new Vector3D(0, 0, 1);
@@ -105,8 +113,29 @@
     const renderState = new RenderState();
     const drawState = new DrawState(renderState, sp, va);
 
-    const context = window.Context;
-    context.draw(PrimitiveType.Triangles, drawState, sceneState);
+    const image = new Image();
+    image.addEventListener("load", () => {
+      const description = new Texture2DDescription(image.width, image.height, TextureFormat.RGBA, false);
+      const texture = window.createTexture2D(description);
+      
+      const sampler = window.createTexture2DSampler(
+        TextureMinificationFilter.LINEAR,
+        TextureMagnificationFilter.LINEAR,
+        TextureWrap.REPEAT,
+        TextureWrap.REPEAT);
+
+      const typedArray = Device.ImageToTypedArray(image);
+      const pixelBuffer = window.createWritePixelBuffer(PixelBufferHint.Stream, typedArray.byteLength);
+      pixelBuffer.copyFromSystemMemory(typedArray);
+      texture.copyFromBuffer(pixelBuffer, ImageFormat.RGBA, ImageDataType.UNSIGNED_BYTE, 4);
+
+      const context = window.Context;
+      context.TextureUnits.get(0).Texture = texture;
+      context.TextureUnits.get(0).TextureSampler = sampler;
+
+      context.draw(PrimitiveType.Triangles, drawState, sceneState);
+    });
+    image.src = "../../resources/Imagery/NaturalEarth/NE2_50M_SR_W_4096.jpg";
   </script>
 </body>
 </html>

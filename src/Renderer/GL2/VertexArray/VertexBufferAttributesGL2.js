@@ -12,14 +12,15 @@ import Device from "../../Device.js"
 class VertexBufferAttributesGL2 extends VertexBufferAttributes {
   constructor(gl) {
     super();
-
     this._gl = gl;
+
     // 存放多个VertexBufferAttribute
     this._attributes = new Array(Device.MAX_VERTEX_ATTRIBS);
-    // _attributes中包含的有效VertexBufferAttribute的数量
+
+    // _attributes中包含的有效VertexBufferAttributeGL2的数量
     this._count = 0;
-    this._maximumArrayIndex = 0;
-    // 标识_attributes中是否包含具有新值的元素
+
+    // 标识_attributes中是否包含具有新值的未使用的VertexBufferAttributeGL2元素
     this._dirty = false;
   }
 
@@ -29,19 +30,6 @@ class VertexBufferAttributesGL2 extends VertexBufferAttributes {
    */
   get Count() {
     return this._count;
-  }
-
-  /**
-   * 获取数组的大小
-   * @returns {Number}
-   */
-  maximumCount() {
-    return this._attributes.length;
-  }
-
-
-  get MaximumArrayIndex() {
-    return this._maximumArrayIndex;
   }
 
   /**
@@ -93,7 +81,6 @@ class VertexBufferAttributesGL2 extends VertexBufferAttributes {
    */
   clean() {
     if (this._dirty) {
-      let maximumArrayIndex = 0;
       for (let i = 0, len = this._attributes.length; i < len; i++) {
         const attribute = this._attributes[i];
         if (attribute) {
@@ -114,7 +101,6 @@ class VertexBufferAttributesGL2 extends VertexBufferAttributes {
    * @param {Number} index 
    */
   _attach(index) {
-    // debugger;
     const attribute = this._attributes[index];
     const vertexBuffer = attribute.VertexBuffer;
     vertexBuffer.bind(); // 绑定顶点缓冲区

@@ -51,7 +51,7 @@ class ShaderProgramGL2 extends ShaderProgram {
     
     // 保存着色器中所有的attribute属性的元数据
     this._vertexAttributes = ShaderProgramGL2.FindVertexAttributes(this._gl, this._program);
-    this._uniforms = ShaderProgramGL2.FindUniforms(this._gl, this._program);
+    this._uniforms = this.findUniforms(this._gl, this._program);
     
     // 任意一个Uniform被更新时，就会添加到_dirtyUniforms这个数组中
     this._dirtyUniforms = new List();
@@ -123,7 +123,7 @@ class ShaderProgramGL2 extends ShaderProgram {
    * @param  {ShaderProgramNameGL2} program
    * @returns  {UniformCollection}
    */
-  static FindUniforms(gl, program) {
+  findUniforms(gl, program) {
     const programHandle = program.Value;
 
     // 获取着色器中激活的uniform变量的数量
@@ -154,10 +154,19 @@ class ShaderProgramGL2 extends ShaderProgram {
       // }
       const uniformLoc = gl.getUniformLocation(programHandle, uniformName);
       uniforms.add(new UniformGL2(uniformName, TypeConverterGL2.toUniformType(activeInfo.type),
-       uniformLoc));
+       uniformLoc, this));
     }
 
     return uniforms;
+  }
+
+  /**
+   * 将Uniform实例添加到_dirtyUniforms集合，以等待
+   * GL调用进行更新
+   * @param {UniformGL2} value 
+   */
+  notifyDirty(value) {
+    this._dirtyUniforms.add(value);
   }
 
   static CorrectUniformName(name) {
@@ -165,13 +174,13 @@ class ShaderProgramGL2 extends ShaderProgram {
   }
 
   /**
-   * 更新Uniform
+   * 使用GL调用更新Uniform
    * @param {Context} context 
    * @param {DrawState} drawState 
    * @param {SceneState} sceneState 
    */
   clean(context, drawState, sceneState) {
-    // 更新各个DrawAutomaticUniform的值
+    // 更新各个DrawAutomaticUniform中Uniform的值
     this._setDrawAutomaticUniforms(context, drawState, sceneState);
     
     // 使用dirtyUniforms中的新值，通过GL调用更新Uniform 

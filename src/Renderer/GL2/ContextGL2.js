@@ -59,7 +59,7 @@ class ContextGL2 extends Context {
    * @param {ShaderVertexAttributeCollection} shaderAttributes 
    * @param {BufferHint} usageHint 
    */
-   createVertexArrayByMesh(mesh, shaderAttributes, usageHint) {
+  createVertexArrayByMesh(mesh, shaderAttributes, usageHint) {
     return this._createVertexArrayByMeshBuffers(
       this._window.createMeshBuffers(mesh, shaderAttributes, usageHint));
   }
@@ -93,14 +93,6 @@ class ContextGL2 extends Context {
     this._enable(this._gl.DEPTH_TEST, renderState.DepthTest.Enabled);
     this._gl.depthFunc(TypeConverterGL2.DepthTestFunctionToGL(renderState.DepthTest.Function));
 
-  }
-
-  _enable(enableCap, enable) {
-    if (enable) {
-      this._gl.enable(enableCap);
-    } else {
-      this._gl.disable(enableCap);
-    }
   }
 
   /**
@@ -225,6 +217,7 @@ class ContextGL2 extends Context {
     this._applyShaderProgram(drawState, sceneState);
 
     this._textureUnits.clean();
+    // ApplyFramebuffer();
   }
 
   /**
@@ -243,6 +236,39 @@ class ContextGL2 extends Context {
     // ApplyBlending(renderState.Blending);
     // ApplyColorMask(renderState.ColorMask);
     // ApplyDepthMask(renderState.DepthMask);
+  }
+
+  /**
+   * 使用VertexArray
+   * @param {VertexArray} vertexArray 
+   */
+  _applyVertexArray(vertexArray) {
+    // 绑定VertexArray
+    vertexArray.bind();
+    vertexArray.clean();
+  }
+
+  /**
+   * 使用ShaderProgram并更新Uniform（包括DrawAutomaticUniform）
+   * @param {} drawState 
+   * @param {*} sceneState 
+   */
+  _applyShaderProgram(drawState, sceneState) {
+    const shaderProgramGL2 = drawState.ShaderProgram;
+    // 使用或更换ShaderProgram
+    if (this._boundShaderProgram !== shaderProgramGL2) {
+      shaderProgramGL2.use();
+      this._boundShaderProgram = shaderProgramGL2;
+    }
+    // 更新Uniform
+    this._boundShaderProgram.clean(this, drawState, sceneState);
+
+    // 验证 WebGLProgram。 它在检查 WebGLProgram 程序是否链接成功的同时还会
+    // 检查其是否能在当前的 WebGL 中使用
+    this._gl.validateProgram(this._boundShaderProgram.Program.Value);
+    if(!this._gl.getProgramParameter(this._boundShaderProgram.Program.Value, this._gl.VALIDATE_STATUS)) {
+      throw new Error("Shader program validation failed");
+    }
   }
 
   /**
@@ -286,39 +312,19 @@ class ContextGL2 extends Context {
   }
 
   /**
-   * 使用VertexArray
-   * @param {VertexArray} vertexArray 
+   * 激活或关闭相应的渲染功能
+   * @param {EnableCap} enableCap 
+   * @param {Boolean} enable 
    */
-  _applyVertexArray(vertexArray) {
-    console.log("_applyVertexArray")
-    // 绑定VertexArray
-    // vertexArray.bind();
-    vertexArray.clean();
-  }
-
-  /**
-   * 使用ShaderProgram并更新Uniform（包括DrawAutomaticUniform）
-   * @param {} drawState 
-   * @param {*} sceneState 
-   */
-  _applyShaderProgram(drawState, sceneState) {
-    console.log("_applyShaderProgram")
-    const shaderProgramGL2 = drawState.ShaderProgram;
-    // 使用或更换ShaderProgram
-    if (this._boundShaderProgram !== shaderProgramGL2) {
-      shaderProgramGL2.use();
-      this._boundShaderProgram = shaderProgramGL2;
-    }
-    // 更新Uniform
-    this._boundShaderProgram.clean(this, drawState, sceneState);
-
-    // 验证 WebGLProgram。 它在检查 WebGLProgram 程序是否链接成功的同时还会
-    // 检查其是否能在当前的 WebGL 中使用
-    this._gl.validateProgram(this._boundShaderProgram.Program.Value);
-    if(!this._gl.getProgramParameter(this._boundShaderProgram.Program.Value, this._gl.VALIDATE_STATUS)) {
-      throw new Error("Shader program validation failed");
+  _enable(enableCap, enable) {
+    if (enable) {
+      this._gl.enable(enableCap);
+    } else {
+      this._gl.disable(enableCap);
     }
   }
+
+  
 
   get GL() {
     return this._gl;
