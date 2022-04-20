@@ -27,7 +27,6 @@ class Camera {
     let lastX = 0, lastY = 0;   // 鼠标光标所在的上一个位置
 
     this._canvas.addEventListener('mousedown', (event) => {
-      console.log("mousedown");
       const x = event.clientX, y = event.clientY;
       // Start dragging if a moue is in <canvas>
       var rect = event.target.getBoundingClientRect();
