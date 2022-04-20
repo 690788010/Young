@@ -131,6 +131,7 @@ class Vector3D {
       this._x = vec3.X;
       this._y = vec3.Y;
       this._z = vec3.Z;
+      return vec3;
     } else if (axis[0] === 1 && axis[1] === 0 && axis[2] === 0) {
       const matrix = new Matrix4D(
         1.0, 0.0, 0.0, 0.0,
@@ -141,6 +142,7 @@ class Vector3D {
       this._x = vec3.X;
       this._y = vec3.Y;
       this._z = vec3.Z;
+      return vec3;
     }
   }
 }

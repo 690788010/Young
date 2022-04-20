@@ -24,8 +24,7 @@ class Camera {
    */
   _initEventHandlers() {
     let dragging = false;         // 标识鼠标是否在拖拽
-    let lastX = -1, lastY = -1;   // 鼠标光标所在的上一个位置
-    const deltaAngle = [0, 0];
+    let lastX = 0, lastY = 0;   // 鼠标光标所在的上一个位置
 
     this._canvas.addEventListener('mousedown', (event) => {
       console.log("mousedown");
@@ -42,15 +41,11 @@ class Camera {
     this._canvas.addEventListener('mousemove', (event) => {
       const x = event.clientX, y = event.clientY;
       if (dragging) {
-          const factor = 5 / this._canvas.height; // The rotation ratio
+          const factor = 100 / this._canvas.height; // The rotation ratio
           const dx = factor * (x - lastX);
           const dy = factor * (y - lastY);
-          // Limit x-axis rotation angle to -90 to 90 degrees
-          // deltaAngle[0] = Math.max(Math.min(deltaAngle[0] + dy, 90.0), -90.0);
-          deltaAngle[0] = (deltaAngle[0] + dx) % 360;
-          deltaAngle[1] = (deltaAngle[1] + dy) % 360;
-          this._eye.rotate(deltaAngle[0], [0, 0, 1]);
-          this._eye.rotate(deltaAngle[1], [1, 0, 0]);
+          this._eye.rotate(-dx, [0, 0, 1]);
+          this._eye.rotate(dy, [1, 0, 0]);
       }
       lastX = x, lastY = y;
     });
