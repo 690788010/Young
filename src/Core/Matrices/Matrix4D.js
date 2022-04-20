@@ -192,6 +192,18 @@ class Matrix4D {
       col0row2, col1row2, col2row2, col3row2,
       col0row3, col1row3, col2row3, col3row3);
   }
+
+  /**
+   * 乘以一个Vector3D向量
+   * @param {Vector3D}
+   * @returns {Vector3D}
+   */
+  multVec3(vector3D) {
+    return new Vector3D(
+      this._values[0] * vector3D.X + this._values[4] * vector3D.Y + this._values[8] * vector3D.Z,
+      this._values[1] * vector3D.X + this._values[5] * vector3D.Y + this._values[9] * vector3D.Z,
+      this._values[2] * vector3D.X + this._values[6] * vector3D.Y + this._values[10] * vector3D.Z);
+  }
 }
 
 export default Matrix4D;

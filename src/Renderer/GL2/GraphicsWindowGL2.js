@@ -23,6 +23,7 @@ import TextureMinificationFilter from "../Textures/TextureMinificationFilter.js"
 import TextureMagnificationFilter from "../Textures/TextureMagnificationFilter.js";
 import TextureWrap from "../Textures/TextureWrap.js";
 import TextureSamplerGL2 from "./Textures/TextureSamplerGL2.js";
+import SceneState from "../Scene/SceneState.js";
 
 class GraphicsWindowGL2 extends GraphicsWindow {
   /**
@@ -38,17 +39,17 @@ class GraphicsWindowGL2 extends GraphicsWindow {
       throw new Error("Container element must be Div!");
     }
     // 创建一个canvas元素（与容器元素大小一样）放入容器元素中
-    const canvas = document.createElement("canvas");
+    this._canvas = document.createElement("canvas");
     const width = containerDiv.clientWidth;
     const height = containerDiv.clientHeight;
-    canvas.width = width;
-    canvas.height = height;
-    containerDiv.appendChild(canvas);
+    this._canvas.width = width;
+    this._canvas.height = height;
+    containerDiv.appendChild(this._canvas);
     // 获取WebGL2的环境对象（WebGL2RenderingContext）
-    this._gl = canvas.getContext("webgl2");
+    this._gl = this._canvas.getContext("webgl2");
     
     // 初始化内置的ContextGL2对象
-    this._context = new ContextGL2(this, canvas.width, canvas.height);
+    this._context = new ContextGL2(this, this._canvas.width, this._canvas.height);
   }
 
   /**
@@ -67,6 +68,14 @@ class GraphicsWindowGL2 extends GraphicsWindow {
    */
   createShaderProgram(vertexShaderSource, fragmentShaderSource) {
     return new ShaderProgramGL2(this._gl, vertexShaderSource, fragmentShaderSource);
+  }
+
+  /**
+   * 创建一个SceneState
+   * @returns {SceneState}
+   */
+  createSceneState() {
+    return new SceneState(this._canvas);
   }
 
   /**

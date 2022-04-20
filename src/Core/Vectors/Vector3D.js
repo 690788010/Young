@@ -2,6 +2,8 @@
  * 三维向量类
  */
 
+import Matrix4D from "../Matrices/Matrix4D.js";
+
 class Vector3D {
   constructor(x, y, z) {
     this._x = x;
@@ -110,6 +112,36 @@ class Vector3D {
   // 将当前向量除以一个标量
   divide(scalar) {
     return new Vector3D(this._x / scalar, this._y / scalar, this._z / scalar);
+  }
+
+  /**
+   * 
+   * @param {Number} angle 
+   * @param {Array<Number>} axis 
+   */
+  rotate(angle, axis) {
+    angle = (Math.PI / 180) * angle;
+    if (axis[0] === 0 && axis[1] === 0 && axis[2] === 1) {
+      const matrix = new Matrix4D(
+        Math.cos(angle), -Math.sin(angle), 0.0, 0.0,
+        Math.sin(angle), Math.cos(angle), 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 0.0, 1.0);
+      const vec3 = matrix.multVec3(this);
+      this._x = vec3.X;
+      this._y = vec3.Y;
+      this._z = vec3.Z;
+    } else if (axis[0] === 1 && axis[1] === 0 && axis[2] === 0) {
+      const matrix = new Matrix4D(
+        1.0, 0.0, 0.0, 0.0,
+        0.0, Math.cos(angle), -Math.sin(angle), 0.0,
+        0.0, Math.sin(angle), Math.cos(angle), 0.0,
+        0.0, 0.0, 0.0, 1.0);
+      const vec3 = matrix.multVec3(this);
+      this._x = vec3.X;
+      this._y = vec3.Y;
+      this._z = vec3.Z;
+    }
   }
 }
 

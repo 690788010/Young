@@ -36,15 +36,26 @@ class GraphicsWindow {
    */
   onPostRender() {}
 
+  init() {
+
+  }
+
+  /**
+   * 循环渲染
+   */
+  loopRender() {
+    this.renderFrame();
+    window.requestAnimationFrame(() => {
+      this.loopRender();
+    });
+  }
+
   /**
    * 开始运行系统
    */
   run() {
-    // console.log(1111)
-    this.renderFrame();
-    window.requestAnimationFrame(() => {
-      this.run();
-    });
+    this.init();      // 做一些初始操作
+    this.loopRender();    // 开始循环渲染
   }
 }
 

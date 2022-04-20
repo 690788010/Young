@@ -34,15 +34,16 @@
     class Triangle {
       constructor(containerId) {
         this._window = Device.CreateWindow(containerId);
-        this._sceneState = new SceneState();
+        this._sceneState = this._window.createSceneState();
         // const clearState = new ClearState();
 
         const vs = `#version 300 es      // 声明版本
           layout (location = og_posVertexLoc) in vec3 position;
           uniform mat4 og_modelMatrix;
+          uniform mat4 og_viewMatrix;
 
           void main() {
-            gl_Position = og_modelMatrix * vec4(position, 1.0);
+            gl_Position = og_viewMatrix * og_modelMatrix * vec4(position, 1.0);
           }`;
         const fs = `#version 300 es       // 声明版本
           precision mediump float;      // 设置浮点变量的精度
@@ -59,10 +60,10 @@
     
         const positionsAttribute = new VertexAttributeFloatVector3("position");
         const positions = positionsAttribute.Values;
-        positions.add(new Vector3D(-0.5,  0.5, 0.0));
-        positions.add(new Vector3D(-0.5, -0.5, 0.0));
-        positions.add(new Vector3D(0.5, -0.5, 0.0));
-        positions.add(new Vector3D(0.5, 0.5, 0.0));
+        positions.add(new Vector3D(-0.5,  0.0, 0.5));
+        positions.add(new Vector3D(-0.5, 0.0, -0.5));
+        positions.add(new Vector3D(0.5, 0.0, -0.5));
+        positions.add(new Vector3D(0.5, 0.0, 0.5));
         mesh.Attributes.add(positionsAttribute);
 
         const indices = new IndicesUnsignedShort();

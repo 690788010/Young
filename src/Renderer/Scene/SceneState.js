@@ -7,12 +7,16 @@ import Vector3D from "../../Core/Vectors/Vector3D.js"
 import Matrix4D from "../../Core/Matrices/Matrix4D.js";
 
 class SceneState {
-  constructor() {
+  /**
+   * 构造函数
+   * @param {HTMLCanvasElement} canvas 
+   */
+  constructor(canvas) {
     this._diffuseIntensity = 0.65;
     this._specularIntensity = 0.25;
     this._ambientIntensity = 0.10;
     this._shininess = 12;
-    this._camera = new Camera();
+    this._camera = new Camera(canvas);
     this._sunPosition = new Vector3D(200000, 0, 0);
     // 模型矩阵
     this._modelMatrix = Matrix4D.Identity;
