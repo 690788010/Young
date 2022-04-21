@@ -12,11 +12,14 @@ import TypeConverterGL2 from "../TypeConverterGL2.js";
 import FragmentOutputsGL2 from "./FragmentOutputsGL2.js";
 import ShaderObjectGL2 from "./ShaderObjectGL2.js";
 import UniformCollection from "../../Shaders/UniformCollection.js";
-import UniformGL2 from "./UniformGL2.js";
 import List from "../../../Core/List/List.js";
 import Context from "../../Context.js";
 import DrawState from "../../DrawState.js";
 import SceneState from "../../Scene/SceneState.js";
+import UniformFloatVector3GL2 from "./UniformFloatVector3GL2.js";
+import UniformFloatMatrix44GL2 from "./UniformFloatMatrix44GL2.js";
+import UniformIntGL2 from "./UniformIntGL2.js";
+import Uniform from "../../Shaders/Uniform.js";
 
 
 class ShaderProgramGL2 extends ShaderProgram {
@@ -153,17 +156,28 @@ class ShaderProgramGL2 extends ShaderProgram {
 
       // }
       const uniformLoc = gl.getUniformLocation(programHandle, uniformName);
-      uniforms.add(new UniformGL2(uniformName, TypeConverterGL2.toUniformType(activeInfo.type),
-       uniformLoc, this));
+      uniforms.add(this._createUniform(uniformName, uniformLoc, activeInfo.type));
+       
     }
 
     return uniforms;
   }
 
+  _createUniform(name, location, type) {
+    switch(type) {
+      case this._gl.FLOAT_VEC3:
+        return new UniformFloatVector3GL2(name, location, this);
+      case this._gl.FLOAT_MAT4:
+        return new UniformFloatMatrix44GL2(name, location, this);
+      case this._gl.SAMPLER_2D:
+        return new UniformIntGL2(name, location, this);
+    }
+  }
+
   /**
    * 将Uniform实例添加到_dirtyUniforms集合，以等待
    * GL调用进行更新
-   * @param {UniformGL2} value 
+   * @param {Uniform} value 
    */
   notifyDirty(value) {
     this._dirtyUniforms.add(value);

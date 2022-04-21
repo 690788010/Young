@@ -9,6 +9,7 @@ import Trig from "../Trig.js";
 
 class Ellipsoid {
   static Wgs84 = new Ellipsoid(6378137.0, 6378137.0, 6356752.314245);
+  static ScaledWgs84 = new Ellipsoid(1.0, 1.0, 6356752.314245 / 6378137.0);
   static UnitSphere = new Ellipsoid(1.0, 1.0, 1.0);
   
   /**
