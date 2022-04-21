@@ -20,6 +20,7 @@ import UniformFloatVector3GL2 from "./UniformFloatVector3GL2.js";
 import UniformFloatMatrix44GL2 from "./UniformFloatMatrix44GL2.js";
 import UniformIntGL2 from "./UniformIntGL2.js";
 import Uniform from "../../Shaders/Uniform.js";
+import UniformFloatVector4GL2 from "./UniformFloatVector4GL2.js";
 
 
 class ShaderProgramGL2 extends ShaderProgram {
@@ -167,6 +168,8 @@ class ShaderProgramGL2 extends ShaderProgram {
     switch(type) {
       case this._gl.FLOAT_VEC3:
         return new UniformFloatVector3GL2(name, location, this);
+      case this._gl.FLOAT_VEC4:
+        return new UniformFloatVector4GL2(name, location, this);
       case this._gl.FLOAT_MAT4:
         return new UniformFloatMatrix44GL2(name, location, this);
       case this._gl.SAMPLER_2D:

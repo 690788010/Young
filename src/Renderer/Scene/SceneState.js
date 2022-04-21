@@ -12,15 +12,43 @@ class SceneState {
    * @param {HTMLCanvasElement} canvas 
    */
   constructor(canvas) {
-    this._diffuseIntensity = 0.65;
-    this._specularIntensity = 0.25;
-    this._ambientIntensity = 0.10;
-    this._shininess = 12;
+    this._diffuseIntensity = 0.65;      // 漫反射强度
+    this._specularIntensity = 0.25;     // 高光强度 
+    this._ambientIntensity = 0.10;      // 环境光强度
+    this._shininess = 12;               // 高光系数
     this._camera = new Camera(canvas);
     this._sunPosition = new Vector3D(200000, 0, 0);
     // 模型矩阵
     this._modelMatrix = Matrix4D.Identity;
     this._highResolutionSnapScale = 1;
+  }
+
+  /**
+   * @returns {Number}
+   */
+  get DiffuseIntensity() {
+    return this._diffuseIntensity;
+  }
+
+  /**
+   * @returns {Number}
+   */
+  get SpecularIntensity() {
+    return this._specularIntensity;
+  }
+
+  /**
+   * @returns {Number}
+   */
+  get AmbientIntensity() {
+    return this._ambientIntensity;
+  }
+
+  /**
+   * @returns {Number}
+   */
+  get Shininess() {
+    return this._shininess;
   }
 
   /**

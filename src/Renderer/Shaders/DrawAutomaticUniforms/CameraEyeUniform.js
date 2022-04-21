@@ -5,6 +5,7 @@
 
  import Uniform from "../Uniform.js";
  import DrawAutomaticUniform from "./DrawAutomaticUniform.js";
+ import SceneState from "../../Scene/SceneState.js";
  
  class CameraEyeUniform extends DrawAutomaticUniform {
    /**
