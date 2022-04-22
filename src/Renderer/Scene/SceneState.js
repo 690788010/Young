@@ -57,6 +57,13 @@ class SceneState {
   get Camera() {
     return this._camera;
   }
+
+  /**
+   * @returns {Vector3D}
+   */
+  get SunPosition() {
+    return this._sunPosition;
+  }
   
   /**
    * 相机灯光的位置（世界坐标）
