@@ -31,6 +31,13 @@ class Ellipsoid {
     this._oneOverRadiiSquared = new Vector3D(1.0 / (x * x), 1.0 / (y * y), 1.0 / (z * z));
   }
 
+  /**
+   * @returns {Vector3D}
+   */
+  get OneOverRadiiSquared() {
+    return this._oneOverRadiiSquared;
+  }
+
   // 基于一个Vector3D对象构建一个新的Ellipsoid对象
   static FromVector(vector3D) {
     return new Ellipsoid(vector3D.X, vector3D.Y, vector3D.Z);

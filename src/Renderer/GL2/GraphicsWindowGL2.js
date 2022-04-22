@@ -47,6 +47,7 @@ class GraphicsWindowGL2 extends GraphicsWindow {
     containerDiv.appendChild(this._canvas);
     // 获取WebGL2的环境对象（WebGL2RenderingContext）
     this._gl = this._canvas.getContext("webgl2");
+    this._gl.enable(this._gl.DEPTH_TEST);
     
     // 初始化内置的ContextGL2对象
     this._context = new ContextGL2(this, this._canvas.width, this._canvas.height);

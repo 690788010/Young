@@ -3,6 +3,7 @@
  */
 
 import Vector3D from "../../Core/Vectors/Vector3D.js";
+import Ellipsoid from "../../Core/Geometry/Ellipsoid.js";
 
 class Camera {
   /**
@@ -36,7 +37,6 @@ class Camera {
           dragging = true;
       }
     });
-
     this._canvas.addEventListener('mousemove', (event) => {
       const x = event.clientX, y = event.clientY;
       if (dragging) {
@@ -48,9 +48,16 @@ class Camera {
       }
       lastX = x, lastY = y;
     });
-
     this._canvas.addEventListener('mouseup', () => {
       dragging = false;       // 标识鼠标已释放
+    });
+
+    this._canvas.addEventListener("mousewheel", (event) => {
+      if (event.wheelDelta > 0) {
+        this._eye = this._eye.multiply(0.9);
+      } else {
+        this._eye = this._eye.multiply(1.1);
+      }
     });
   }
 
@@ -94,6 +101,15 @@ class Camera {
    */
   set Up(vector3D) {
     this._up = vector3D;
+  }
+
+  /**
+   * 计算相机和当前椭球表面的高度
+   * @param {Ellipsoid} shape 
+   * @returns 
+   */
+  height(shape) {
+    return shape.toGeodetic3D(this._eye).Height;
   }
 }
 

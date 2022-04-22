@@ -94,7 +94,6 @@
           }
 
           void main() {
-            //vec4 og_diffuseSpecularAmbientShininess = vec4(0.6, 0.3, 0.2, 10);
             vec3 normal = normalize(worldPosition);
             float intensity = lightIntensity(normal, normalize(positionToLight),
               normalize(positionToEye), og_diffuseSpecularAmbientShininess);

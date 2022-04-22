@@ -97,6 +97,12 @@ class SceneState {
     return this.ViewMatrix.multiply(this.ModelMatrix);
   }
 
+  /**
+   * @returns {Number}
+   */
+  get HighResolutionSnapScale() {
+    return this._highResolutionSnapScale;
+  }
 }
 
 export default SceneState;

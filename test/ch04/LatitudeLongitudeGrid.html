@@ -41,6 +41,11 @@
     import VertexAttributeComponents from "../../src/Core/Tessellation/VertexAttributeComponents.js";
     import Ellipsoid from "../../src/Core/Geometry/Ellipsoid.js";
     import LatitudeLongitudeGridGlobe from "../../src/Scene/Globes/LatitudeLongitudeGrid/LatitudeLongitudeGridGlobe.js";
+    import List from "../../src/Core/List/List.js";
+    import GridResolution from "../../src/Scene/Globes/LatitudeLongitudeGrid/GridResolution.js";
+    import Interval from "../../src/Core/Interval.js";
+    import IntervalEndpoint from "../../src/Core/IntervalEndpoint.js";
+    import Vector2D from "../../src/Core/Vectors/Vector2D.js";
 
 
 
@@ -49,6 +54,32 @@
         this._window = Device.CreateWindow(containerId);
         
         this._globe = new LatitudeLongitudeGridGlobe(this._window);
+        
+        const gridResolutions = new List();
+        gridResolutions.add(new GridResolution(
+          new Interval(0, 0.3, IntervalEndpoint.Closed, IntervalEndpoint.Open),
+          new Vector2D(0.05, 0.05)));
+        gridResolutions.add(new GridResolution(
+          new Interval(0.3, 0.6, IntervalEndpoint.Closed, IntervalEndpoint.Open),
+          new Vector2D(0.1, 0.1)));
+        gridResolutions.add(new GridResolution(
+          new Interval(0.6, 0.9, IntervalEndpoint.Closed, IntervalEndpoint.Open),
+          new Vector2D(0.2, 0.2)));
+        gridResolutions.add(new GridResolution(
+          new Interval(0, 1000000, IntervalEndpoint.Closed, IntervalEndpoint.Open),
+          new Vector2D(0.005, 0.005)));
+        gridResolutions.add(new GridResolution(
+          new Interval(1000000, 2000000, IntervalEndpoint.Closed, IntervalEndpoint.Open),
+          new Vector2D(0.01, 0.01)));
+        gridResolutions.add(new GridResolution(
+          new Interval(2000000, 20000000, IntervalEndpoint.Closed, IntervalEndpoint.Open),
+          new Vector2D(0.05, 0.05)));
+        gridResolutions.add(new GridResolution(
+          new Interval(20000000, Number.MAX_VALUE, IntervalEndpoint.Closed, IntervalEndpoint.Open),
+          new Vector2D(0.1, 0.1)));
+        this._globe.GridResolutions = gridResolutions;
+
+
 
         const image = new Image();
         image.addEventListener("load", () => {

@@ -12,6 +12,9 @@ import TextureMagnificationFilter from "../../../Renderer/Textures/TextureMagnif
 import TextureWrap from "../../../Renderer/Textures/TextureWrap.js";
 import RenderState from "../../../Renderer/RenderState/RenderState.js";
 import Shader from "../../Infrastructure/Shader.js";
+import List from "../../../Core/List/List.js";
+import GridResolution from "./GridResolution.js";
+import Vector2D from "../../../Core/Vectors/Vector2D.js";
 
 
 class LatitudeLongitudeGridGlobe {
@@ -26,7 +29,10 @@ class LatitudeLongitudeGridGlobe {
     const fs = Shader.loadShaderFile("Young/src/Scene/Globes/LatitudeLongitudeGrid/Shaders/globeFS.glsl");
 
     const sp = this._window.createShaderProgram(vs, fs);
-    
+    this._gridResolution = sp.Uniforms.getByName("u_gridResolution");
+    this._globeOneOverRadiiSquared = sp.Uniforms.getByName("u_globeOneOverRadiiSquared");
+    this._gridWidth = sp.Uniforms.getByName("u_gridLineWidth");
+
     this._drawState = new DrawState();
     this._drawState.ShaderProgram = sp;
     this._drawState.RenderState = new RenderState();
@@ -39,7 +45,24 @@ class LatitudeLongitudeGridGlobe {
     this._window.Context.TextureUnits.get(0).TextureSampler = sampler;
 
     this._shape = Ellipsoid.ScaledWgs84;
+
+    this._gridResolutions = null;
+
     this._dirty = true;
+  }
+
+  /**
+   * @returns {List<GridResolution>}
+   */
+  get GridResolutions() {
+    return this._gridResolutions;
+  }
+
+  /**
+   * @param {List<GridResolution>} gridResolutions
+   */
+  set GridResolutions(gridResolutions) {
+    this._gridResolutions = gridResolutions;
   }
 
   _clean() {
@@ -50,6 +73,7 @@ class LatitudeLongitudeGridGlobe {
 
       const mesh = GeographicGridEllipsoidTessellator.Compute(this._shape, 64, 32, VertexAttributeComponents.Position);
       this._drawState.VertexArray = this._window.Context.createVertexArrayByMesh(mesh, this._drawState.ShaderProgram.VertexAttributes, BufferHint.StaticDraw);
+      this._globeOneOverRadiiSquared.Value = this._shape.OneOverRadiiSquared;
 
       this._dirty = false;
     }
@@ -57,6 +81,17 @@ class LatitudeLongitudeGridGlobe {
 
   render() {
     this._clean();
+
+    const height = this._sceneState.Camera.height(this._shape);
+    for (let i = 0, len = this._gridResolutions.size(); i < len; i++) {
+      if (this._gridResolutions.get(i).Interval.contains(height)) {
+        this._gridResolution.Value = this._gridResolutions.get(i).Resolution;
+        break;
+      }
+    }
+
+    const width = this._sceneState.HighResolutionSnapScale;
+    this._gridWidth.Value = new Vector2D(width, width);
 
     this._window.Context.draw(PrimitiveType.Triangles, this._drawState, this._sceneState);
   }
