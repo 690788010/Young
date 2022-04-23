@@ -14,6 +14,8 @@ import CameraLightPositionUniformFactory from "./Shaders/DrawAutomaticUniforms/C
 import CameraEyeUniformFactory from "./Shaders/DrawAutomaticUniforms/CameraEyeUniformFactory.js";
 import LightPropertiesUniformFactory from "./Shaders/DrawAutomaticUniforms/LightPropertiesUniformFactory.js";
 import SunPositionUniformFactory from "./Shaders/DrawAutomaticUniforms/SunPositionUniformFactory.js";
+import PerspectiveMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/PerspectiveMatrixUniformFactory.js";
+import ModelViewPerspectiveMatrixUniformFactory from "./Shaders/DrawAutomaticUniforms/ModelViewPerspectiveMatrixUniformFactory.js";
 
 
 
@@ -38,6 +40,8 @@ DrawAutomaticUniformFactories.add(new CameraLightPositionUniformFactory());
 DrawAutomaticUniformFactories.add(new CameraEyeUniformFactory());
 DrawAutomaticUniformFactories.add(new LightPropertiesUniformFactory());
 DrawAutomaticUniformFactories.add(new SunPositionUniformFactory());
+DrawAutomaticUniformFactories.add(new PerspectiveMatrixUniformFactory());
+DrawAutomaticUniformFactories.add(new ModelViewPerspectiveMatrixUniformFactory());
 
 
 class Device {

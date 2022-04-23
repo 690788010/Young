@@ -13,9 +13,15 @@ class Camera {
   constructor(canvas) {
     this._canvas = canvas;
 
-    this._eye = Vector3D.UnitY;
+    // this._eye = Vector3D.UnitY;
+    this._eye = new Vector3D(0, 4, 0);
     this._target = Vector3D.Zero;
     this._up = Vector3D.UnitZ;
+
+    this._fieldOfViewY = Math.PI / 6.0;   // 视见体近平面沿Y轴的视角
+    this._aspectRatio = 1.0;    //  视见体近平面横纵比
+    this._perspectiveNearPlane = 0.01;    // 透视投影近平面距离
+    this._perspectiveFarPlane = 64;     // 透视投影远平面距离
 
     this._initEventHandlers();
   }
@@ -54,9 +60,15 @@ class Camera {
 
     this._canvas.addEventListener("mousewheel", (event) => {
       if (event.wheelDelta > 0) {
-        this._eye = this._eye.multiply(0.9);
+        this._fieldOfViewY -= 0.1;
+        if (this._fieldOfViewY < 0) {
+          this._fieldOfViewY += 0.1;
+        } 
       } else {
-        this._eye = this._eye.multiply(1.1);
+        this._fieldOfViewY += 0.1;
+        if (this._fieldOfViewY >= 3.12) {   // 3.12 约等于 Math.PI - 0.1
+          this._fieldOfViewY -= 0.1;
+        }
       }
     });
   }
@@ -101,6 +113,34 @@ class Camera {
    */
   set Up(vector3D) {
     this._up = vector3D;
+  }
+
+  /**
+   * @returns {Number}
+   */
+  get FieldOfViewY() {
+    return this._fieldOfViewY;
+  }
+
+  /**
+   * @returns {Number}
+   */
+  get AspectRatio() {
+    return this._aspectRatio;
+  }
+
+  /**
+   * @returns {Number}
+   */
+  get PerspectiveNearPlane() {
+    return this._perspectiveNearPlane;
+  }
+
+  /**
+   * @returns {Number}
+   */
+  get PerspectiveFarPlane() {
+    return this._perspectiveFarPlane;
   }
 
   /**

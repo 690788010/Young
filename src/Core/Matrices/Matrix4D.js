@@ -89,6 +89,35 @@ class Matrix4D {
     return rotation.multiply(translation);
   }
 
+  /**
+   * 计算透视投影矩阵
+   * @param {Number} fovy 近平面y轴方向的视角
+   * @param {Number} aspect 近平面横纵比
+   * @param {Number} zNear 近平面距离
+   * @param {Number} zFar 远平面距离
+   */
+  static CreatePerspectiveFieldOfView(fovy, aspect, zNear, zFar) {
+    if (fovy <= 0.0 || fovy > Math.PI) {
+      throw new Error("fovy must be in [0, PI).");
+    }
+    if (aspect <= 0.0) {
+      throw new Error("aspect must be greater than zero.");
+    }
+    if (zNear <= 0.0) {
+      throw new Error("zNear must be greater than zero.");
+    }
+    if (zFar <= 0.0) {
+      throw new Error("zFar must be greater than zero.");
+    }
+
+    const f = 1.0 / Math.tan(fovy * 0.5);
+    return new Matrix4D(
+      f / aspect, 0.0,                             0.0, 0.0,
+      0.0,          f,                             0.0, 0.0,
+      0.0,        0.0, (zFar + zNear) / (zNear - zFar), (2.0 * zFar * zNear) / (zNear - zFar),
+      0.0,        0.0,                            -1.0, 0.0);
+  }
+
 
   /**
    * 乘以一个Matrix4D矩阵

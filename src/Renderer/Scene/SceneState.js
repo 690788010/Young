@@ -105,6 +105,23 @@ class SceneState {
   }
 
   /**
+   * 透视投影矩阵
+   * @returns {Matrix4D}
+   */
+  get PerspectiveMatrix() {
+    return Matrix4D.CreatePerspectiveFieldOfView(this._camera.FieldOfViewY,
+      this._camera.AspectRatio, this._camera.PerspectiveNearPlane, this._camera.PerspectiveFarPlane);
+  }
+
+  /**
+   * MVP矩阵
+   * @returns {Matrix4D}
+   */
+  get ModelViewPerspectiveMatrix() {
+    return this.PerspectiveMatrix.multiply(this.ModelViewMatrix);
+  }
+
+  /**
    * @returns {Number}
    */
   get HighResolutionSnapScale() {
