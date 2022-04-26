@@ -49,6 +49,22 @@ class Ellipsoid {
   }
 
   /**
+   * 获取最小半径
+   * @returns {Number}
+   */
+  get MinimumRadius() {
+    return Math.min(this._radii.X, Math.min(this._radii.Y, this._radii.Z)); 
+  }
+
+  /**
+  * 获取最大半径
+  * @returns {Number}
+  */
+  get MaximumRadius() {
+    return Math.max(this._radii.X, Math.max(this._radii.Y, this._radii.Z)); 
+  }
+
+  /**
    * 计算某个点的地心表面法向量
    * @static
    * @param  {Vector3D} positionOnEllipsoid 点的空间直角坐标

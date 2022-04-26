@@ -49,6 +49,13 @@ class Vector3D {
     return this._y;
   }
 
+  /**
+   * @param {Number} value
+   */
+  set Y(value) {
+    this._y = value;
+  }
+
   // 获取z分量
   get Z() {
     return this._z;

@@ -137,10 +137,24 @@ class Camera {
   }
 
   /**
+   * @param {Number} value
+   */
+  set PerspectiveNearPlane(value) {
+    this._perspectiveNearPlane = value;
+  }
+
+  /**
    * @returns {Number}
    */
   get PerspectiveFarPlane() {
     return this._perspectiveFarPlane;
+  }
+
+  /**
+   * @param {Number}
+   */
+  set PerspectiveFarPlane(value) {
+    this._perspectiveFarPlane = value;
   }
 
   /**

@@ -15,6 +15,7 @@ import Shader from "../../Infrastructure/Shader.js";
 import List from "../../../Core/List/List.js";
 import GridResolution from "./GridResolution.js";
 import Vector2D from "../../../Core/Vectors/Vector2D.js";
+import Vector3D from "../../../Core/Vectors/Vector3D.js";
 
 
 class LatitudeLongitudeGridGlobe {
@@ -24,6 +25,11 @@ class LatitudeLongitudeGridGlobe {
 
     this._window = window;
     this._sceneState = this._window.createSceneState();
+
+    this._shape = Ellipsoid.Wgs84;
+    this._sceneState.Camera.Eye = new Vector3D(0, 4 * this._shape.MaximumRadius, 0);
+    this._sceneState.Camera.PerspectiveNearPlane = 0.01 * this._shape.MaximumRadius;
+    this._sceneState.Camera.PerspectiveFarPlane = 10 * this._shape.MaximumRadius;
 
     const vs = Shader.loadShaderFile("Young/src/Scene/Globes/LatitudeLongitudeGrid/Shaders/globeVS.glsl");
     const fs = Shader.loadShaderFile("Young/src/Scene/Globes/LatitudeLongitudeGrid/Shaders/globeFS.glsl");
@@ -43,8 +49,6 @@ class LatitudeLongitudeGridGlobe {
       TextureWrap.REPEAT,
       TextureWrap.REPEAT);
     this._window.Context.TextureUnits.get(0).TextureSampler = sampler;
-
-    this._shape = Ellipsoid.ScaledWgs84;
 
     this._gridResolutions = null;
 
@@ -82,9 +86,9 @@ class LatitudeLongitudeGridGlobe {
   render() {
     this._clean();
 
-    const height = this._sceneState.Camera.height(this._shape);
+    const fieldOfViewY = this._sceneState.Camera.FieldOfViewY;
     for (let i = 0, len = this._gridResolutions.size(); i < len; i++) {
-      if (this._gridResolutions.get(i).Interval.contains(height)) {
+      if (this._gridResolutions.get(i).Interval.contains(fieldOfViewY)) {
         this._gridResolution.Value = this._gridResolutions.get(i).Resolution;
         break;
       }

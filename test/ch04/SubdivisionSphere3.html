@@ -107,6 +107,7 @@
         // sp.Uniforms.getByName("ourColor").Value = new Vector3D(0, 0, 1);
         
         const ellipsoid = Ellipsoid.UnitSphere;
+        // const ellipsoid = Ellipsoid.Wgs84;
         const mesh = GeographicGridEllipsoidTessellator.Compute(ellipsoid, 40, 40, VertexAttributeComponents.All);
         const va = this._window.Context.createVertexArrayByMesh(mesh, sp.VertexAttributes, BufferHint.StaticDraw);
 
