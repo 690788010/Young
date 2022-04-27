@@ -25,7 +25,9 @@
     * @param {SceneState} sceneState
     */
    set(context, drawState, sceneState) {
-     this._uniform.Value = sceneState.Camera.Eye.multiply(5.0);
+    //  this._uniform.Value = sceneState.Camera.Eye.multiply(5.0);
+     this._uniform.Value = sceneState.Camera.Eye;
+    //  console.log(this._uniform)
    }
  }
  

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #mapContainer {
+      width: 800px;
+      height: 800px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <div id="mapContainer"></div>
+
+  <script type="module">
+    import Device from "../../src/Renderer/Device.js";
+    import SceneState from "../../src/Renderer/Scene/SceneState.js";
+    import ClearState from "../../src/Renderer/ClearState/ClearState.js";
+    import Vector3D from "../../src/Core/Vectors/Vector3D.js";
+    import Mesh from "../../src/Core/Geometry/Mesh.js";
+    import VertexAttributeFloatVector3 from "../../src/Core/Geometry/VertexAttributes/VertexAttributeFloatVector3.js";
+    import IndicesUnsignedShort from "../../src/Core/Geometry/Indices/IndicesUnsignedShort.js";
+    import TriangleIndices from "../../src/Core/Geometry/Indices/TriangleIndices.js";
+    import BufferHint from "../../src/Renderer/Buffers/BufferHint.js";
+    import RenderState from "../../src/Renderer/RenderState/RenderState.js";
+    import DrawState from "../../src/Renderer/DrawState.js";
+    import PrimitiveType from "../../src/Core/Geometry/PrimitiveType.js";
+    import Texture2DDescription from "../../src/Renderer/Textures/Texture2DDescription.js";
+    import TextureFormat from "../../src/Renderer/Textures/TextureFormat.js";
+    import TextureMinificationFilter from "../../src/Renderer/Textures/TextureMinificationFilter.js";
+    import TextureMagnificationFilter from "../../src/Renderer/Textures/TextureMagnificationFilter.js";
+    import TextureWrap from "../../src/Renderer/Textures/TextureWrap.js";
+    import PixelBufferHint from "../../src/Renderer/Buffers/PixelBufferHint.js";
+    import ImageFormat from "../../src/Renderer/Textures/ImageFormat.js";
+    import ImageDataType from "../../src/Renderer/Textures/ImageDataType.js";
+    import GeographicGridEllipsoidTessellator from "../../src/Core/Tessellation/GeographicGridEllipsoidTessellator.js";
+    import VertexAttributeComponents from "../../src/Core/Tessellation/VertexAttributeComponents.js";
+    import Ellipsoid from "../../src/Core/Geometry/Ellipsoid.js";
+    import RayCastedGlobe from "../../src/Scene/Globes/RayCasted/RayCastedGlobe.js";
+    import List from "../../src/Core/List/List.js";
+    import GridResolution from "../../src/Scene/Globes/LatitudeLongitudeGrid/GridResolution.js";
+    import Interval from "../../src/Core/Interval.js";
+    import IntervalEndpoint from "../../src/Core/IntervalEndpoint.js";
+    import Vector2D from "../../src/Core/Vectors/Vector2D.js";
+
+
+
+    class GlobeRayCasting {
+      constructor(containerId) {
+        this._window = Device.CreateWindow(containerId);
+        
+        this._globe = new RayCastedGlobe(this._window);
+        this._globe.Shade = true;
+
+        const image = new Image();
+        image.addEventListener("load", () => {
+          const description = new Texture2DDescription(image.width, image.height, TextureFormat.RGBA, false);
+          const texture = this._window.createTexture2D(description);
+
+          const typedArray = Device.ImageToTypedArray(image);
+          const pixelBuffer = this._window.createWritePixelBuffer(PixelBufferHint.Stream, typedArray.byteLength);
+          pixelBuffer.copyFromSystemMemory(typedArray);
+          texture.copyFromBuffer(pixelBuffer, ImageFormat.RGBA, ImageDataType.UNSIGNED_BYTE, 4);
+  
+          this._globe.Texture = texture;
+        
+          // context.draw(PrimitiveType.Triangles, drawState, sceneState);
+        });
+        image.src = "../../resources/Imagery/NaturalEarth/NE2_50M_SR_W_4096.jpg";
+
+        this._window.onRender = () => {
+          this._globe.render();
+        };
+      }
+
+      run() {
+        this._window.run();
+      }
+    }
+    
+    const globeRayCasting = new GlobeRayCasting("mapContainer");
+    globeRayCasting.run();
+  </script>
+</body>
+</html>

@@ -23,7 +23,7 @@ class ShaderObjectGL2 extends Disposable {
     }
 
     if (shaderType === ShaderType.FragmentShader) {
-      builtinConstants += "precision mediump float;\n";
+      builtinConstants += "precision highp float;\n";
     }
 
     builtinConstants += "const float og_oneOverPi = " + Trig.OneOverPi + ";\n";

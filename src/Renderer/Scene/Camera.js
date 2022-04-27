@@ -13,8 +13,8 @@ class Camera {
   constructor(canvas) {
     this._canvas = canvas;
 
-    // this._eye = Vector3D.UnitY;
-    this._eye = new Vector3D(0, 4, 0);
+    this._eye = Vector3D.UnitY;
+    // this._eye = new Vector3D(0, 4, 0);
     this._target = Vector3D.Zero;
     this._up = Vector3D.UnitZ;
 
@@ -49,8 +49,8 @@ class Camera {
           const factor = 100 / this._canvas.height; // The rotation ratio
           const dx = factor * (x - lastX);
           const dy = factor * (y - lastY);
-          this._eye.rotate(-dx, [0, 0, 1]);
-          this._eye.rotate(dy, [1, 0, 0]);
+          this._eye = this._eye.rotate(-dx, [0, 0, 1]);
+          this._eye = this._eye.rotate(dy, [1, 0, 0]);
       }
       lastX = x, lastY = y;
     });
