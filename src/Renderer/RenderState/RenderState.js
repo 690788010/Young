@@ -11,6 +11,7 @@ class RenderState {
    */
   constructor() {
     this._depthTest = new DepthTest();
+    this._depthMask = true;
     this._faceCulling = new FaceCulling();
   }
   // PrimitiveRestart = new PrimitiveRestart();
@@ -21,7 +22,6 @@ class RenderState {
   // DepthRange = new DepthRange();
   // Blending = new Blending();
   // ColorMask = new ColorMask(true, true, true, true);
-  // DepthMask = true;
 
   /**
    * @returns {DepthTest}
@@ -35,6 +35,20 @@ class RenderState {
    */
   set DepthTest(value) {
     this._depthTest = value;
+  }
+
+  /**
+   * @returns {Boolean}
+   */
+  get DepthMask() {
+    return this._depthMask;
+  }
+
+  /**
+   * @param {Boolean} value
+   */
+  set DepthMask(value) {
+    this._depthMask = value;
   }
 
   /**

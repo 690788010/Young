@@ -79,6 +79,13 @@ class Color {
   static get White() {
     return new Color(1.0, 1.0, 1.0, 1.0);
   }
+  
+  /**
+   * @returns {Color}
+   */
+  static get Red() {
+    return new Color(1.0, 0.0, 0.0, 1.0);
+  }
 
   /**
    * 判断相等

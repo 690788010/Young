@@ -32,7 +32,7 @@ class ContextGL2 extends Context {
     this._gl = this._window._gl;
 
     // 保存以下状态信息是为了与ClearState中的颜色信息比较
-    this._clearColor = Color.White;
+    this._clearColor = Color.Red;
     this._clearDepth = this._gl.getParameter(this._gl.DEPTH_CLEAR_VALUE);
 
     // 保存这个RenderState实例用于和传入Draw调用的RenderState
@@ -79,20 +79,21 @@ class ContextGL2 extends Context {
   }
 
   /**
-   * 同步GL状态和默认RenderState状态一致
+   * 初始化时同步GL状态和默认RenderState状态一致
    * @param {RenderState} renderState 
    */
   _forceApplyRenderState(renderState) {
-
-    // // 同步面剔除相关状态信息
-    // this._enable(this._gl.CULL_FACE, renderState.FaceCulling.Enabled);
-    // this._gl.cullFace(TypeConverterGL2.CullFaceModeToGL(renderState.FaceCulling.CullFace));
-    // this._gl.frontFace(TypeConverterGL2.FrontFaceDirectionToGL(renderState.FaceCulling.FrontFace));
+    // 同步面剔除相关状态信息
+    this._enable(this._gl.CULL_FACE, renderState.FaceCulling.Enabled);
+    this._gl.cullFace(TypeConverterGL2.CullFaceModeToGL(renderState.FaceCulling.CullFace));
+    this._gl.frontFace(TypeConverterGL2.FrontFaceDirectionToGL(renderState.FaceCulling.FrontFace));
 
     // 同步深度测试相关状态信息
     this._enable(this._gl.DEPTH_TEST, renderState.DepthTest.Enabled);
     this._gl.depthFunc(TypeConverterGL2.DepthTestFunctionToGL(renderState.DepthTest.Function));
 
+    // 同步DepthMask状态信息
+    this._gl.depthMask(renderState.DepthMask);
   }
 
   /**
@@ -136,20 +137,19 @@ class ContextGL2 extends Context {
 
     // ApplyScissorTest(clearState.ScissorTest);
     // ApplyColorMask(clearState.ColorMask);
-    // ApplyDepthMask(clearState.DepthMask);
 
     if (!this._clearColor.equals(clearState.Color)) {
       this._gl.clearColor(clearState.Color.R, clearState.Color.G, clearState.Color.B, clearState.Color.A);
       this._clearColor = clearState.Color;
     }
-    if (this._clearDepth !== clearState.Depth) {
-      this._gl.clearDepth(clearState.Depth);
-      this._clearDepth = clearState.Depth;
-    }
-    if (this._clearStencil != clearState.Stencil) {
-      this._gl.clearStencil(clearState.Stencil);
-      this._clearStencil = clearState.Stencil;
-    }
+    // if (this._clearDepth !== clearState.Depth) {
+    //   this._gl.clearDepth(clearState.Depth);
+    //   this._clearDepth = clearState.Depth;
+    // }
+    // if (this._clearStencil != clearState.Stencil) {
+    //   this._gl.clearStencil(clearState.Stencil);
+    //   this._clearStencil = clearState.Stencil;
+    // }
     this._gl.clear(TypeConverterGL2.ClearBuffersToGL(clearState.Buffers));
   }
 
@@ -235,7 +235,7 @@ class ContextGL2 extends Context {
     // ApplyDepthRange(renderState.DepthRange);
     // ApplyBlending(renderState.Blending);
     // ApplyColorMask(renderState.ColorMask);
-    // ApplyDepthMask(renderState.DepthMask);
+    this._applyDepthMask(renderState.DepthMask);
   }
 
   /**
@@ -308,6 +308,17 @@ class ContextGL2 extends Context {
         this._gl.frontFace(TypeConverterGL2.FrontFaceDirectionToGL(faceCulling.FrontFace));
         this._renderState.FaceCulling.FrontFace = faceCulling.FrontFace;
       }
+    }
+  }
+
+  /**
+   * 同步DepthMask状态信息
+   * @param {Boolean} depthMask 
+   */
+  _applyDepthMask(depthMask) {
+    if (this._renderState.DepthMask !== depthMask) {
+      this._gl.DepthMask(depthMask);
+      this._renderState.DepthMask = depthMask;
     }
   }
 

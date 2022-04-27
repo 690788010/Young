@@ -9,18 +9,32 @@ class ClearState {
   constructor() {
     // ScissorTest = new ScissorTest();
     // ColorMask = new ColorMask(true, true, true, true);
-    // DepthMask = true;
+    this._depthMask = true;
     // FrontStencilMask = ~0;
     // BackStencilMask = ~0;
 
     // 表示清除哪个缓冲的位掩码
     this._buffers = ClearBuffers.All;
     // 颜色缓冲的颜色
-    this._color = Color.White;
+    this._color = new Color(0.0, 0.5, 0.5, 1.0);
     // 深度缓冲的值
     this._depth = 1.0;
     // 模板缓冲的值
     this._stencil = 0;
+  }
+
+  /**
+   * @returns {Boolean}
+   */
+  get DepthMask() {
+    return this._depthMask;
+  }
+
+  /**
+   * @param {Boolean} value
+   */
+  set DepthMask(value) {
+    this._depthMask = value;
   }
 
   /**

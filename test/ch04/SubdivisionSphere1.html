@@ -45,6 +45,8 @@
       constructor(containerId) {
         this._window = Device.CreateWindow(containerId);
         this._sceneState = this._window.createSceneState();
+        this._sceneState.Camera.Eye = new Vector3D(0, 6, 0);
+        this._clearState = new ClearState();
 
         const vs = `#version 300 es      // 声明版本
           layout (location = og_posVertexLoc) in vec3 position;
@@ -107,6 +109,7 @@
         const va = this._window.Context.createVertexArrayByMesh(mesh, sp.VertexAttributes, BufferHint.StaticDraw);
 
         const renderState = new RenderState();
+        // renderState.DepthTest.Enabled = false;
         this._drawState = new DrawState(renderState, sp, va);
 
         const image = new Image();
@@ -129,12 +132,12 @@
           context.TextureUnits.get(0).Texture = texture;
           context.TextureUnits.get(0).TextureSampler = sampler;
         
-          // context.draw(PrimitiveType.Triangles, drawState, sceneState);
         });
         image.src = "../../resources/Imagery/NaturalEarth/NE2_50M_SR_W_4096.jpg";
 
         this._window.onRender = () => {
           const context = this._window.Context;
+          context.clear(this._clearState);
           context.draw(PrimitiveType.Triangles, this._drawState, this._sceneState);
         };
       }
