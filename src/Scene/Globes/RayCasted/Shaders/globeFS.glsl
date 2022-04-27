@@ -12,38 +12,33 @@ uniform vec3 u_cameraEyeSquared;
 uniform vec3 u_globeOneOverRadiiSquared;
 uniform bool u_useAverageDepth;
 
-struct Intersection
-{
-    bool  Intersects;
-    float NearTime;         // Along ray
-    float FarTime;          // Along ray
+struct Intersection{
+  bool  Intersects;
+  float NearTime;         // Along ray
+  float FarTime;          // Along ray
 };
 
 //
 // Assumes ellipsoid is at (0, 0, 0)
 //
-Intersection rayIntersectEllipsoid(vec3 rayOrigin, vec3 rayOriginSquared, vec3 rayDirection, vec3 oneOverEllipsoidRadiiSquared)
-{
-    float a = dot(rayDirection * rayDirection, oneOverEllipsoidRadiiSquared);
-    float b = 2.0 * dot(rayOrigin * rayDirection, oneOverEllipsoidRadiiSquared);
-    float c = dot(rayOriginSquared, oneOverEllipsoidRadiiSquared) - 1.0;
-    float discriminant = b * b - 4.0 * a * c;
+Intersection rayIntersectEllipsoid(vec3 rayOrigin, vec3 rayOriginSquared, vec3 rayDirection, vec3 oneOverEllipsoidRadiiSquared) {
+  float a = dot(rayDirection * rayDirection, oneOverEllipsoidRadiiSquared);
+  float b = 2.0 * dot(rayOrigin * rayDirection, oneOverEllipsoidRadiiSquared);
+  float c = dot(rayOriginSquared, oneOverEllipsoidRadiiSquared) - 1.0;
+  float discriminant = b * b - 4.0 * a * c;
 
-    if (discriminant < 0.0)
-    {
-        return Intersection(false, 0.0, 0.0);
-    }
-    else if (discriminant == 0.0)
-    {
-        float time = -0.5 * b / a;
-        return Intersection(true, time, time);
-    }
+  if (discriminant < 0.0) {
+    return Intersection(false, 0.0, 0.0);
+  } else if (discriminant == 0.0) {
+    float time = -0.5 * b / a;
+    return Intersection(true, time, time);
+  }
 
-    float t = -0.5 * (b + (b > 0.0 ? 1.0 : -1.0) * sqrt(discriminant));
-    float root1 = t / a;
-    float root2 = c / t;
+  float t = -0.5 * (b + (b > 0.0 ? 1.0 : -1.0) * sqrt(discriminant));
+  float root1 = t / a;
+  float root2 = c / t;
 
-    return Intersection(true, min(root1, root2), max(root1, root2));
+  return Intersection(true, min(root1, root2), max(root1, root2));
 }
 
 float computeWorldPositionDepth(vec3 position, mat4 mvpMatrix) { 
@@ -53,54 +48,46 @@ float computeWorldPositionDepth(vec3 position, mat4 mvpMatrix) {
   return v.z;
 }
 
-vec3 geodeticSurfaceNormal(vec3 positionOnEllipsoid, vec3 oneOverEllipsoidRadiiSquared)
-{
-    return normalize(positionOnEllipsoid * oneOverEllipsoidRadiiSquared);
+vec3 geodeticSurfaceNormal(vec3 positionOnEllipsoid, vec3 oneOverEllipsoidRadiiSquared) {
+  return normalize(positionOnEllipsoid * oneOverEllipsoidRadiiSquared);
 }
 
-float lightIntensity(vec3 normal, vec3 toLight, vec3 toEye, vec4 diffuseSpecularAmbientShininess)
-{
-    vec3 toReflectedLight = reflect(-toLight, normal);
+float lightIntensity(vec3 normal, vec3 toLight, vec3 toEye, vec4 diffuseSpecularAmbientShininess) {
+  vec3 toReflectedLight = reflect(-toLight, normal);
 
-    float diffuse = max(dot(toLight, normal), 0.0);
-    float specular = max(dot(toReflectedLight, toEye), 0.0);
-    specular = pow(specular, diffuseSpecularAmbientShininess.w);
+  float diffuse = max(dot(toLight, normal), 0.0);
+  float specular = max(dot(toReflectedLight, toEye), 0.0);
+  specular = pow(specular, diffuseSpecularAmbientShininess.w);
 
-    return (diffuseSpecularAmbientShininess.x * diffuse) +
-           (diffuseSpecularAmbientShininess.y * specular) +
-            diffuseSpecularAmbientShininess.z;
+  return (diffuseSpecularAmbientShininess.x * diffuse) +
+    (diffuseSpecularAmbientShininess.y * specular) +
+    diffuseSpecularAmbientShininess.z;
 }
 
-vec2 computeTextureCoordinates(vec3 normal)
-{
-    return vec2(atan(normal.y, normal.x) * og_oneOverTwoPi + 0.5, asin(-normal.z) * og_oneOverPi + 0.5);
+vec2 computeTextureCoordinates(vec3 normal) {
+  return vec2(atan(normal.y, normal.x) * og_oneOverTwoPi + 0.5, asin(-normal.z) * og_oneOverPi + 0.5);
 }
 
-void main()
-{
-    vec3 rayDirection = normalize(worldPosition - og_cameraEye);
-    Intersection i = rayIntersectEllipsoid(og_cameraEye, u_cameraEyeSquared, rayDirection, u_globeOneOverRadiiSquared);
+void main() {
+  vec3 rayDirection = normalize(worldPosition - og_cameraEye);
+  Intersection i = rayIntersectEllipsoid(og_cameraEye, u_cameraEyeSquared, rayDirection, u_globeOneOverRadiiSquared);
 
-    if (i.Intersects)
-    {
-        vec3 position = og_cameraEye + (i.NearTime * rayDirection);
-        vec3 normal = geodeticSurfaceNormal(position, u_globeOneOverRadiiSquared);
+  if (i.Intersects) {
+    vec3 position = og_cameraEye + (i.NearTime * rayDirection);
+    vec3 normal = geodeticSurfaceNormal(position, u_globeOneOverRadiiSquared);
 
-        vec3 toLight = normalize(og_cameraLightPosition - position);
-        vec3 toEye = normalize(og_cameraEye - position);
-        float intensity = lightIntensity(normal, toLight, toEye, og_diffuseSpecularAmbientShininess);
+    vec3 toLight = normalize(og_cameraLightPosition - position);
+    vec3 toEye = normalize(og_cameraEye - position);
+    float intensity = lightIntensity(normal, toLight, toEye, og_diffuseSpecularAmbientShininess);
 
-        FragColor = vec4(intensity * texture(og_texture0, computeTextureCoordinates(normal)).rgb, 1.0);
+    FragColor = vec4(intensity * texture(og_texture0, computeTextureCoordinates(normal)).rgb, 1.0);
 
-        if (u_useAverageDepth)
-        {
-            position = og_cameraEye + (mix(i.NearTime, i.FarTime, 0.5) * rayDirection);
-        }
-
-        gl_FragDepth = computeWorldPositionDepth(position, og_modelViewPerspectiveMatrix);
+    if (u_useAverageDepth) {
+      position = og_cameraEye + (mix(i.NearTime, i.FarTime, 0.5) * rayDirection);
     }
-    else
-    {
-        discard;
-    }
+
+    gl_FragDepth = computeWorldPositionDepth(position, og_modelViewPerspectiveMatrix);
+  } else {
+    discard;
+  }
 }

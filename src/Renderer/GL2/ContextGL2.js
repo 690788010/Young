@@ -335,8 +335,9 @@ class ContextGL2 extends Context {
     }
   }
 
-  
-
+  /**
+   * @returns {WebGL2RenderingContext}
+   */
   get GL() {
     return this._gl;
   }
