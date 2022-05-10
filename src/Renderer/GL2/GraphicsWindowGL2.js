@@ -14,11 +14,9 @@ import VertexBufferGL2 from "./Buffers/VertexBufferGL2.js";
 import VertexBufferAttributeGL2 from "./VertexArray/VertexBufferAttributeGL2.js";
 import ComponentDatatype from "../VertexArray/ComponentDatatype.js";
 import Texture2DDescription from "../Textures/Texture2DDescription.js";
-import Texture2D from "../Textures/Texture2D.js";
 import Texture2DGL2 from "./Textures/Texture2DGL2.js";
 import WritePixelBufferGL2 from "./Buffers/WritePixelBufferGL2.js";
 import PixelBufferHint from "../Buffers/PixelBufferHint.js";
-import WritePixelBuffer from "../Buffers/WritePixelBuffer.js";
 import TextureMinificationFilter from "../Textures/TextureMinificationFilter.js";
 import TextureMagnificationFilter from "../Textures/TextureMagnificationFilter.js";
 import TextureWrap from "../Textures/TextureWrap.js";
@@ -74,31 +72,66 @@ class GraphicsWindowGL2 extends GraphicsWindow {
   }
 
   /**
-   * 创建一个SceneState
-   * @returns {SceneState}
-   */
-  createSceneState() {
-    return new SceneState(this._canvas);
-  }
-
-  /**
- * 创建一个VertexBuffer对象
- * @param  {BufferHint} usageHint
- * @param  {Number} sizeInBytes
- * @returns {VertexBufferGL2}
- */
+  * 创建一个VertexBufferGL2对象
+  * @param  {BufferHint} usageHint
+  * @param  {Number} sizeInBytes
+  * @returns {VertexBufferGL2}
+  */
   createVertexBuffer(usageHint, sizeInBytes) {
     return new VertexBufferGL2(this._gl, usageHint, sizeInBytes);
   }
 
   /**
-   * 创建一个VertexBuffer对象
-   * @param  {BufferHint} usageHint
-   * @param  {Number} sizeInBytes
-   * @returns {IndexBufferGL2}
-   */
+  * 创建一个IndexBufferGL2对象
+  * @param  {BufferHint} usageHint
+  * @param  {Number} sizeInBytes
+  * @returns {IndexBufferGL2}
+  */
   createIndexBuffer(usageHint, sizeInBytes) {
     return new IndexBufferGL2(this._gl, usageHint, sizeInBytes);
+  }
+
+  /**
+  * 创建WritePixelBufferGL2对象
+  * @param {PixelBufferHint} usageHint
+  * @param {Number} sizeInBytes
+  * @returns {WritePixelBufferGL2}
+  */
+  createWritePixelBuffer(usageHint, sizeInBytes) {
+    return new WritePixelBufferGL2(this._gl, usageHint, sizeInBytes);
+  }
+
+  /**
+  * 创建Texture2DGL2对象
+  * @param {Texture2DDescription} description 
+  * @returns {Texture2DGL2}
+  */
+  createTexture2D(description) {
+    return new Texture2DGL2(this._gl, description, this._gl.TEXTURE_2D);
+  }
+
+  /**
+  * 创建TextureSamplerGL2对象
+  * @param {TextureMinificationFilter} minificationFilter 
+  * @param {TextureMagnificationFilter} magnificationFilter 
+  * @param {TextureWrap} wrapS 
+  * @param {TextureWrap} WrapT 
+  * @param {Number} maximumAnistropy
+  * @returns {TextureSamplerGL2}
+  */
+  createTexture2DSampler(minificationFilter, magnificationFilter, 
+    wrapS, WrapT, maximumAnistropy) 
+  {
+    return new TextureSamplerGL2(this._gl, minificationFilter, magnificationFilter,
+      wrapS, WrapT, maximumAnistropy);
+  }
+
+  /**
+   * 创建一个SceneState
+   * @returns {SceneState}
+   */
+  createSceneState() {
+    return new SceneState(this._canvas);
   }
 
   /**
@@ -184,41 +217,6 @@ class GraphicsWindowGL2 extends GraphicsWindow {
     const vertexBuffer = this.createVertexBuffer(usageHint, valuesArray.byteLength);
     vertexBuffer.copyFromSystemMemory(valuesArray);
     return vertexBuffer;
-  }
-
-  /**
-   * 创建二维纹理
-   * @param {Texture2DDescription} description 
-   * @returns {Texture2D}
-   */
-  createTexture2D(description) {
-    return new Texture2DGL2(this._gl, description, this._gl.TEXTURE_2D);
-  }
-
-  /**
-   * 创建WritePixelBuffer
-   * @param {PixelBufferHint} usageHint
-   * @param {Number} sizeInBytes
-   * @returns {WritePixelBuffer}
-   */
-  createWritePixelBuffer(usageHint, sizeInBytes) {
-    return new WritePixelBufferGL2(this._gl, usageHint, sizeInBytes);
-  }
-
-  /**
-   * 
-   * @param {TextureMinificationFilter} minificationFilter 
-   * @param {TextureMagnificationFilter} magnificationFilter 
-   * @param {TextureWrap} wrapS 
-   * @param {TextureWrap} WrapT 
-   * @param {Number} maximumAnistropy
-   * @returns {TextureSamplerGL2}
-   */
-  createTexture2DSampler(minificationFilter, magnificationFilter, 
-    wrapS, WrapT, maximumAnistropy) 
-  {
-    return new TextureSamplerGL2(this._gl, minificationFilter, magnificationFilter,
-      wrapS, WrapT, maximumAnistropy);
   }
 }
 

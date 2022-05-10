@@ -3,6 +3,12 @@
  */
 
 import Context from "./Context.js";
+import ShaderProgram from "./Shaders/ShaderProgram.js";
+import VertexBuffer from "./Buffers/VertexBuffer.js";
+import IndexBuffer from "./Buffers/IndexBuffer.js";
+import WritePixelBuffer from "./Buffers/WritePixelBuffer.js";
+import Texture2D from "./Textures/Texture2D.js";
+import TextureSampler from "./Textures/TextureSampler.js";
 
 class GraphicsWindow {
   
@@ -11,6 +17,57 @@ class GraphicsWindow {
    * @returns {Context}
    */
   get Context() {}
+
+  /**
+  * 抽象方法，创建一个ShaderProgramGL对象
+  * @param  {String} vertexShaderSource 顶点着色器
+  * @param  {String} fragmentShaderSource 片元着色器
+  * @returns {ShaderProgram}
+  */
+  createShaderProgram(vertexShaderSource, fragmentShaderSource) {}
+
+  /**
+  * 抽象方法，创建一个VertexBuffer对象
+  * @param  {BufferHint} usageHint
+  * @param  {Number} sizeInBytes
+  * @returns {VertexBuffer}
+  */
+  createVertexBuffer(usageHint, sizeInBytes) {}
+
+  /**
+  * 抽象方法，创建一个VertexBuffer对象
+  * @param  {BufferHint} usageHint
+  * @param  {Number} sizeInBytes
+  * @returns {IndexBuffer}
+  */
+  createIndexBuffer(usageHint, sizeInBytes) {}
+
+  /**
+  * 抽象方法，创建WritePixelBuffer对象
+  * @param {PixelBufferHint} usageHint
+  * @param {Number} sizeInBytes
+  * @returns {WritePixelBuffer}
+  */
+  createWritePixelBuffer(usageHint, sizeInBytes) {}
+
+  /**
+  * 抽象方法，创建Texture2D对象
+  * @param {Texture2DDescription} description 
+  * @returns {Texture2D}
+  */
+  createTexture2D(description) {}
+
+  /**
+  * 抽象方法，创建TextureSampler对象
+  * @param {TextureMinificationFilter} minificationFilter 
+  * @param {TextureMagnificationFilter} magnificationFilter 
+  * @param {TextureWrap} wrapS 
+  * @param {TextureWrap} WrapT 
+  * @param {Number} maximumAnistropy
+  * @returns {TextureSampler}
+  */
+  createTexture2DSampler(minificationFilter, magnificationFilter, 
+    wrapS, WrapT, maximumAnistropy) {}
 
   /**
    * 渲染一帧
