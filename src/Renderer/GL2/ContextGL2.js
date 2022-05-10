@@ -54,54 +54,11 @@ class ContextGL2 extends Context {
   }
 
   /**
-   * 为Mesh创建对应的VertexArray
-   * @param {Mesh} mesh 
-   * @param {ShaderVertexAttributeCollection} shaderAttributes 
-   * @param {BufferHint} usageHint 
-   */
-  createVertexArrayByMesh(mesh, shaderAttributes, usageHint) {
-    return this._createVertexArrayByMeshBuffers(
-      this._window.createMeshBuffers(mesh, shaderAttributes, usageHint));
-  }
-
-  /**
-   * 
-   * @param {MeshBuffers} meshBuffers 
-   */
-  _createVertexArrayByMeshBuffers(meshBuffers) {
-    const va = this.createVertexArray();
-    va.DisposeBuffers = true;
-    va.IndexBuffer = meshBuffers.IndexBuffer;
-    for (let i = 0, len = meshBuffers.Attributes.MaximumCount; i < len; i++) {
-      va.Attributes.set(i, meshBuffers.Attributes.get(i));
-    }
-    return va;
-  }
-
-  /**
-   * 初始化时同步GL状态和默认RenderState状态一致
-   * @param {RenderState} renderState 
-   */
-  _forceApplyRenderState(renderState) {
-    // 同步面剔除相关状态信息
-    this._enable(this._gl.CULL_FACE, renderState.FaceCulling.Enabled);
-    this._gl.cullFace(TypeConverterGL2.CullFaceModeToGL(renderState.FaceCulling.CullFace));
-    this._gl.frontFace(TypeConverterGL2.FrontFaceDirectionToGL(renderState.FaceCulling.FrontFace));
-
-    // 同步深度测试相关状态信息
-    this._enable(this._gl.DEPTH_TEST, renderState.DepthTest.Enabled);
-    this._gl.depthFunc(TypeConverterGL2.DepthTestFunctionToGL(renderState.DepthTest.Function));
-
-    // 同步DepthMask状态信息
-    this._gl.depthMask(renderState.DepthMask);
-  }
-
-  /**
-   * 更新视口。
-   */
-  updateViewPort() {
-    this._gl.viewport(this._viewPort.X, this._viewPort.Y,
-      this._viewPort.Width, this._viewPort.Height);
+  * 创建一个VertexArrayGL2对象
+  * @returns {VertexArrayGL2}
+  */
+  createVertexArray() {
+    return new VertexArrayGL2(this._gl);
   }
 
   /**
@@ -110,14 +67,6 @@ class ContextGL2 extends Context {
    */
   get ViewPort() {
     return this._viewPort;
-  }
-
-  /**
-   * 创建一个VertexArray对象
-   * @returns {VertexArray}
-   */
-  createVertexArray() {
-    return new VertexArrayGL2(this._gl);
   }
 
   /**
@@ -154,6 +103,7 @@ class ContextGL2 extends Context {
   }
 
   /**
+   * 绘制
    * @param {PrimitiveType} primitiveType 图元类型
    * @param {DrawState} drawState 
    * @param {SceneState} sceneState
@@ -181,6 +131,47 @@ class ContextGL2 extends Context {
         3
       );
     }
+  }
+
+  /**
+   * 根据MeshBuffers创建VertexArrayGL2对象
+   * @param {MeshBuffers} meshBuffers 
+   * @returns {VertexArrayGL2}
+   */
+  _createVertexArrayByMeshBuffers(meshBuffers) {
+    const va = this.createVertexArray();
+    va.DisposeBuffers = true;
+    va.IndexBuffer = meshBuffers.IndexBuffer;
+    for (let i = 0, len = meshBuffers.Attributes.MaximumCount; i < len; i++) {
+      va.Attributes.set(i, meshBuffers.Attributes.get(i));
+    }
+    return va;
+  }
+
+  /**
+   * 初始化时同步GL状态和默认RenderState状态一致
+   * @param {RenderState} renderState 
+   */
+  _forceApplyRenderState(renderState) {
+    // 同步面剔除相关状态信息
+    this._enable(this._gl.CULL_FACE, renderState.FaceCulling.Enabled);
+    this._gl.cullFace(TypeConverterGL2.CullFaceModeToGL(renderState.FaceCulling.CullFace));
+    this._gl.frontFace(TypeConverterGL2.FrontFaceDirectionToGL(renderState.FaceCulling.FrontFace));
+
+    // 同步深度测试相关状态信息
+    this._enable(this._gl.DEPTH_TEST, renderState.DepthTest.Enabled);
+    this._gl.depthFunc(TypeConverterGL2.DepthTestFunctionToGL(renderState.DepthTest.Function));
+
+    // 同步DepthMask状态信息
+    this._gl.depthMask(renderState.DepthMask);
+  }
+
+  /**
+   * 更新视口。
+   */
+  updateViewPort() {
+    this._gl.viewport(this._viewPort.X, this._viewPort.Y,
+      this._viewPort.Width, this._viewPort.Height);
   }
 
   /**
