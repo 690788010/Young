@@ -1,10 +1,9 @@
 
-
 class Verify {
   
-  static ThrowIfNull(context) {
-    if (!context) {
-      throw new Error("context");
+  static ThrowIfNull(obj, msg = "object is null.") {
+    if (!obj) {
+      throw new Error(msg);
     }
   }  
 }
