@@ -71,6 +71,13 @@ class VertexArrayGL2 extends VertexArray {
   maximumArrayIndex() {
     return this._attributes.MaximumArrayIndex();
   }
+
+  /**
+   * 删除VAO
+   */
+  dispose() {
+    this._name.dispose();
+  }
 }
 
 export default VertexArrayGL2;
