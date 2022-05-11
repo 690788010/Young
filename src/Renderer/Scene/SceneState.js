@@ -66,7 +66,7 @@ class SceneState {
   }
   
   /**
-   * 相机灯光的位置（世界坐标）
+   * 处于相机位置的灯光的位置（世界坐标）
    * @returns {Vector3D}
    */
   get CameraLightPosition() {
