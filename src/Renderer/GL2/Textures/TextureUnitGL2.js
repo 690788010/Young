@@ -50,7 +50,7 @@ class TextureUnitGL2 extends TextureUnit {
         if (this._texture) {
           this._texture.bind();   // 绑定纹理对象
         } else {
-          Texture2DGL2.UnBind();  // 解绑纹理对象
+          this._gl.bindTexture(this._gl.TEXTURE_2D, null);  // 解绑纹理对象
         }
       }
 

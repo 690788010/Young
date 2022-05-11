@@ -65,13 +65,6 @@ class Texture2DGL2 extends Texture2D {
   }
 
   /**
-   * 解绑纹理
-   */
-  static UnBind() {
-    this._gl.bindTexture(this._target, null);
-  }
-
-  /**
    * 
    * @param {WritePixelBufferGL2} pixelBuffer 
    * @param {Number} xOffset 纹理局部更新子矩形左下角x坐标
