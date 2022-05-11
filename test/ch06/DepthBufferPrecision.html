@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #mapContainer {
+      width: 800px;
+      height: 800px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <div id="mapContainer"></div>
+
+  <script type="module">
+    import Device from "../../src/Renderer/Device.js";
+    import TessellatedGlobe from "../../src/Scene/Globes/Tessellated/TessellatedGlobe.js";
+    import Texture2DDescription from "../../src/Renderer/Textures/Texture2DDescription.js";
+    import PixelBufferHint from "../../src/Renderer/Buffers/PixelBufferHint.js";
+    import ImageFormat from "../../src/Renderer/Textures/ImageFormat.js";
+    import ImageDataType from "../../src/Renderer/Textures/ImageDataType.js";
+    import TextureFormat from "../../src/Renderer/Textures/TextureFormat.js";
+    
+
+    class DepthBufferPrecision {
+      constructor(containerId) {
+        this._window = Device.CreateWindow(containerId);
+
+        this._globe = new TessellatedGlobe(this._window);
+
+        const image = new Image();
+        image.addEventListener("load", () => {
+          const description = new Texture2DDescription(image.width, image.height, TextureFormat.RGBA, false);
+          const texture = this._window.createTexture2D(description);
+
+          const typedArray = Device.ImageToTypedArray(image);
+          const pixelBuffer = this._window.createWritePixelBuffer(PixelBufferHint.Stream, typedArray.byteLength);
+          pixelBuffer.copyFromSystemMemory(typedArray);
+          texture.copyFromBuffer(pixelBuffer, ImageFormat.RGBA, ImageDataType.UNSIGNED_BYTE, 4);
+  
+          this._globe.Texture = texture;
+        });
+        image.src = "../../resources/Imagery/NaturalEarth/NE2_50M_SR_W_4096.jpg";
+
+        this._window.onRender = () => {
+          this._globe.render();
+        };
+      }
+
+      run() {
+        this._window.run();
+      }
+    }
+    
+    const depthBufferPrecision = new DepthBufferPrecision("mapContainer");
+    depthBufferPrecision.run();
+  </script>
+</body>
+</html>
