@@ -4,6 +4,7 @@
 
 import DepthTest from "./DepthTest.js";
 import FaceCulling from "./FaceCulling.js";
+import Blending from "./Blending.js";
 
 class RenderState {
   /**
@@ -13,6 +14,7 @@ class RenderState {
     this._depthTest = new DepthTest();
     this._depthMask = true;
     this._faceCulling = new FaceCulling();
+    this._blending = new Blending();
   }
   // PrimitiveRestart = new PrimitiveRestart();
   // ProgramPointSize = ProgramPointSize.Disabled;
@@ -20,7 +22,6 @@ class RenderState {
   // ScissorTest = new ScissorTest();
   // StencilTest = new StencilTest();
   // DepthRange = new DepthRange();
-  // Blending = new Blending();
   // ColorMask = new ColorMask(true, true, true, true);
 
   /**
@@ -59,10 +60,24 @@ class RenderState {
   }
 
   /**
-   * @param {FaceCulling}
+   * @param {FaceCulling} value
    */
   set FaceCulling(value) {
     this._faceCulling = value;
+  }
+
+  /**
+   * @returns {Blending}
+   */
+  get Blending() {
+    return this._blending;
+  }
+
+  /**
+   * @param {Blending} value
+   */
+  set Blending(value) {
+    this._blending = value;
   }
 }
 

@@ -18,6 +18,7 @@ import FaceCulling from "../RenderState/FaceCulling.js";
 import Color from "../../Core/Color/Color.js";
 import ClearState from "../ClearState/ClearState.js";
 import GraphicsWindowGL2 from "./GraphicsWindowGL2.js";
+import Blending from "../RenderState/Blending.js";
 
 class ContextGL2 extends Context {
   /**
@@ -164,6 +165,14 @@ class ContextGL2 extends Context {
 
     // 同步DepthMask状态信息
     this._gl.depthMask(renderState.DepthMask);
+
+    // 同步混合相关状态信息
+    this._enable(this._gl.BLEND, renderState.Blending.Enabled);
+    this._gl.blendFuncSeparate(renderState.Blending.SourceRGBFactor, renderState.Blending.DestinationRGBFactor,
+      renderState.Blending.SourceAlphaFactor, renderState.Blending.DestinationAlphaFactor);
+    this._gl.blendEquationSeparate(renderState.Blending.RgbEquation, renderState.Blending.AlphaEquation);
+    this._gl.blendColor(renderState.Blending.BlendColor.R, renderState.Blending.BlendColor.G, 
+      renderState.Blending.BlendColor.B, renderState.Blending.BlendColor.A);
   }
 
   /**
@@ -224,7 +233,7 @@ class ContextGL2 extends Context {
     // ApplyStencilTest(renderState.StencilTest);
     this._applyDepthTest(renderState.DepthTest);
     // ApplyDepthRange(renderState.DepthRange);
-    // ApplyBlending(renderState.Blending);
+    this._applyBlending(renderState.Blending);
     // ApplyColorMask(renderState.ColorMask);
     this._applyDepthMask(renderState.DepthMask);
   }
@@ -298,6 +307,47 @@ class ContextGL2 extends Context {
       if (this._renderState.FrontFace !== faceCulling.FrontFace) {
         this._gl.frontFace(TypeConverterGL2.FrontFaceDirectionToGL(faceCulling.FrontFace));
         this._renderState.FaceCulling.FrontFace = faceCulling.FrontFace;
+      }
+    }
+  }
+
+  /**
+   * 同步混合相关的状态信息
+   * @param {Blending} blending 
+   */
+  _applyBlending(blending) {
+    if (this._renderState.Blending.Enabled !== blending.Enabled) {
+      this._enable(this._gl.BLEND, blending.Enabled);
+      this._renderState.Blending.Enabled = blending.Enabled;
+    }
+
+    if (blending.Enabled) {
+      if ((this._renderState.Blending.SourceRGBFactor !== blending.SourceRGBFactor) ||
+          (this._renderState.Blending.DestinationRGBFactor !== blending.DestinationRGBFactor) ||
+          (this._renderState.Blending.SourceAlphaFactor !== blending.SourceAlphaFactor) ||
+          (this._renderState.Blending.DestinationAlphaFactor !== blending.DestinationAlphaFactor))
+      {
+
+        this._gl.blendFuncSeparate(blending.SourceRGBFactor, blending.DestinationRGBFactor,
+          blending.SourceAlphaFactor, blending.DestinationAlphaFactor);
+        this._renderState.Blending.SourceRGBFactor = blending.SourceRGBFactor;
+        this._renderState.Blending.DestinationRGBFactor = blending.DestinationRGBFactor;
+        this._renderState.Blending.SourceAlphaFactor = blending.SourceAlphaFactor;
+        this._renderState.Blending.DestinationAlphaFactor = blending.DestinationAlphaFactor;
+      }
+
+      if ((this._renderState.Blending.RgbEquation !== blending.RgbEquation) ||
+          (this._renderState.Blending.AlphaEquation !== blending.AlphaEquation)) 
+      {
+        this._gl.blendEquationSeparate(blending.RgbEquation, blending.AlphaEquation);
+        this._renderState.Blending.RgbEquation = blending.RgbEquation;
+        this._renderState.Blending.AlphaEquation = blending.AlphaEquation;
+      }
+
+      if (!this._renderState.Blending.BlendColor.equals(blending.BlendColor)) {
+        this._gl.blendColor(blending.BlendColor.R, blending.BlendColor.G, 
+          blending.BlendColor.B, blending.BlendColor.A);
+        this._renderState.Blending.BlendColor = blending.BlendColor;
       }
     }
   }
