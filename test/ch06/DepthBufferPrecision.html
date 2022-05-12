@@ -24,13 +24,27 @@
     import ImageFormat from "../../src/Renderer/Textures/ImageFormat.js";
     import ImageDataType from "../../src/Renderer/Textures/ImageDataType.js";
     import TextureFormat from "../../src/Renderer/Textures/TextureFormat.js";
+    import Plane from "../../src/Scene/Renderables/Plane/Plane.js"
+    import Vector3D from "../../src/Core/Vectors/Vector3D.js";
+    import Ellipsoid from "../../src/Core/Geometry/Ellipsoid.js";
     
 
     class DepthBufferPrecision {
       constructor(containerId) {
         this._window = Device.CreateWindow(containerId);
 
+        this._globeShape = Ellipsoid.Wgs84;
+
+        this._sceneState = this._window.createSceneState();
+        this._sceneState.Camera.Eye = new Vector3D(0, 4 * this._globeShape.MaximumRadius, 0);
+        this._sceneState.Camera.PerspectiveNearPlane = 0.01 * this._globeShape.MaximumRadius;
+        this._sceneState.Camera.PerspectiveFarPlane = 10 * this._globeShape.MaximumRadius; 
+
         this._globe = new TessellatedGlobe(this._window);
+        this._globe.Shape = this._globeShape;
+        this._globe.NumberOfSlicePartitions = 64;
+        this._globe.NumberOfStackPartitions = 32;
+        this._globe.Textured = true;
 
         const image = new Image();
         image.addEventListener("load", () => {
@@ -44,10 +58,18 @@
   
           this._globe.Texture = texture;
         });
-        image.src = "../../resources/Imagery/NaturalEarth/NE2_50M_SR_W_4096.jpg";
+        image.src = "../../resources/Imagery/NASA/world_topo_bathy_200411_3x5400x2700.jpg";
+
+        this._plane = new Plane(this._window);
+        this._plane.XAxis = Vector3D.UnitX.multiply(this._globeShape.MaximumRadius);
+        this._plane.YAxis = Vector3D.UnitZ.multiply(this._globeShape.MaximumRadius);
+        this._plane.Origin = Vector3D.UnitY.multiply(this._globeShape.MaximumRadius - 100000);
+        this._plane.FillColor = new Vector3D(0, 0, 0);
+        this._plane.FillAlpha = 0.7;
 
         this._window.onRender = () => {
-          this._globe.render();
+          this._globe.render(this._sceneState);
+          this._plane.render(this._sceneState);
         };
       }
 

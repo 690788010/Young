@@ -23,11 +23,6 @@ class TessellatedGlobe {
 
     this._shape = Ellipsoid.ScaledWgs84;
 
-    this._sceneState = this._window.createSceneState();
-    this._sceneState.Camera.Eye = new Vector3D(0, 4 * this._shape.MaximumRadius, 0);
-    this._sceneState.Camera.PerspectiveNearPlane = 0.01 * this._shape.MaximumRadius;
-    this._sceneState.Camera.PerspectiveFarPlane = 10 * this._shape.MaximumRadius;
-
     const sp = this._window.createShaderProgram(
       Shader.loadShaderFile("Young/src/Scene/Globes/Tessellated/Shaders/globeVS.glsl"), 
       Shader.loadShaderFile("Young/src/Scene/Globes/Tessellated/Shaders/globeFS.glsl"));
@@ -35,6 +30,7 @@ class TessellatedGlobe {
     this._textured = sp.Uniforms.getByName("u_Textured");
     this._textured.Value = true;
     this._logarithmicDepth = sp.Uniforms.getByName("u_logarithmicDepth");
+    this._logarithmicDepth.Value = false;
     this._logarithmicDepthConstant = sp.Uniforms.getByName("u_logarithmicDepthConstant");
 
     this._drawState = new DrawState();
@@ -76,10 +72,10 @@ class TessellatedGlobe {
     }
   }
 
-  render() {
+  render(sceneState) {
     this._clean();
 
-    this._window.Context.draw(this._primitiveType, this._drawState, this._sceneState);
+    this._window.Context.draw(this._primitiveType, this._drawState, sceneState);
   }
 
   /**
