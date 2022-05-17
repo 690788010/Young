@@ -10,7 +10,9 @@ class DepthTest {
     this._function = DepthTestFunction.LESS;    // 深度测试函数
   }
 
-  
+  /**
+   * @returns {Boolean}
+   */
   get Enabled() {
     return this._enabled;
   }
@@ -22,6 +24,9 @@ class DepthTest {
     this._enabled = value;
   }
 
+  /**
+   * @returns {DepthTestFunction}
+   */
   get Function() {
     return this._function;
   }

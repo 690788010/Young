@@ -168,28 +168,6 @@ class TypeConverterGL2 {
     throw new Error("type");
   }
 
-  static DepthTestFunctionToGL(depthTestFunction) {
-    switch(depthTestFunction) {
-      case DepthTestFunction.NEVER:
-        return gl.NEVER;
-      case DepthTestFunction.LESS:
-        return gl.LESS;
-      case DepthTestFunction.EQUAL:
-        return gl.EQUAL;
-      case DepthTestFunction.LEQUAL:
-        return gl.LEQUAL;
-      case DepthTestFunction.GREATER:
-        return gl.GREATER;
-      case DepthTestFunction.NOTEQUAL:
-        return gl.NOTEQUAL;
-      case DepthTestFunction.GEQUAL:
-        return gl.GEQUAL;
-      case DepthTestFunction.ALWAYS:
-        return gl.ALWAYS;
-    }
-    throw new Error("function");
-  }
-
   /**
    * 将CullFace枚举类型转换为对应GL类型
    * @param {CullFace} cullFace 
