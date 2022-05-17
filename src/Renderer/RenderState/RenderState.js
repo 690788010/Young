@@ -11,9 +11,16 @@ class RenderState {
    * 构造函数
    */
   constructor() {
+    // 深度测试相关状态信息
     this._depthTest = new DepthTest();
+
+    // 是否启用深度写入的状态信息
     this._depthMask = true;
+
+    // 面剔除相关状态信息
     this._faceCulling = new FaceCulling();
+
+    // 混合相关状态信息
     this._blending = new Blending();
   }
   // PrimitiveRestart = new PrimitiveRestart();

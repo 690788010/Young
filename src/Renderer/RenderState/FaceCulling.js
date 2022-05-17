@@ -1,5 +1,5 @@
 /**
- * FaceCulling类包含面剔除方面的状态信息
+ * FaceCulling类包含面剔除相关的状态信息
  */
 
 import WindingOrder from "../../Core/Geometry/WindingOrder.js";
@@ -7,9 +7,9 @@ import CullFace from "./CullFace.js";
 
 class FaceCulling {
   constructor() {
-    this._enabled = true;
-    this._cullFace = CullFace.BACK;
-    this._frontFace = WindingOrder.CCW;
+    this._enabled = true;   // 是否启用面剔除
+    this._cullFace = CullFace.BACK;   // 指定剔除的面是正面还是背面
+    this._frontFace = WindingOrder.CCW;   // 指定正面的绕转方向（顺时针或逆时针）
   }
 
   /**

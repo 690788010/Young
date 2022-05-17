@@ -3,8 +3,8 @@
  */
 
 const WindingOrder = {
-  CW: "CW",
-  CCW: "CCW"
+  CW: 2304,
+  CCW: 2305
 };
 
 export default WindingOrder;

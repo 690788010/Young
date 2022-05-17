@@ -169,38 +169,6 @@ class TypeConverterGL2 {
   }
 
   /**
-   * 将CullFace枚举类型转换为对应GL类型
-   * @param {CullFace} cullFace 
-   * @returns {GLenum}
-   */
-  static CullFaceModeToGL(cullFace) {
-    switch(cullFace) {
-      case CullFace.FRONT:
-        return gl.FRONT;
-      case CullFace.BACK:
-        return gl.BACK;
-      case CullFace.FRONT_AND_BACK:
-        return gl.FRONT_AND_BACK;
-    }
-    throw new Error("cull face mode is wrong.");
-  }
-
-  /**
-   * 将WindingOrder枚举类型转换为对应GL类型
-   * @param {WindingOrder} windingOrder 
-   * @returns {GLenum}
-   */
-  static FrontFaceDirectionToGL(windingOrder) {
-    switch(windingOrder) {
-      case WindingOrder.CW:
-        return gl.CW;
-      case WindingOrder.CCW:
-        return gl.CCW;
-    }
-    throw new Error("windingOrder mode is wrong.");
-  }
-
-  /**
    * 
    * @param {ClearBuffers} mask 
    * @returns 
